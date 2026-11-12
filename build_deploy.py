@@ -297,6 +297,50 @@ for n, name in [(32, "favicon-32.png"), (180, "apple-touch-icon.png"), (512, "lo
 os.remove(f"{A}/t.html")
 print("icons ok")
 
+# ---------- bilingual <title> / description for search ----------
+SEO = {
+ "index.html": ("EasySwingPick — Golf Club Fitting Calculators | 내 스윙에 맞는 골프채 찾기",
+   "Free driver, iron, wedge and putter fitting calculators plus bilingual gear guides for Korean-American and senior golfers. 거리만 넣으면 드라이버·아이언·웨지·퍼터와 샤프트를 추천합니다."),
+ "driver/index.html": ("Driver Fitting Calculator — Swing Speed & Shaft | 드라이버 추천 계산기 | EasySwingPick",
+   "Enter your drive distance to estimate swing speed and get driver and shaft picks. 드라이버 거리만 넣으면 헤드스피드와 추천 드라이버·샤프트를 알려드립니다."),
+ "iron/index.html": ("Iron Fitting Calculator — Head Type, Shaft, Length | 아이언 추천 계산기 | EasySwingPick",
+   "Use your 7-iron carry to find iron head type, steel vs graphite, length and lie. 7번 아이언 거리로 헤드 종류, 샤프트, 길이·라이각을 추천합니다."),
+ "wedge/index.html": ("Wedge Gapping & Bounce Calculator | 웨지 추천 계산기 | EasySwingPick",
+   "Your PW loft sets wedge gapping, bounce and grind picks. PW 로프트로 웨지 간격, 바운스, 그라인드를 추천합니다."),
+ "putter/index.html": ("Putter Fitting Calculator — Toe Hang & Zero Torque | 퍼터 추천 계산기 | EasySwingPick",
+   "Match toe hang, zero-torque and head shape to your stroke. 스트로크 모양으로 토우행, 제로토크 여부, 헤드 모양을 찾습니다."),
+ "blog/index.html": ("Golf Club Guides & Comparisons | 골프채 가이드 전체 글 | EasySwingPick",
+   "All EasySwingPick club comparisons, buying guides and setup tips in English and Korean. 골프채 비교·추천·세팅 가이드 모음."),
+ "about.html": ("About EasySwingPick | 소개", None),
+ "disclosure.html": ("Affiliate Disclosure | 제휴 안내 | EasySwingPick", None),
+ "privacy.html": ("Privacy Policy | 개인정보 처리방침 | EasySwingPick", None),
+ "contact.html": ("Contact | 연락처 | EasySwingPick", None),
+}
+def _set(s, title, desc):
+    s = re.sub(r"<title>.*?</title>", "<title>" + _html.escape(title, quote=False) + "</title>", s, count=1, flags=re.S)
+    if desc:
+        if '<meta name="description"' in s:
+            s = re.sub(r'<meta name="description" content="[^"]*"', '<meta name="description" content="' + _html.escape(desc) + '"', s, count=1)
+        else:
+            s = s.replace("</title>", '</title><meta name="description" content="' + _html.escape(desc) + '">', 1)
+    return s
+for rel, (t, d) in SEO.items():
+    p = f"{OUT}/{rel}"
+    if os.path.exists(p):
+        _s = _set(open(p).read(), t, d); open(p, "w").write(_s)
+for f in os.listdir(f"{OUT}/blog"):
+    if f == "index.html" or not f.endswith(".html"): continue
+    p = f"{OUT}/blog/{f}"; s = open(p).read()
+    ko = re.search(r'<div data-l="ko"><h1>(.*?)</h1>', s, re.S); en = re.search(r'<div data-l="en"><h1>(.*?)</h1><p class="sub">(.*?)</p>', s, re.S)
+    strip = lambda x: re.sub(r"<[^>]+>", "", x).strip()
+    if not (ko and en):
+        h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", s, re.S)
+        if len(h1) < 2: continue
+        open(p, "w").write(_set(s, f"{strip(h1[1])} | {strip(h1[0])}", None)); continue
+    dm = re.search(r'<meta name="description" content="([^"]*)"', s)
+    desc = strip(en.group(2)) + " " + (_html.unescape(dm.group(1)) if dm else "")
+    open(p, "w").write(_set(s, f"{strip(en.group(1))} | {strip(ko.group(1))}", desc[:320]))
+
 # ---------- share previews (Open Graph) ----------
 import html as _html
 subprocess.run(["google-chrome", "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--window-size=1200,630",
