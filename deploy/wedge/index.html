@@ -413,7 +413,7 @@ function run(silent){
   let n=cnt?parseInt(cnt):(top-pw>=14?3:2);
   let lofts=bestLofts(pw,top,n);
   // a requested count that would push the top wedge well past the target (e.g. PW 50° + 3 wedges = 62°) is reduced
-  const nAsk=n;while(n>1&&lofts[lofts.length-1]>Math.max(top+2,58)){n--;lofts=bestLofts(pw,top,n);}
+  const nAsk=n;while(n>1&&lofts[lofts.length-1]>Math.max(top,58)){n--;lofts=bestLofts(pw,top,n);}
   const topL=lofts[lofts.length-1];
   if(n<nAsk)why.push(R.cntCap(nAsk,n));
   why.push(lofts.length===1?R.one(topL):topL>=58?((style==="open"||low)?R.top58:R.top58std(topL)):R.top56);

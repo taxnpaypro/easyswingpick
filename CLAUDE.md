@@ -15,7 +15,9 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - FlexOffers application submitted 2026-11-12 (pending). Do not add other merchants' links until the owner sends them.
 
 ## Calculator quality (trust rules)
-- `python3 build_deploy.py` ends by running `qa/run.py`: ~1,700 scenario runs (KO+EN, `qa/scenarios/*.json`), ~40 consistency rules (`qa/checks.py`) and owner-facing expected answers (`qa/golden.json`). **If it prints `BUILD FAILED`, do not commit or publish** — fix the calculator (or, if the rule itself is wrong, explain why to the owner before changing it).
+- `python3 build_deploy.py` ends by running `qa/run.py`: ~1,700 fixed scenario runs (KO+EN, `qa/scenarios/*.json`) plus 600 fresh random cases ×2 languages, ~40 consistency rules (`qa/checks.py`) and owner-facing expected answers (`qa/golden.json`). **If it prints `BUILD FAILED`, do not commit or publish** — fix the calculator (or, if the rule itself is wrong, explain why to the owner before changing it).
+- Each QA run also tests 600 **fresh random scenarios** (`qa/gen.py`, new seed every run, printed in the result) so it keeps searching for new problems, not just re-testing fixed sets. If a fresh case fails, reproduce with `python3 qa/run.py --seed N`, fix it, and add it to `qa/golden.json` so it stays covered.
+- Rules only catch problem types they know. On every scheduled blog run, also read ~10 random fresh results yourself (one per calculator at least) like a fitter would; if something looks wrong that no rule caught, fix it, add a rule to `qa/checks.py`, and tell the owner.
 - Every calculator has a `guard()` step after scoring that removes combinations that must never be recommended (e.g. draw-biased drivers for a hook, irons more than one head class away, putters with the opposite toe hang). Keep it when editing pick logic.
 - Explanation lines must only describe adjustments that actually changed the result.
 - When the owner reports an odd calculator result: reproduce it, add it to `qa/golden.json` (or a scenario + rule), fix, and ask for approval. (The owner chose not to add a user feedback button, 2026-11-12.)

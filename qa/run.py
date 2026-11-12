@@ -6,6 +6,8 @@ import json, os, re, sys, html, subprocess, time, shutil, socket
 Q = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(Q); DEP = os.path.join(ROOT, "deploy"); OUT = os.path.join(Q, "out")
 CALCS = ["driver", "iron", "wedge", "putter"]
 SETS = ["set1"] if "--quick" in sys.argv else ["set1", "set2"]
+# Fresh random set every run (seed printed so any failure can be reproduced: python3 qa/run.py --seed N)
+SEED = int(sys.argv[sys.argv.index("--seed") + 1]) if "--seed" in sys.argv else int.from_bytes(os.urandom(4), "big")
 CLEAR = ["dist", "age", "weight", "hft", "hin", "wtf", "pw", "i7"]
 
 def free_port():
@@ -59,22 +61,30 @@ def main():
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(1.2); problems = []; n = 0
     try:
-        for st in SETS:
+        sys.path.insert(0, Q); import gen
+        fresh = gen.make(SEED)
+        for st in SETS + ["fresh"]:
             for calc in CALCS:
-                scen = json.load(open(f"{Q}/scenarios/{calc}.{st}.json")); n += len(scen) * 2
+                scen = fresh[calc] if st == "fresh" else json.load(open(f"{Q}/scenarios/{calc}.{st}.json")); n += len(scen) * 2
                 json.dump(scen, open(f"{OUT}/{calc}.{st}.in", "w"), ensure_ascii=False)
                 for lang in ("ko", "en"):
                     json.dump(run_page(port, calc, scen, lang), open(f"{OUT}/{calc}.{lang}.out.json", "w"), ensure_ascii=False)
                 if calc == CALCS[-1]: pass
             r = subprocess.run([sys.executable, os.path.join(Q, "checks.py")], cwd=OUT, env={**os.environ, "SET": st}, capture_output=True, text=True)
-            if r.returncode or "total 0" not in r.stdout: problems.append(f"[{st}]\n" + r.stdout + r.stderr)
+            if r.returncode or "total 0" not in r.stdout:
+                problems.append(f"[{st}{' seed '+str(SEED) if st=='fresh' else ''}]\n" + r.stdout + r.stderr)
+                if st == "fresh":  # keep the failing fresh scenarios so they become permanent regression cases once fixed
+                    bad = json.load(open(f"{OUT}/issues.json")); keep = {}
+                    for calc, lst in bad.items():
+                        ids = {x[0] for x in lst}; keep[calc] = [x for x in fresh[calc] if x["n"] in ids]
+                    json.dump(keep, open(f"{OUT}/found_seed{SEED}.json", "w"), ensure_ascii=False, indent=1)
         g = golden_check(port)
         if g: problems.append("[golden]\n" + "\n".join(g))
     finally:
         srv.kill()
     if problems:
-        print("QA FAILED\n" + "\n".join(problems)); return 1
-    print(f"QA OK: {n} scenario runs (KO+EN) + golden cases, 0 problems"); return 0
+        print("QA FAILED (seed %d)\n" % SEED + "\n".join(problems)); return 1
+    print(f"QA OK: {n} scenario runs (KO+EN, incl. {len(fresh['driver'])*4} new random cases, seed {SEED}) + golden cases, 0 problems"); return 0
 
 if __name__ == "__main__":
     sys.exit(main())
