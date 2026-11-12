@@ -226,6 +226,21 @@ for d, _, fs in os.walk(OUT):
         if s != o: open(p, "w").write(s)
         else: print("no header logo:", p)
 
+# ---------- default language: English first, remember the visitor's choice ----------
+LANG_HEAD = '<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>'
+LANG_END = ('<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}'
+            'var t=document.getElementById("langT");if(!t)return;'
+            'var b=t.querySelector(\'button[data-lang="\'+l+\'"]\');if(b&&!b.classList.contains("on"))b.click();'
+            't.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script>')
+for d, _, fs in os.walk(OUT):
+    for f in fs:
+        if not f.endswith(".html"): continue
+        p = os.path.join(d, f); s = open(p).read()
+        if 'id="langT"' not in s or "esp_lang" in s: continue
+        s = s.replace("<head>", "<head>" + LANG_HEAD, 1)
+        i = s.rfind("</body>"); s = s[:i] + LANG_END + s[i:]
+        open(p, "w").write(s)
+
 # ---------- PNG icons ----------
 import subprocess
 A = f"{OUT}/assets"

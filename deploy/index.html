@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head><script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EasySwingPick — 내 스윙에 맞는 골프채 찾기</title>
@@ -372,5 +372,5 @@ function loop(){
 }
 render();setG(0);setTimeout(loop,600);
 </script>
-</body>
+<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script></body>
 </html>

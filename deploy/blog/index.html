@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html lang="ko"><head><script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>전체 글 | EasySwingPick</title><meta name="description" content="EasySwingPick 전체 글">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -77,4 +77,4 @@ function draw(){const l=L(),c=cur();
  document.querySelectorAll(".blbox").forEach(b=>b.innerHTML=list.map(p=>`<a class="bp" href="${p.u}"><div class="th" style="background:linear-gradient(140deg,${p.c},#0a1c29)"><span>${CN[l][p.cat]}</span></div><div class="bd"><h3>${l==="en"?p.en:p.ko}</h3><p>${l==="en"?p.den:p.dko}</p></div></a>`).join(""));
  document.querySelectorAll(".chipsbox a").forEach(a=>a.onclick=e=>{e.preventDefault();history.replaceState(null,"","?c="+a.dataset.c);draw();});}
 document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0));draw();</script>
-</body></html>
+<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script></body></html>
