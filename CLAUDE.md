@@ -17,7 +17,7 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 
- (scheduled runs)
+## New blog post workflow (scheduled runs)
 1. **Collect 10 hot candidates** with web search (last 2–4 weeks): new club releases, GolfWRX/MyGolfSpy/Golf Digest tests, seasonal topics (holiday deals, new season, spring fitting), rising searches. Skip anything already in `POSTS`.
 2. **Score each 1–5** on: fit for Korean-American & senior golfers, affiliate potential (2nd Swing, FlexOffers merchants, later Awin: Dunlop/Honma), current interest, link to one of our calculators, no overlap with existing posts. Pick the top one.
 3. **Write the post** as `site/posts/build_<slug>.py` following `build_adjust.py`/`build_hot.py` (uses `B.page(P)`):
