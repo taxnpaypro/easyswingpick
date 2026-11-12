@@ -73,6 +73,16 @@ for slug in SLUGS:
           '<div style="font-size:.9rem"><b data-l="ko">EasySwingPick 편집부</b><b data-l="en">EasySwingPick Editors</b><br>'
           '<span data-l="ko" style="color:var(--muted)">공개된 리뷰·테스트 자료를 비교하고 출처를 밝혀 한국어와 영어로 씁니다. <a href="/about">소개 보기</a></span>'
           '<span data-l="en" style="color:var(--muted)">We compare published reviews and testing, cite every source, and write in Korean and English. <a href="/about">About us</a></span></div></div>')
+    # disclosure: one short line up top (before any affiliate link), full text at the end
+    DISC_RE = r'<div class="disc"><span data-l="ko">(.*?)</span><span data-l="en">(.*?)</span></div>'
+    m = re.search(DISC_RE, s)
+    if m:
+        s = s.replace(m.group(0),
+            '<p class="disc1"><span data-l="ko">이 글에는 제휴 링크가 있습니다. <a href="#disclosure">자세히 보기</a></span>'
+            '<span data-l="en">This post contains affiliate links. <a href="#disclosure">Learn more</a></span></p>', 1)
+        AB = ('<div class="disc" id="disclosure" style="margin:28px 0 0"><span data-l="ko"><b>제휴 안내</b> · ' + m.group(1) + ' <a href="/disclosure">제휴 정책 전문</a></span>'
+              '<span data-l="en"><b>Affiliate disclosure</b> · ' + m.group(2) + ' <a href="/disclosure">Full policy</a></span></div>') + AB
+        s = s.replace("</style>", ".disc1{font-size:.8rem;color:var(--muted);margin:14px 0 0}.disc1 a{color:inherit;text-decoration:underline}</style>", 1)
     s = s.replace('<div class="src">', AB + '<div class="src">', 1)
     assert "편집부 · 최종" in s and "abox" in s, slug
     open(f"{OUT}/blog/{slug}.html", "w").write(s)
