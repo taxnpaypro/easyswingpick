@@ -233,14 +233,15 @@ const T={
   tblT:"웨지별 추천 세팅",thL:"로프트",thB:"바운스",thG:"그라인드",thD:"예상 거리",
   bn:{low:"로우 (4~7°)",mid:"미드 (8~11°)",high:"하이 (12°+)"},
   gr:{full:"풀 솔",std:"표준",vers:"다용도 (힐 릴리프)",wide:"와이드 솔",lowg:"로우 (힐 릴리프)"},
-  nm:{GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지",SL:"샌드·로브 겸용"},
+  nm:{AW:"어프로치 웨지",GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지",SL:"샌드·로브 겸용"},
   whyT:"이렇게 추천한 이유",picksT:"추천 웨지",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"2nd Swing에서 가격 보기 →",grOpt:"그라인드 옵션",
   tg:{tour:"투어형",cav:"캐비티백",wide:"넓은 솔",spin:"고스핀",wet:"젖은 날 강함",forg:"관용성"},
   foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 예상 거리는 7번 아이언 거리를 바탕으로 한 대략적인 값입니다. 구매 전 시타나 피팅을 권장합니다.",
   r:{pw:p=>`PW가 ${p}°라서 이 로프트를 기준으로 웨지 간격을 잡았습니다.`,pwUnk:"PW 로프트를 몰라서 요즘 아이언 평균인 45°로 계산했습니다.",
    gap:(l,g)=>`추천 로프트 ${l}는 웨지 사이를 ${g}° 안팎으로 고르게 나눠 거리 공백을 줄입니다.`,
    top58:"페이스를 여는 샷이나 낮은 핸디캡을 고려해 가장 높은 웨지를 58° 이상으로 잡았습니다.",
-   top58std:"가장 높은 웨지는 벙커와 어프로치에 두루 쓰기 좋은 58°로 잡았습니다.",
+   top58std:l=>`가장 높은 웨지는 벙커와 어프로치에 두루 쓰기 좋은 ${l}°로 잡았습니다.`,
+   cntCap:(a,b)=>`PW 로프트가 높아 웨지 ${a}개를 넣으면 가장 높은 웨지가 지나치게 높아져 ${b}개로 줄였습니다.`,
    one:l=>`웨지를 1개만 쓰신다면 PW와의 간격을 고려해 ${l}°를 추천합니다.`,
    bunkerAdd:"벙커 샷이 어려우시다면 바운스가 높은 56° 샌드웨지를 하나 더 넣는 것을 권합니다.",
    top56:"관리하기 쉬운 56° 전후를 가장 높은 웨지로 잡았습니다. 로브웨지는 실수가 커질 수 있습니다.",
@@ -277,14 +278,15 @@ const T={
   tblT:"Setup by wedge",thL:"Loft",thB:"Bounce",thG:"Grind",thD:"Est. carry",
   bn:{low:"Low (4–7°)",mid:"Mid (8–11°)",high:"High (12°+)"},
   gr:{full:"Full sole",std:"Standard",vers:"Versatile (heel relief)",wide:"Wide sole",lowg:"Low (heel relief)"},
-  nm:{GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge",SL:"Sand / lob wedge"},
+  nm:{AW:"Approach wedge",GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge",SL:"Sand / lob wedge"},
   whyT:"Why we recommend this",picksT:"Recommended wedges",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"Check price at 2nd Swing →",grOpt:"Grind options",
   tg:{tour:"Tour shape",cav:"Cavity back",wide:"Wide sole",spin:"High spin",wet:"Wet-weather spin",forg:"Forgiving"},
   foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Carry estimates are rough, based on your 7-iron. Demo or get fitted before buying.",
   r:{pw:p=>`Your PW is ${p}°, so we built the gaps from there.`,pwUnk:"PW loft unknown, so we used 45°, a common modern loft.",
    gap:(l,g)=>`${l} splits your wedges about ${g}° apart to avoid distance holes.`,
    top58:"For open-face shots or a lower handicap, the top wedge is 58° or more.",
-   top58std:"Your top wedge is 58°, a common all-round choice for bunkers and pitches.",
+   top58std:l=>`Your top wedge is ${l}°, a common all-round choice for bunkers and pitches.`,
+   cntCap:(a,b)=>`Your PW loft is already high, so ${a} wedges would push the top wedge too high; we suggest ${b}.`,
    one:l=>`With only one wedge, ${l}° fits best given your PW gap.`,
    bunkerAdd:"Bunkers are tough for you, so consider adding a high-bounce 56° sand wedge.",
    top56:"We capped the top wedge near 56°, which is easier to control than a lob wedge.",
@@ -377,7 +379,7 @@ function ruler(pw,lofts,dists,show){
    <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3c06a" stop-opacity=".2"/><stop offset="1" stop-color="#3fb984"/></linearGradient>
    <filter id="gl" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
    <rect x="${RX.x0}" y="86" width="${RX.x1-RX.x0}" height="4" rx="2" fill="rgba(255,255,255,.1)"/>
-   ${tk}${gaps}${mk(pw,"PW",0,true)}${lofts.map((l,i)=>mk(l,i===sandIdx(lofts)&&nameOf(l)==="LW"?"SW/LW":nameOf(l),i+1,false)).join("")}</svg>`;
+   ${tk}${gaps}${mk(pw,"PW",0,true)}${lofts.map((l,i)=>mk(l,i===sandIdx(lofts)&&nameOf(l)==="LW"?"SW/LW":nameOf(l)==="GW"&&nameOf(lofts[i+1]||99)==="GW"?"AW":nameOf(l),i+1,false)).join("")}</svg>`;
 }
 let animId=0;
 function animateRuler(pw,lofts){
@@ -407,8 +409,12 @@ function run(silent){
   const top=(style==="open"||low)?(hcp==="h0"&&style==="open"?60:58):(hcp==="h3"||senior?56:58);
   
   let n=cnt?parseInt(cnt):(top-pw>=14?3:2);
-  const lofts=bestLofts(pw,top,n),topL=lofts[lofts.length-1];
-  why.push(lofts.length===1?R.one(topL):topL>=58?((style==="open"||low)?R.top58:R.top58std):R.top56);
+  let lofts=bestLofts(pw,top,n);
+  // a requested count that would push the top wedge well past the target (e.g. PW 50° + 3 wedges = 62°) is reduced
+  const nAsk=n;while(n>1&&lofts[lofts.length-1]>Math.max(top+2,58)){n--;lofts=bestLofts(pw,top,n);}
+  const topL=lofts[lofts.length-1];
+  if(n<nAsk)why.push(R.cntCap(nAsk,n));
+  why.push(lofts.length===1?R.one(topL):topL>=58?((style==="open"||low)?R.top58:R.top58std(topL)):R.top56);
   if(!cnt&&n===3)why.push(R.cnt3);
   const all=[pw,...lofts],gaps=all.slice(1).map((v,i)=>v-all[i]);
   why.push(R.gap(lofts.map(l=>l+"°").join(" · "),Math.round(gaps.reduce((a,b)=>a+b)/gaps.length)));
@@ -421,11 +427,11 @@ function run(silent){
   // the wedge used in bunkers: the sand wedge, or the top wedge if the set has no 54-56°
   const names=lofts.map(nameOf),sIdx=sandIdx(lofts);
   if(bunker==="hard")why.push(sIdx>=0?R.bunker(lofts[sIdx],style!=="open"):R.bunkerAdd);
-  const rows=lofts.map((l,i)=>{let nm=names[i];const sand=i===sIdx;if(sand&&nm==="LW")nm="SL";
-    let b=bs+(nm==="GW"?-0.5:0)+(nm==="LW"&&style==="open"?-0.5:0);
+  const rows=lofts.map((l,i)=>{let nm=names[i];if(nm==="GW"&&names[i+1]==="GW")nm="AW";const sand=i===sIdx;if(sand&&nm==="LW")nm="SL";
+    let b=bs+(nm==="GW"||nm==="AW"?-0.5:0)+(nm==="LW"&&style==="open"?-0.5:0);
     if(sand&&bunker==="hard")b=Math.max(b+1.5,0);
     const bn=b>=1?"high":b<=-1?"low":"mid";
-    let g;if(nm==="GW")g=bn==="low"||style==="open"?"std":"full";
+    let g;if(nm==="GW"||nm==="AW")g=bn==="low"||style==="open"?"std":"full";
     else if(sand&&bunker==="hard")g=style==="open"?"vers":"wide";
     else if(bn==="high")g=style==="open"?"vers":"wide";else if(bn==="low")g=style==="open"?"lowg":"std";else g=style==="open"?"vers":"std";
     return{l,nm,bn,g};});
