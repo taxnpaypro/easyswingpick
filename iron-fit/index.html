@@ -208,6 +208,7 @@ svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;pos
   <p class="foot" data-t="foot"></p>
 </main>
 <script>
+const jo=(w,a,b)=>{const c=w.charCodeAt(w.length-1);return w+(c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28?a:b);};
 const T={
  ko:{brandSub:"아이언 피팅 가이드",title:"내 스윙에 맞는 아이언 찾기",sub:"7번 아이언 거리만 넣으면 헤드스피드를 추정해 아이언 헤드와 샤프트를 추천합니다.",
   st1:"스윙 정보 입력",st2:"헤드스피드 분석",st3:"아이언·샤프트 추천",
@@ -245,13 +246,14 @@ const T={
    thin:"탑핑이 자주 나오셔서 무게중심이 낮아 공을 쉽게 띄우는 헤드를 우선했습니다.",
    slice:"슬라이스가 있으셔서 오프셋이 있는 관용성 헤드가 공을 덜 휘게 해 줍니다.",
    low:"탄도가 낮으셔서 고탄도 설계 헤드를 우선했습니다.",
-   lenH:(h,l)=>`키 ${h}에는 길이 ${l}가 맞습니다.`,lenNone:"키를 입력하지 않아 표준 길이로 추천했습니다.",
-   lie:(w,l)=>`손목~바닥 ${w}인치를 키와 비교해 라이각을 ${l}로 추천합니다.`,lieNone:"손목~바닥 길이를 넣으시면 라이각까지 추천해 드립니다.",
+   lenH:(h,l)=>`키 ${h}에는 ${jo(l,"이","가")} 맞는 길이입니다.`,lenNone:"키를 입력하지 않아 표준 길이로 추천했습니다.",
+   lie:(w,l)=>`손목~바닥 ${w}인치를 키와 비교해 라이각은 ${jo(l,"을","를")} 추천합니다.`,lieNone:"손목~바닥 길이를 넣으시면 라이각까지 추천해 드립니다.",
    cmpSt:"지금 스틸을 쓰고 계신데, 그라파이트로 바꾸면 탄도와 거리가 좋아질 가능성이 있습니다.",
    cmpGr:"지금 그라파이트를 쓰고 계신데, 스틸로 바꾸면 방향이 더 안정될 수 있습니다.",
    brand:b=>`현재 ${b} 아이언을 쓰고 계십니다. 아래 추천과 시타로 비교해 보세요.`,
    inRange:(s,a,b)=>`추정 헤드스피드 약 ${s}mph가 이 모델의 권장 구간(${a}~${b}mph)에 들어갑니다.`,
    near:(s,a,b)=>`추정 헤드스피드 약 ${s}mph는 이 모델의 권장 구간(${a}~${b}mph) 경계에 가깝습니다.`,
+   out:(s,a,b)=>`추정 헤드스피드 약 ${s}mph는 이 모델의 권장 구간(${a}~${b}mph)을 벗어나지만, 조건에 맞는 모델 중에서는 가장 가깝습니다.`,
    catOk:c=>`추천 헤드 종류(${c})와 일치하는 모델입니다.`,
    lightSr:"가벼운 설계라 60세 이상 골퍼가 편하게 휘두를 수 있습니다.",
    wide:"넓은 솔이 뒤땅 실수를 줄여 줍니다.",forged:"단조 헤드라 타감이 부드럽고 거리 조절이 쉽습니다."}},
@@ -298,6 +300,7 @@ const T={
    brand:b=>`You currently play ${b} irons. Compare them with the picks below in a demo.`,
    inRange:(s,a,b)=>`Your estimated ${s} mph is inside this model's range (${a}–${b} mph).`,
    near:(s,a,b)=>`Your estimated ${s} mph is near the edge of this model's range (${a}–${b} mph).`,
+   out:(s,a,b)=>`Your estimated ${s} mph is outside this model's range (${a}–${b} mph), but it is the closest match for your other answers.`,
    catOk:c=>`Matches the recommended head type (${c}).`,
    lightSr:"Lightweight design that golfers 60+ swing easily.",
    wide:"A wide sole reduces fat shots.",forged:"Forged head with soft feel and easy distance control."}}
@@ -451,7 +454,7 @@ function run(silent){
   let len=t.lenStd,lie=t.lieStd;
   if(hTot){len=hTot<65?"−0.5\"":hTot<74?t.lenStd:hTot<77?"+0.5\"":"+1\"";why.push(R.lenH(`${Math.floor(hTot/12)}'${Math.round(hTot%12)}"`,len));}
   else why.push(R.lenNone);
-  if(wtf&&hTot){const d=wtf-hTot*0.486;lie=d>1?(lang==="ko"?"1° 플랫":"1° flat"):d<-1?(lang==="ko"?"1° 업라이트":"1° upright"):t.lieStd;why.push(R.lie(Math.round(wtf*10)/10,lie));}
+  if(wtf&&hTot){const d=wtf-hTot*0.486;lie=d>1?(lang==="ko"?"1° 업라이트":"1° upright"):d<-1?(lang==="ko"?"1° 플랫":"1° flat"):t.lieStd;why.push(R.lie(Math.round(wtf*10)/10,lie));}
   else why.push(R.lieNone);
   if(cshaft==="steel"&&mat==="gr")why.push(R.cmpSt); if(cshaft==="graphite"&&mat!=="gr")why.push(R.cmpGr);
   if(brand)why.push(R.brand(brand==="other"?(lang==="ko"?"기타 브랜드":"another brand"):brand));
@@ -468,7 +471,7 @@ function run(silent){
   const top=scored[0].sc,pct=sc=>Math.max(55,Math.min(97,Math.round(93-(top-sc)*.8)));
   const picks=scored.map(({m,sc},i)=>{
     const r=[],inR=s>=m.min&&s<=m.max;
-    r.push(inR?R.inRange(s,m.min,m.max):R.near(s,m.min,m.max));
+    r.push(inR?R.inRange(s,m.min,m.max):(Math.max(m.min-s,s-m.max)>5?R.out:R.near)(s,m.min,m.max));
     if(m.c===cat)r.push(R.catOk(t.cat[cat]));
     if(senior&&m.light)r.push(R.lightSr); if(miss==="fat"&&m.wide)r.push(R.wide); if(m.forged)r.push(R.forged);
     const tags=[m.light&&t.tg.light,m.forged&&t.tg.forged,m.wide&&t.tg.wide,CATS.indexOf(m.c)<=1&&t.tg.forg,m.high&&t.tg.high,m.hollow&&t.tg.hollow].filter(Boolean);

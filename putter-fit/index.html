@@ -222,11 +222,14 @@ const T={
   foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 적합도는 입력값 기준의 상대 점수입니다. 구매 전 시타나 피팅을 권장합니다.",
   r:{straight:"일자형 스트로크라 헤드가 비틀리지 않는 페이스 밸런스나 제로토크가 잘 맞습니다.",
    slight:"약한 아크 스트로크라 토우가 살짝 처지는(약 15~35°) 헤드가 자연스러운 개폐를 도와줍니다.",
-   strong:"강한 아크 스트로크라 토우가 많이 처지는(약 40° 이상) 블레이드가 문처럼 열리고 닫히는 움직임과 맞습니다.",
+   strong:"강한 아크 스트로크라 토우가 많이 처지는(약 40° 이상) 헤드가 문처럼 열리고 닫히는 움직임과 맞습니다.",
    unk:"스트로크를 몰라 가장 흔한 약한 아크로 계산했습니다.",
    short:"짧은 퍼트가 불안하시다고 해서 페이스가 덜 돌아가는 제로토크를 우선했습니다.",
    push:"오른쪽으로 밀리는 미스가 있어 페이스가 열린 채 맞지 않도록 정렬이 쉬운 헤드를 우선했습니다.",
-   pull:"왼쪽으로 당기는 미스가 있어 손목 사용을 줄여 주는 굵은 그립과 안정적인 헤드를 추천합니다.",
+   pull:"왼쪽으로 당기는 미스가 있어 페이스가 덜 돌아가는 안정적인 헤드를 우선했습니다.",
+   gripFat:"손목 사용을 줄여 주는 굵은 그립을 추천합니다.",
+   gripTry:"손목이 많이 쓰인다면 굵은 그립도 한번 시도해 보세요.",
+   shapeFew:s=>`선택하신 ${s} 모양 중 이 스트로크에 맞는 모델이 적어 다른 모양도 함께 보여 드립니다.`,
    dist:"거리 조절이 어려우시다고 해서 타감과 거리감이 좋은 모델을 우선했습니다.",
    ztNo:"강한 아크 스트로크에는 제로토크가 오히려 어색할 수 있어 추천에서 낮췄습니다.",
    forg:"관용성 높은 말렛이 빗맞은 퍼트도 거리를 지켜 줍니다.",
@@ -262,11 +265,14 @@ const T={
   foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Fit score is relative to your inputs. Demo or get fitted before buying.",
   r:{straight:"A straight stroke suits face-balanced or zero-torque heads that resist twisting.",
    slight:"A slight arc suits a little toe hang (about 15–35°) that helps the face open and close naturally.",
-   strong:"A strong arc suits a blade with strong toe hang (40°+) that swings open and closed like a door.",
+   strong:"A strong arc suits a head with strong toe hang (40°+) that swings open and closed like a door.",
    unk:"Stroke unknown, so we used a slight arc, the most common type.",
    short:"Short putts make you nervous, so we favored zero torque, which keeps the face from rotating.",
    push:"You push putts, so we favored heads that are easy to align square.",
-   pull:"You pull putts, so we suggest an oversize grip and a stable head to quiet the hands.",
+   pull:"You pull putts, so we prioritized a stable head that resists twisting.",
+   gripFat:"An oversize grip quiets the hands.",
+   gripTry:"If your hands get active, try an oversize grip too.",
+   shapeFew:s=>`Few ${s} models match this stroke, so we also show other shapes.`,
    dist:"Distance control is tough, so we favored models with good feel and pace.",
    ztNo:"Zero torque can feel awkward with a strong arc, so we ranked it lower.",
    forg:"A forgiving mallet keeps mishit putts closer to the right distance.",
@@ -404,8 +410,7 @@ function run(silent){
   if(stroke==="unk")why.push(R.slight);
   const wantZT=(miss==="short")||((miss==="push"||miss==="pull")&&sk!=="strong");
   let hang=sk==="straight"?(wantZT||miss==="short"?"zt":"fb"):sk==="slight"?(miss==="short"?"zt":"slight"):"strong";
-  if(miss&&R[miss])why.push(R[miss]);
-  if(sk==="strong"&&miss==="short")why.push(R.ztNo);
+  if(sk==="strong"&&miss==="short")why.push(R.ztNo);else if(miss&&R[miss])why.push(R[miss]);
   let shape=headp&&headp!=="any"?headp:(sk==="straight"?"mallet":sk==="slight"?"mid":"blade");
   if(!headp&&(hcp==="h3"||senior)&&shape!=="mallet"&&sk!=="strong"){shape="mallet";why.push(R.forg);}
   // length
@@ -414,6 +419,7 @@ function run(silent){
   const lenTxt=`${len}"`;
   why.push(hTot?R.len(`${Math.floor(hTot/12)}'${Math.round(hTot%12)}"`,lenTxt):R.lenNone);
   const grip=gripp||((miss==="pull"||miss==="short")?"fat":"std");
+  if(miss==="pull"||miss==="short"){if(grip==="fat")why.push(R.gripFat);else why.push(R.gripTry);}
   const align=alignp||((miss==="push"||miss==="pull")?"multi":"single");
   if(brand)why.push(R.brand(brand==="other"?(lang==="ko"?"기타 브랜드":"another brand"):brand));
   // models
@@ -428,6 +434,7 @@ function run(silent){
     if(miss==="dist"&&m.pace)sc+=10; if(miss==="dist"&&m.milled)sc+=4;
     if(m.align===align)sc+=4; if(hcp==="h0"&&m.milled)sc+=4;
     return{m,sc};}).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  if(headp&&headp!=="any"&&!scored.some(o=>o.m.shape===shape))why.push(R.shapeFew(t.hs[shape]));
   const topS=scored[0].sc,pct=sc=>Math.max(55,Math.min(97,Math.round(93-(topS-sc)*.8)));
   const picks=scored.map(({m,sc},i)=>{const r=[];
     if(m.hang===hang||(hang==="fb"&&m.hang==="zt")||(m.hang==="lt"&&hang!=="strong"))r.push(m.hang==="zt"?R.ztOk:R.hangOk(t.hang[hang]));

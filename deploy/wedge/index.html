@@ -232,7 +232,7 @@ const T={
   gapWide:"PW와 다음 웨지 사이 간격이 넓습니다. 웨지를 하나 더 넣는 것을 고려해 보세요.",
   tblT:"웨지별 추천 세팅",thL:"로프트",thB:"바운스",thG:"그라인드",thD:"예상 거리",
   bn:{low:"로우 (4~7°)",mid:"미드 (8~11°)",high:"하이 (12°+)"},
-  gr:{full:"풀 솔",std:"표준",vers:"다용도 (힐 릴리프)",wide:"와이드 솔",lowg:"로우 바운스"},
+  gr:{full:"풀 솔",std:"표준",vers:"다용도 (힐 릴리프)",wide:"와이드 솔",lowg:"로우 (힐 릴리프)"},
   nm:{GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지",SL:"샌드·로브 겸용"},
   whyT:"이렇게 추천한 이유",picksT:"추천 웨지",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"2nd Swing에서 가격 보기 →",grOpt:"그라인드 옵션",
   tg:{tour:"투어형",cav:"캐비티백",wide:"넓은 솔",spin:"고스핀",wet:"젖은 날 강함",forg:"관용성"},
@@ -274,7 +274,7 @@ const T={
   gapWide:"The gap after your PW is wide. Consider adding one more wedge.",
   tblT:"Setup by wedge",thL:"Loft",thB:"Bounce",thG:"Grind",thD:"Est. carry",
   bn:{low:"Low (4–7°)",mid:"Mid (8–11°)",high:"High (12°+)"},
-  gr:{full:"Full sole",std:"Standard",vers:"Versatile (heel relief)",wide:"Wide sole",lowg:"Low bounce"},
+  gr:{full:"Full sole",std:"Standard",vers:"Versatile (heel relief)",wide:"Wide sole",lowg:"Low (heel relief)"},
   nm:{GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge",SL:"Sand / lob wedge"},
   whyT:"Why we recommend this",picksT:"Recommended wedges",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"Check price at 2nd Swing →",grOpt:"Grind options",
   tg:{tour:"Tour shape",cav:"Cavity back",wide:"Wide sole",spin:"High spin",wet:"Wet-weather spin",forg:"Forgiving"},
@@ -401,10 +401,11 @@ function run(silent){
   const why=[unk&&!num("pw")?R.pwUnk:R.pw(pw)];
   const low=hcp==="h0"||hcp==="h1";
   const top=(style==="open"||low)?(hcp==="h0"&&style==="open"?60:58):(hcp==="h3"||senior?56:58);
-  why.push(top>=58?((style==="open"||low)?R.top58:R.top58std):R.top56);
+  
   let n=cnt?parseInt(cnt):(top-pw>=14?3:2);
+  const lofts=bestLofts(pw,top,n),topL=lofts[lofts.length-1];
+  why.push(topL>=58?((style==="open"||low)?R.top58:R.top58std):R.top56);
   if(!cnt&&n===3)why.push(R.cnt3);
-  const lofts=bestLofts(pw,top,n);
   const all=[pw,...lofts],gaps=all.slice(1).map((v,i)=>v-all[i]);
   why.push(R.gap(lofts.map(l=>l+"°").join(" · "),Math.round(gaps.reduce((a,b)=>a+b)/gaps.length)));
   // bounce score

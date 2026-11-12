@@ -237,6 +237,7 @@ const T={
    brand:b=>`현재 ${b} 드라이버를 쓰고 계십니다. 아래 추천과 시타로 비교해 보세요.`,
    inRange:(s,a,b)=>`추정 헤드스피드 약 ${s}mph가 이 모델의 권장 구간(${a}~${b}mph)에 들어갑니다.`,
    near:(s,a,b)=>`추정 헤드스피드 약 ${s}mph는 이 모델의 권장 구간(${a}~${b}mph) 경계에 가깝습니다.`,
+   out:(s,a,b)=>`추정 헤드스피드 약 ${s}mph는 이 모델의 권장 구간(${a}~${b}mph)을 벗어나지만, 조건에 맞는 모델 중에서는 가장 가깝습니다.`,
    lightAge:"가벼운 모델이라 60세 이상 골퍼가 편하게 휘두르기 좋습니다.",lightSlow:"가벼운 헤드와 샤프트가 스윙 속도를 높여 거리를 늘리는 데 유리합니다.",
    sliceDraw:"슬라이스가 있으셔서 드로우 설계 헤드를 골랐습니다. 공이 오른쪽으로 휘는 것을 줄여 줍니다.",
    sliceSome:"무게 조정이나 약한 드로우 성향으로 슬라이스를 어느 정도 줄여 줍니다.",
@@ -274,6 +275,7 @@ const T={
    brand:b=>`You currently play a ${b} driver. Compare it with the picks below in a demo.`,
    inRange:(s,a,b)=>`Your estimated ${s} mph is inside this model's range (${a}–${b} mph).`,
    near:(s,a,b)=>`Your estimated ${s} mph is near the edge of this model's range (${a}–${b} mph).`,
+   out:(s,a,b)=>`Your estimated ${s} mph is outside this model's range (${a}–${b} mph), but it is the closest match for your other answers.`,
    lightAge:"Lightweight, so golfers 60+ find it easy to swing.",lightSlow:"The light build helps you swing faster for more distance.",
    sliceDraw:"You slice, so we chose a draw-biased head that reduces the curve to the right.",
    sliceSome:"Weight adjustment or a mild draw bias helps reduce a slice somewhat.",
@@ -361,7 +363,7 @@ $("langT").onclick=e=>{const b=e.target.closest("button");if(!b)return;lang=b.da
   document.querySelectorAll("#langT button").forEach(x=>x.classList.toggle("on",x===b));render();};
 $("f").onsubmit=e=>{e.preventDefault();run(false);};
 
-function flexOf(s){return s<72?"L":s<82?"A":s<92?"R":s<102?"S":"X";}
+function flexOf(s){return s<72?"L":s<82?"A":s<92?"R":s<105?"S":"X";}
 const swIdx=s=>s<75?0:s<85?1:s<95?2:s<105?3:4, loftIdx=s=>s<80?0:s<90?1:s<100?2:3;
 
 const G={cx:150,cy:160,R:118,min:50,max:125};
@@ -435,8 +437,8 @@ function run(silent){
   const s=Math.round(yd/2.4),sLo=Math.round(s*.96),sHi=Math.round(s*1.04),senior=age&&age>=60;
 
   const flex=flexOf(s);let wi=swIdx(s);const why=[R.flex(s,flex)];
-  if(senior&&wi>0)wi--; if(lb&&lb>=200&&wi<4&&!senior)wi++;
-  why.push(R.sw(SW[wi])); if(senior)why.push(R.age); if(lb&&lb>=200&&!senior)why.push(R.kg);
+  const wDown=senior&&wi>0,wUp=!senior&&lb&&lb>=200&&wi<4; if(wDown)wi--; if(wUp)wi++;
+  why.push(R.sw(SW[wi])); if(wDown)why.push(R.age); if(wUp)why.push(R.kg);
   let kp=s<85?"low":"mid";
   if(flight==="low"){kp="low";why.push(R.kpLow);} if(flight==="high"){kp="midhigh";why.push(R.kpHigh);}
   let li=loftIdx(s);why.push(R.loft(LOFTS[li]));
@@ -467,7 +469,7 @@ function run(silent){
 
   const picks=scored.map(({m,sc},i)=>{
     const r=[];const inR=s>=m.min&&s<=m.max;
-    r.push(inR?R.inRange(s,m.min,m.max):R.near(s,m.min,m.max));
+    r.push(inR?R.inRange(s,m.min,m.max):(Math.max(m.min-s,s-m.max)>5?R.out:R.near)(s,m.min,m.max));
     if(m.light&&senior)r.push(R.lightAge);else if(m.light&&s<85)r.push(R.lightSlow);
     if(flight==="slice"){if(m.draw===2)r.push(R.sliceDraw);else if(m.draw===1)r.push(R.sliceSome);}
     if(flight==="hook"&&m.draw===0)r.push(R.hookNeutral);
