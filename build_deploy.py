@@ -251,9 +251,25 @@ def _pc(m):
     return re.sub(r'<a class="buy" href="#" onclick="return false">[^<]*</a>',
                   f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>', blk)
 import html as _html
+PH = re.compile(r'<a class="buy" href="#" onclick="return false">([^<]*)</a>')
+def _link_all(s):
+    out, last = [], 0
+    for m in PH.finditer(s):
+        before = s[max(0, m.start() - 4000):m.start()]
+        hs = re.findall(r"<h[34]>(.*?)</h[34]>", before, re.S)
+        if not hs: continue
+        name = re.sub(r"<[^>]+>", "", hs[-1])
+        name = re.split(r"\s*\(|\s+/\s*|\s*·", name)[0].strip()
+        tail = before[before.rfind("<h"):] if "<h" in before else before
+        br = re.findall(r'class="br">([^<]+)<', before[-1500:])
+        if br and br[-1].lower() not in name.lower(): name = br[-1] + " " + name
+        ko = "구매처" in m.group(1)
+        out.append(s[last:m.start()] + f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>')
+        last = m.end()
+    return "".join(out) + s[last:]
 for f in os.listdir(f"{OUT}/blog"):
     p = f"{OUT}/blog/{f}"; s = open(p).read()
-    s2 = re.sub(r'<div class="pc">.*?</div>(?=<div class="pc">|</div>)', _pc, s, flags=re.S)
+    s2 = _link_all(s)
     if s2 != s: open(p, "w").write(s2)
 
 # ---------- default language: English first, remember the visitor's choice ----------
