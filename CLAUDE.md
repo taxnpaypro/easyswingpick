@@ -14,9 +14,9 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 
 ## Pending change to ship with the next post (owner request, 2026-11-12)
-Branch `pending/disclosure` shortens the blog affiliate disclosure to one line under the title (with a "자세히 보기" link) and moves the full text to the end of each post. The owner asked to ship it together with the next blog post:
+Branch `pending/disclosure` shortens the blog affiliate disclosure to one line under the title (with a "자세히 보기" link) and moves the full text to the end of each post, and makes English the default language on every page (the visitor's KO/EN choice is remembered in localStorage `esp_lang`). The owner asked to ship it together with the next blog post:
 - After creating `publish/YYYY-MM-DD`, run `git merge --no-edit origin/pending/disclosure` into it before building, then rebuild with `python3 build_deploy.py`.
-- Mention it in the approval message ("제휴 안내 문구 변경도 함께 반영됩니다") and include a screenshot of the top of the new post.
+- Mention it in the approval message ("제휴 안내 문구 변경과 영어 기본 화면도 함께 반영됩니다") and include a screenshot of the top of the new post.
 - When the owner approves and main is pushed, delete this section from CLAUDE.md (commit on main) and delete the remote branch: `git push origin --delete pending/disclosure`.
 
 ## New blog post workflow (scheduled runs)
