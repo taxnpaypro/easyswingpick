@@ -17,12 +17,6 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 
-## Pending change to ship with the next post (owner request, 2026-11-12)
-Branch `pending/disclosure` shortens the blog affiliate disclosure to one line under the title (with a "자세히 보기" link) and moves the full text to the end of each post, and makes English the default language on every page (the visitor's KO/EN choice is remembered in localStorage `esp_lang`). The owner asked to ship it together with the next blog post:
-- After creating `publish/YYYY-MM-DD`, run `git merge --no-edit origin/pending/disclosure` into it before building, then rebuild with `python3 build_deploy.py`.
-- Mention it in the approval message ("제휴 안내 문구 변경과 영어 기본 화면도 함께 반영됩니다") and include a screenshot of the top of the new post.
-- When the owner approves and main is pushed, delete this section from CLAUDE.md (commit on main) and delete the remote branch: `git push origin --delete pending/disclosure`.
-
 ## New blog post workflow (scheduled runs)
 1. **Collect 10 hot candidates** with web search (last 2–4 weeks): new club releases, GolfWRX/MyGolfSpy/Golf Digest tests, seasonal topics (holiday deals, new season, spring fitting), rising searches. Skip anything already in `POSTS`.
 2. **Score each 1–5** on: fit for Korean-American & senior golfers, affiliate potential (2nd Swing, FlexOffers merchants, later Awin: Dunlop/Honma), current interest, link to one of our calculators, no overlap with existing posts. Pick the top one.
