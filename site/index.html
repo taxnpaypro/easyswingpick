@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasySwingPick — 내 스윙에 맞는 골프채 찾기 (시연판)</title>
+<meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 일본채·시니어 골프채 한국어 가이드.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f2a3d;--navy-2:#173b55;--ink:#15212b;--muted:#64727d;--line:#e3e8ec;--bg:#f5f7f8;--green:#178a5b;--green-l:#e6f4ee;--gold:#c89b3c;--gold-l:#fbf4e4;--r:18px;--sh:0 1px 2px rgba(15,42,61,.06),0 8px 24px rgba(15,42,61,.07)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:Inter,"Noto Sans KR",system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(15,42,61,.96);backdrop-filter:blur(8px);color:#fff}
+.hd{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px;font-size:1.05rem}
+.logo small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46vw;font-weight:500;font-size:.68rem;opacity:.65;letter-spacing:.6px}
+nav.main{display:flex;gap:22px;font-size:.92rem}
+nav.main a{opacity:.82}nav.main a:hover{opacity:1;color:#e3c06a}
+.hr{display:flex;align-items:center;gap:10px}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{white-space:nowrap;border:0;background:transparent;color:#fff;opacity:.75;font:inherit;font-size:.8rem;padding:5px 11px;border-radius:999px;cursor:pointer}
+.lang button.on{background:#fff;color:var(--navy);opacity:1;font-weight:600}
+.burger{display:none;border:0;background:transparent;color:#fff;font-size:1.5rem;cursor:pointer;padding:4px 6px}
+.mnav{display:none;background:var(--navy);padding:6px 18px 16px}
+.mnav a{display:block;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08);color:#fff;opacity:.9}
+.mnav.open{display:block}
+/* disclosure */
+.disc{background:var(--gold-l);color:#7a5a12;font-size:.8rem;padding:8px 0;text-align:center}
+/* hero */
+.hero{background:linear-gradient(90deg,rgba(8,24,36,.94) 0%,rgba(12,36,52,.82) 45%,rgba(15,42,61,.45) 100%),url(/assets/img/hero.webp) center 60%/cover,#0f2a3d;color:#fff;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(40% 50% at 20% 100%,rgba(63,185,132,.18),transparent 70%);pointer-events:none}
+.hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-top:64px;padding-bottom:72px;position:relative;z-index:1}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;letter-spacing:.8px;color:#e3c06a;background:rgba(227,192,106,.1);border:1px solid rgba(227,192,106,.25);border-radius:999px;padding:5px 12px}
+.hero h1{font-size:2.5rem;line-height:1.22;margin:0 0 14px;font-weight:800;letter-spacing:-.5px}
+.hero h1 em{font-style:normal;color:#5fd3a2}
+.hero p.lead{font-size:1.05rem;opacity:.85;margin:0 0 26px;max-width:520px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;border-radius:12px;padding:14px 20px;font-size:.98rem;transition:transform .15s}
+.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(23,138,91,.35)}
+.btn.sec{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff}
+.trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;font-size:.84rem;opacity:.8}
+.trust span:before{content:"✓";color:#5fd3a2;margin-right:6px;font-weight:700}
+/* hero gauge */
+.hg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:20px;text-align:center;backdrop-filter:blur(6px)}
+.hg .gl{font-size:.72rem;letter-spacing:1px;text-transform:uppercase;opacity:.6;font-weight:600}
+.hg svg{width:100%;max-width:320px;display:block;margin:6px auto 0}
+.hg .num{font-size:3rem;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums;letter-spacing:-1px}
+.hg .num small{font-size:.9rem;color:#e3c06a;font-weight:600;margin-left:4px;letter-spacing:0}
+.hg .pick{margin-top:12px;display:inline-flex;gap:10px;align-items:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:6px 6px 6px 16px;font-size:.85rem}
+.hg .pick b{background:linear-gradient(135deg,#f0d48a,#c89b3c);color:var(--navy);border-radius:999px;padding:6px 12px}
+/* sections */
+section.s{padding:64px 0}
+section.s.alt{background:var(--bg)}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px}
+.sh h2{font-size:1.65rem;margin:0;letter-spacing:-.3px}
+.sh p{margin:6px 0 0;color:var(--muted)}
+.sh a.more{color:var(--green);font-weight:600;font-size:.92rem;white-space:nowrap}
+.kicker{font-size:.75rem;font-weight:700;letter-spacing:1px;color:var(--green);text-transform:uppercase}
+/* calculators */
+.calcs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.calc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--sh);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.calc:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(15,42,61,.12)}
+.calc .ph{margin:-22px -22px 0;height:128px;background:#0f2a3d center/cover no-repeat}.calc .ic{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,var(--navy),var(--navy-2));display:grid;place-items:center;margin:-27px 0 12px;position:relative;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.calc h3{margin:0 0 6px;font-size:1.12rem}
+.calc p{margin:0 0 16px;color:var(--muted);font-size:.9rem;flex:1}
+.calc .go{color:var(--green);font-weight:700;font-size:.92rem}
+.calc .badge{position:absolute;top:12px;right:12px;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,.2);font-size:.68rem;font-weight:700;background:var(--gold-l);color:#8a6416;border-radius:6px;padding:3px 8px}
+/* categories */
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cat{border-radius:var(--r);padding:20px;color:#fff;min-height:170px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.cat h3{margin:0 0 4px;font-size:1.1rem;line-height:1.3}.cat p{margin:0;font-size:.86rem;opacity:.85;overflow-wrap:anywhere}
+.cat .n{font-size:.72rem;font-weight:700;letter-spacing:1px;opacity:.7;margin-bottom:auto;padding-bottom:14px}
+.cat{background-size:cover;background-position:center}.c1{background-image:linear-gradient(180deg,rgba(61,15,23,.25),rgba(61,15,23,.92) 72%),url(/assets/img/g-jp.webp)}.c2{background-image:linear-gradient(180deg,rgba(14,58,41,.2),rgba(14,58,41,.92) 72%),url(/assets/img/g-senior.webp)}.c3{background-image:linear-gradient(180deg,rgba(10,28,41,.25),rgba(10,28,41,.92) 72%),url(/assets/img/g-buy.webp)}.c4{background-image:linear-gradient(180deg,rgba(74,52,9,.2),rgba(74,52,9,.92) 72%),url(/assets/img/g-putter.webp)}.cat{transition:transform .2s}.cat:hover{transform:translateY(-3px)}
+/* featured */
+.feat{display:grid;grid-template-columns:1fr 1fr;border-radius:22px;overflow:hidden;background:var(--navy);color:#fff;box-shadow:var(--sh)}
+.feat .ft{padding:34px}
+.feat .tag{display:inline-block;background:#c8102e;color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.8px;border-radius:6px;padding:4px 9px}
+.feat h3{font-size:1.6rem;margin:14px 0 10px;line-height:1.3}
+.feat p{opacity:.8;margin:0 0 20px}
+.feat .mini{font-size:.75rem;opacity:.6;margin:16px 0 0}
+.feat .fv{background:radial-gradient(circle at 30% 30%,#2a5d7c,#0f2a3d);display:grid;place-items:center;padding:30px}
+.pct{font-size:4.2rem;font-weight:800;color:#e3c06a;line-height:1;letter-spacing:-2px}
+.pct small{display:block;font-size:.9rem;color:#fff;opacity:.75;letter-spacing:0;font-weight:500;margin-top:8px;text-align:center}
+/* posts */
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.post{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column}
+.post .th{height:120px;position:relative;display:flex;align-items:flex-end;padding:14px}
+.post .th span{background:rgba(255,255,255,.92);color:var(--navy);font-size:.72rem;font-weight:700;border-radius:6px;padding:3px 8px}
+.post .bd{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.post h4{margin:0 0 8px;font-size:1rem;line-height:1.45}
+.post p{margin:0;color:var(--muted);font-size:.86rem;flex:1}
+.post .meta{margin-top:12px;font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between}
+.post .soon{color:var(--gold);font-weight:700}
+/* why */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.wy{padding:22px;border-radius:var(--r);background:#fff;border:1px solid var(--line)}
+.wy .k{width:38px;height:38px;border-radius:10px;background:var(--green-l);color:var(--green);display:grid;place-items:center;font-weight:800;margin-bottom:12px}
+.wy h4{margin:0 0 6px;font-size:1.02rem}.wy p{margin:0;color:var(--muted);font-size:.9rem}
+/* footer */
+footer{background:#0a1c29;color:rgba(255,255,255,.75);padding:48px 0 30px;font-size:.88rem}
+.ft-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:24px}
+footer h5{color:#fff;margin:0 0 12px;font-size:.92rem}
+footer a{display:block;padding:4px 0;opacity:.75}footer a:hover{opacity:1;color:#e3c06a}
+.fdisc{border-top:1px solid rgba(255,255,255,.08);margin-top:32px;padding-top:18px;font-size:.78rem;opacity:.65;line-height:1.7}
+/* responsive */
+@media (max-width:900px){
+ nav.main{display:none}.burger{display:block}
+ .hero-in{grid-template-columns:1fr;padding-top:40px;padding-bottom:48px}.hero h1{font-size:1.9rem}
+ .calcs,.cats{grid-template-columns:1fr 1fr}.posts,.why{grid-template-columns:1fr}
+ .feat{grid-template-columns:1fr}.ft-grid{grid-template-columns:1fr 1fr}
+ section.s{padding:44px 0}.sh{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:520px){.calcs{grid-template-columns:1fr}.cats{grid-template-columns:1fr 1fr}.cat{min-height:140px;padding:16px}}
+
+/* v2: category bar, hero club picker, picks */
+.catbar{border-top:1px solid rgba(255,255,255,.08)}
+.catbar .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:8px;padding-bottom:8px;scrollbar-width:none}
+.catbar .wrap::-webkit-scrollbar{display:none}
+.catbar a{color:#fff;opacity:.85;font-size:.86rem;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14)}
+.catbar a:hover{opacity:1;background:rgba(255,255,255,.08)}
+.catbar a.hl{background:#e3c06a;color:#0f2a3d;border-color:#e3c06a;opacity:1}
+.pickq{font-weight:700;font-size:.95rem;margin:0 0 10px;opacity:.9}
+.clubs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:540px}
+.clubs a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:.95rem;transition:transform .15s,background .15s}
+.clubs a:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+.clubs a.main{background:var(--green);border-color:var(--green);box-shadow:0 8px 20px rgba(23,138,91,.35)}
+.clubs a small{font-weight:500;font-size:.72rem;opacity:.8}
+.picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.pk{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--sh);display:flex;flex-direction:column}
+.pk .bd2{align-self:flex-start;background:var(--gold-l);color:#8a6416;font-size:.7rem;font-weight:800;letter-spacing:.6px;border-radius:6px;padding:4px 9px;margin-bottom:12px}
+.pk .br{font-size:.72rem;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase}
+.pk h3{margin:2px 0 6px;font-size:1.12rem}
+.pk p{margin:0 0 14px;color:var(--muted);font-size:.88rem;flex:1}
+.pk .ft2{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.pk .pr{font-weight:800;color:var(--navy)}
+.pk .go2{background:var(--navy);color:#fff;font-weight:700;font-size:.82rem;border-radius:10px;padding:8px 12px;white-space:nowrap}
+.pnote{margin-top:14px;font-size:.8rem;color:var(--muted)}
+@media (max-width:900px){.picks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.picks{grid-template-columns:1fr}.clubs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap hd">
+  <a class="logo" href="#top">
+   <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="#fff" opacity=".12"/><circle cx="17" cy="13" r="6" fill="#fff"/><path d="M17 19v9" stroke="#c89b3c" stroke-width="2.2" stroke-linecap="round"/><path d="M11 28h12" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg>
+   <div>EasySwingPick<small data-t="tagline"></small></div>
+  </a>
+  <nav class="main" id="nav"></nav>
+  <div class="hr">
+   <div class="lang" id="langT"><button data-lang="ko" class="on">한국어</button><button data-lang="en">EN</button></div>
+   <button class="burger" id="burger" aria-label="menu">☰</button>
+  </div>
+ </div>
+ <nav class="catbar" aria-label="categories"><div class="wrap" id="catbar"></div></nav>
+ <div class="mnav" id="mnav"></div>
+</header>
+
+<section class="hero" id="top">
+ <div class="wrap hero-in">
+  <div>
+   <h1 id="h1"></h1>
+   <p class="lead" data-t="lead"></p>
+   <p class="pickq" data-t="pickQ"></p>
+   <div class="clubs" id="heroClubs"></div>
+   <div class="trust" id="trust"></div>
+  </div>
+  <div class="hg" aria-hidden="true">
+   <div class="gl" data-t="demoG"></div>
+   <svg id="hgsvg" viewBox="0 0 300 170"></svg>
+   <div class="num"><span id="hgn">0</span><small>mph</small></div>
+   <div class="pick"><span data-t="flexLab"></span><b id="hgf">L</b></div>
+  </div>
+ </div>
+</section>
+
+<section class="s" id="calcs">
+ <div class="wrap">
+  <div class="sh"><div><div class="kicker" data-t="k1"></div><h2 data-t="calcT"></h2><p data-t="calcS"></p></div></div>
+  <div class="calcs" id="calcGrid"></div>
+ </div>
+</section>
+
+<section class="s" id="picks">
+ <div class="wrap">
+  <div class="sh"><div><div class="kicker" data-t="k5"></div><h2 data-t="pickT"></h2><p data-t="pickS"></p></div></div>
+  <div class="picks" id="pickGrid"></div>
+  <p class="pnote" data-t="pickN"></p>
+ </div>
+</section>
+
+<section class="s alt" id="guides">
+ <div class="wrap">
+  <div class="sh"><div><div class="kicker" data-t="k2"></div><h2 data-t="catT"></h2><p data-t="catS"></p></div></div>
+  <div class="cats" id="catGrid"></div>
+ </div>
+</section>
+
+<section class="s alt" id="blog">
+ <div class="wrap">
+  <div class="sh"><div><div class="kicker" data-t="k3"></div><h2 data-t="blogT"></h2><p data-t="blogS"></p></div><a class="more" href="/blog/" data-t="allPosts"></a></div>
+  <div class="posts" id="postGrid"></div>
+ </div>
+</section>
+
+<section class="s" id="about">
+ <div class="wrap">
+  <div class="sh"><div><div class="kicker" data-t="k4"></div><h2 data-t="whyT"></h2></div></div>
+  <div class="why" id="whyGrid"></div>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <div class="ft-grid">
+   <div><h5>EasySwingPick</h5><p style="margin:0;opacity:.75" data-t="fAbout"></p></div>
+   <div><h5 data-t="fCalc"></h5><div id="fCalcL"></div></div>
+   <div><h5 data-t="fGuide"></h5><div id="fGuideL"></div></div>
+   <div><h5 data-t="fInfo"></h5><div id="fInfoL"></div></div>
+  </div>
+  <div class="fdisc" data-t="fDisc"></div>
+ </div>
+</footer>
+
+<script>
+// Calculator links: demo artifact URLs now; on the live site change to /driver/, /iron/, /wedge/, /putter/.
+const GUIDE=["/blog/?c=jp","https://claude.ai/artifact/F1FxAeTP8VkRwP26d6CEKg","https://claude.ai/artifact/Lobmv73sYz1aiPpos3bNAd","https://claude.ai/artifact/NWpmwJSA5cBGYK6q7ra3AY"];
+const LINKS={driver:"https://claude.ai/artifact/8qNVFjbmMa2iMgjhxoeWmA",iron:"https://claude.ai/artifact/Dz35Q1crsGFwXLvyTx4swA",wedge:"https://claude.ai/artifact/UHd2KFRkKYuNJ1QLsSUAm2",putter:"https://claude.ai/artifact/YQSj4S2ynmVwf1edh6gM68"};
+// Blog posts: on the live site this list comes from a data file (posts.json) that the weekly update fills.
+const POSTS=[
+{u:"https://claude.ai/artifact/W3otpxg6ms9gbrFk1R3cu1",cat:"setup",ko:"드라이버 슬리브·무게추 조절법: 제조사별 총정리",en:"Driver sleeve & weight settings: every brand",dko:"TaylorMade, Callaway, PING, Titleist 등 브랜드별 설정법.",den:"Settings for TaylorMade, Callaway, PING, Titleist, Srixon and more.",c:"#2b4a5e"},
+{u:"https://claude.ai/artifact/HLgovE5tVXDHSs1jQ67GvE",cat:"gear",ko:"2026 핫한 드라이버 장단점: Qi4D vs Quantum vs ZXi RKT",en:"2026 hottest drivers: Qi4D vs Quantum vs ZXi RKT",dko:"균형·슬라이스·직진성별 추천 드라이버.",den:"Picks for balance, slice fixes and straight hitting.",c:"#1d4a66"},
+{u:"https://claude.ai/artifact/TLfXUU4CWcnazHDbCK9rNh",cat:"gear",ko:"2026 핫한 아이언 장단점: ZXiR vs Qi Max vs JPX 925",en:"2026 hottest irons: ZXiR vs Qi Max vs JPX 925",dko:"쉬운 아이언부터 거리형 상급자용까지.",den:"From easy irons to distance-focused better-player sets.",c:"#2a5a3e"},
+{u:"https://claude.ai/artifact/X72PkRChyN87rWw6uq5Sn4",cat:"gear",ko:"2026 핫한 웨지 장단점: SM11 vs MG5 vs RTZ",en:"2026 hottest wedges: SM11 vs MG5 vs RTZ",dko:"스핀·그라인드·벙커 성능 비교.",den:"Spin, grinds and bunker play compared.",c:"#6b4a12"},
+{u:"https://claude.ai/artifact/JcP6M1R2JwKM38jouZpLhy",cat:"gear",ko:"2026 핫한 퍼터 장단점: S2S #7 vs DF3 vs Fastback OC",en:"2026 hottest putters: S2S #7 vs DF3 vs Fastback OC",dko:"제로토크·로우토크 퍼터 3종 비교.",den:"Three zero- and low-torque putters compared.",c:"#5a1a24"},
+ {u:"https://claude.ai/artifact/NddLBxMeDgZubccoapKFRd",cat:"gear",ko:"2026 핫한 드라이버·아이언·웨지·퍼터 장단점 분석",en:"2026's hottest drivers, irons, wedges and putters: pros & cons",dko:"Qi4D, Quantum, ZXiR, SM11, S2S 등 12개 모델 정리.",den:"Qi4D, Quantum, ZXiR, SM11, S2S and more, summarized.",c:"#1d4a66"},
+ {u:"https://claude.ai/artifact/2GgBRU6suf51Z1WnW5W9cC",cat:"jp",ko:"Mizuno JPX vs Mizuno Pro 아이언, 내 핸디에 맞는 라인은?",en:"Mizuno JPX vs Mizuno Pro irons: which fits your handicap?",dko:"2026 Pro M-13·M-15와 JPX 925를 비교합니다.",den:"Comparing 2026 Pro M-13, M-15 and JPX 925.",c:"#173b55"},
+ {u:"https://claude.ai/artifact/VYPzdx276EPSbYg95PERPb",cat:"jp",ko:"Miura vs Mizuno: 단조 아이언 타감·가격 비교",en:"Miura vs Mizuno: forged iron feel and price",dko:"일본 단조 아이언 두 강자를 한국어로 정리했습니다.",den:"Two Japanese forged-iron leaders, side by side.",c:"#1f6b4d"},
+ {u:"https://claude.ai/artifact/F1FxAeTP8VkRwP26d6CEKg",cat:"senior",ko:"느린 스윙 속도를 위한 경량 드라이버 Best 5",en:"Best 5 lightweight drivers for slower swings",dko:"XXIO 14, PXG Lightning Max Lite 등 2026 모델 비교.",den:"XXIO 14, PXG Lightning Max Lite and more, compared.",c:"#8a6416"},
+ {u:"https://claude.ai/artifact/Lobmv73sYz1aiPpos3bNAd",cat:"buy",ko:"한국에서 쓰던 Honma, 미국에서 정품 사는 법",en:"How to buy genuine Honma clubs in the US",dko:"공인 판매처, 위조품 구별법, 가격 비교까지.",den:"Authorized dealers, spotting fakes, price checks.",c:"#0f2a3d"},
+ {u:"https://claude.ai/artifact/NWpmwJSA5cBGYK6q7ra3AY",cat:"putter",ko:"제로토크 퍼터 비교: L.A.B. vs Odyssey vs Spider ZT",en:"Zero-torque putters: L.A.B. vs Odyssey vs Spider ZT",dko:"짧은 퍼트가 불안한 골퍼를 위한 2026 비교.",den:"A 2026 comparison for golfers nervous over short putts.",c:"#3d0f17"}
+];
+const T={
+ ko:{ pickQ:"어떤 클럽을 찾으세요?",
+  clubsL:[["driver","드라이버","거리 1개만"],["iron","아이언","7번 거리"],["wedge","웨지","PW 로프트"],["putter","퍼터","스트로크"]],
+  bar:[["#picks","2026 추천 순위",1],["driver","드라이버"],["iron","아이언"],["wedge","웨지"],["putter","퍼터"],["https://claude.ai/artifact/NddLBxMeDgZubccoapKFRd","장비 분석"],["https://claude.ai/artifact/W3otpxg6ms9gbrFk1R3cu1","세팅 가이드"],["/blog/?c=jp","일본채"],["/blog/","전체 글"]],
+  k5:"2026 PICKS",pickT:"2026 추천 순위",pickS:"리뷰·테스트 자료를 비교해 고른 카테고리별 1순위입니다.",
+  pickN:"가격은 미국 출시가 기준이며 바뀔 수 있습니다. 나에게 맞는지는 계산기로 먼저 확인하세요.",go2:"분석 보기",
+  picks:[["BEST OVERALL 드라이버","TaylorMade","Qi4D","GolfWRX 회원 투표 2026 최고의 드라이버. 직진성과 속도의 균형.","$649.99","https://claude.ai/artifact/HLgovE5tVXDHSs1jQ67GvE"],
+   ["BEST FOR 슬라이스","Callaway","Quantum Max-D","한 매체 테스트에서 가장 멀리 나간 드로우 드라이버.","$649.99","https://claude.ai/artifact/HLgovE5tVXDHSs1jQ67GvE"],
+   ["BEST FOR 시니어","PING","G440 K","65세 이상이 가장 선호하는 브랜드의 최고 관용성 드라이버. 시니어 추천 1순위.","$649","https://claude.ai/artifact/8qNVFjbmMa2iMgjhxoeWmA","계산기로 확인"],
+   ["BEST 쉬운 아이언","Srixon","ZXiR","관용성과 부드러운 타감을 함께. 한 매체 선정 2026 최고의 올라운더.","$1,099~ (7개)","https://claude.ai/artifact/TLfXUU4CWcnazHDbCK9rNh"],
+   ["BEST 웨지","Titleist","Vokey SM11","2026 PGA 투어 최다 우승 웨지. 그라인드 6종.","$199.99~","https://claude.ai/artifact/X72PkRChyN87rWw6uq5Sn4"],
+   ["BEST 퍼터","Odyssey","Ai-Dual S2S #7","MyGolfSpy 2026 테스트 1위 제로토크 퍼터.","$399.99","https://claude.ai/artifact/JcP6M1R2JwKM38jouZpLhy"]],
+ tagline:"한인 골퍼를 위한 골프채 가이드",
+  nav:[["#calcs","추천 계산기"],["/blog/?c=jp","일본채"],["/blog/?c=senior","시니어"],["/blog/","블로그"],["/about","소개"]],
+  disc:"세일 링크는 제휴 링크로, 구매 시 수수료를 받을 수 있습니다.",
+  eyebrow:"⛳ 2026 최신 모델 반영",h1:"내 스윙에 맞는 골프채,<br><em>1분이면</em> 찾습니다",
+  lead:"거리만 입력하면 헤드스피드를 분석해 드라이버·아이언·웨지·퍼터와 샤프트까지 추천합니다. 일본채와 시니어 골프채를 한국어로 쉽게 정리했습니다.",
+  cta1:"드라이버 추천 받기",cta2:"계산기 모두 보기",trust:["한국어·영어 지원","2026 출시 모델","추천 이유까지 설명"],
+  demoG:"예시 · 드라이버 230야드",flexLab:"추천 샤프트 강도",
+  k1:"FITTING CALCULATORS",calcT:"골프채 추천 계산기",calcS:"휴대폰에서 1분이면 끝납니다. 필수 입력은 하나뿐입니다.",
+  calcs:[["driver","드라이버","드라이버 거리만 넣으면 헤드스피드, 샤프트 강도, 추천 드라이버 3개.","인기"],["iron","아이언","7번 아이언 거리로 헤드 종류, 스틸·그라파이트, 길이·라이각까지.",""],["wedge","웨지","PW 로프트로 웨지 간격, 바운스, 그라인드를 추천합니다.",""],["putter","퍼터","스트로크 모양으로 토우행, 제로토크 여부, 헤드 모양을 찾습니다.","NEW"]],
+  go:"계산기 열기 →",
+  k2:"GUIDES",catT:"주제별 가이드",catS:"한인 골퍼가 가장 많이 찾는 주제부터 정리했습니다.",
+  cats:[["01","일본채 가이드","XXIO · Honma · Mizuno · Miura · Srixon"],["02","시니어·경량 클럽","느린 스윙도 멀리, 편하게"],["03","미국 구매 가이드","정품 구매처·중고·트레이드인"],["04","제로토크 퍼터","짧은 퍼트가 불안할 때"]],
+  fH:"일본 골프채 블랙프라이데이 세일 모음",fP:"XXIO, Mizuno, Srixon, Honma, PXG의 미국 내 할인 정보를 매일 업데이트합니다.",fB:"세일 정보 보기",fPct:"UP TO<br>30%<small>할인 정보 업데이트 예정</small>",
+  k3:"LATEST",blogT:"최신 가이드",blogS:"비교·추천 글을 매주 업데이트합니다.",allPosts:"전체 글 보기 →",soon:"곧 공개",read:"읽기 →",
+  catName:{deal:"세일",jp:"일본채",senior:"시니어",buy:"구매 가이드",putter:"퍼터",gear:"장비 분석",setup:"세팅 가이드"},
+  k4:"ABOUT",whyT:"EasySwingPick이 다른 점",
+  why:[["1","데이터 기반 추천","헤드스피드와 스윙 특성을 계산해 추천 이유까지 보여 드립니다."],["2","한인 골퍼 눈높이","일본채, 미국 구매처, 정품 구별 등 한국어 정보가 부족한 주제를 다룹니다."],["3","독립적인 비교","제휴 여부와 관계없이 2026년 테스트·리뷰 자료를 바탕으로 비교합니다."]],
+  fAbout:"내 스윙에 맞는 골프채를 쉽게 찾도록 돕는 한·영 골프 장비 가이드입니다.",fCalc:"계산기",fGuide:"가이드",fInfo:"정보",
+  fCalcL:["드라이버","아이언","웨지","퍼터"],fGuideL:["일본채","시니어·경량","미국 구매 가이드","제로토크 퍼터"],fInfoL:["소개","제휴 링크 고지","개인정보처리방침","문의"],
+  fDisc:"© 2026 EasySwingPick. 이 사이트는 제휴(어필리에이트) 프로그램에 참여하며, 링크를 통한 구매 시 수수료를 받을 수 있습니다. 계산기 결과는 일반적인 기준에 따른 추정치로, 실제 피팅을 대신하지 않습니다. 상표는 각 소유자에게 있습니다."},
+ en:{ pickQ:"Which club are you looking for?",
+  clubsL:[["driver","Driver","1 distance"],["iron","Irons","7-iron carry"],["wedge","Wedges","PW loft"],["putter","Putter","Stroke type"]],
+  bar:[["#picks","2026 Picks",1],["driver","Driver"],["iron","Irons"],["wedge","Wedges"],["putter","Putter"],["https://claude.ai/artifact/NddLBxMeDgZubccoapKFRd","Gear analysis"],["https://claude.ai/artifact/W3otpxg6ms9gbrFk1R3cu1","Setup guide"],["/blog/?c=jp","Japanese clubs"],["/blog/","All posts"]],
+  k5:"2026 PICKS",pickT:"2026 top picks",pickS:"Our #1 in each category, chosen by comparing published reviews and testing.",
+  pickN:"Prices are US launch prices and may change. Check your fit with a calculator first.",go2:"See analysis",
+  picks:[["BEST OVERALL DRIVER","TaylorMade","Qi4D","GolfWRX members' best driver of 2026. Balanced speed and straightness.","$649.99","https://claude.ai/artifact/HLgovE5tVXDHSs1jQ67GvE"],
+   ["BEST FOR SLICERS","Callaway","Quantum Max-D","The longest draw driver one outlet has tested.","$649.99","https://claude.ai/artifact/HLgovE5tVXDHSs1jQ67GvE"],
+   ["BEST FOR SENIORS","PING","G440 K","Most forgiving driver from the brand golfers 65+ prefer most. A top senior pick.","$649","https://claude.ai/artifact/8qNVFjbmMa2iMgjhxoeWmA","Check your fit"],
+   ["BEST EASY IRONS","Srixon","ZXiR","Forgiveness with soft feel; one outlet's best all-rounder of 2026.","From $1,099 (7 pcs)","https://claude.ai/artifact/TLfXUU4CWcnazHDbCK9rNh"],
+   ["BEST WEDGE","Titleist","Vokey SM11","Winningest PGA Tour wedge of 2026, in six grinds.","From $199.99","https://claude.ai/artifact/X72PkRChyN87rWw6uq5Sn4"],
+   ["BEST PUTTER","Odyssey","Ai-Dual S2S #7","MyGolfSpy's top putter of 2026, zero torque.","$399.99","https://claude.ai/artifact/JcP6M1R2JwKM38jouZpLhy"]],
+ tagline:"Golf gear guide for every swing",
+  nav:[["#calcs","Calculators"],["/blog/?c=jp","Japanese clubs"],["/blog/?c=senior","Seniors"],["/blog/","Blog"],["/about","About"]],
+  disc:"Deal links are affiliate links; we may earn a commission.",
+  eyebrow:"⛳ Updated for 2026 models",h1:"Find clubs that fit<br>your swing <em>in a minute</em>",
+  lead:"Enter one distance. We analyze your speed and recommend drivers, irons, wedges, putters and shafts — with Japanese and senior-friendly clubs explained simply.",
+  cta1:"Get a driver pick",cta2:"See all calculators",trust:["Korean & English","2026 models","Explains every pick"],
+  demoG:"Example · 230-yard drive",flexLab:"Recommended flex",
+  k1:"FITTING CALCULATORS",calcT:"Club fitting calculators",calcS:"Done in a minute on your phone. Only one field is required.",
+  calcs:[["driver","Driver","Enter your drive distance for speed, flex and three driver picks.","Popular"],["iron","Irons","Your 7-iron distance gives head type, steel vs graphite, length and lie.",""],["wedge","Wedges","Your PW loft drives gapping, bounce and grind picks.",""],["putter","Putter","Your stroke type finds toe hang, zero torque and head shape.","NEW"]],
+  go:"Open calculator →",
+  k2:"GUIDES",catT:"Guides by topic",catS:"Starting with what golfers ask about most.",
+  cats:[["01","Japanese clubs","XXIO, Honma, Mizuno, Miura, Srixon"],["02","Seniors & lightweight","Easy distance for slower swings"],["03","US buying guide","Authorized dealers, used, trade-in"],["04","Zero-torque putters","When short putts feel shaky"]],
+  fH:"Black Friday deals on Japanese golf clubs",fP:"Daily updates on US deals from XXIO, Mizuno, Srixon, Honma and PXG.",fB:"See the deals",fPct:"UP TO<br>30%<small>Deal list coming soon</small>",
+  k3:"LATEST",blogT:"Latest guides",blogS:"New comparisons and picks every week.",allPosts:"All posts →",soon:"Coming soon",read:"Read →",
+  catName:{deal:"Deals",jp:"Japanese",senior:"Seniors",buy:"Buying",putter:"Putters",gear:"Gear",setup:"Setup"},
+  k4:"ABOUT",whyT:"Why EasySwingPick",
+  why:[["1","Data-driven picks","We calculate your speed and swing traits, and show why each club fits."],["2","Made for Korean-American golfers","Japanese clubs, US dealers, spotting fakes — topics rarely covered in Korean."],["3","Independent comparisons","Based on 2026 testing and reviews, whether or not a link pays us."]],
+  fAbout:"A Korean-English golf gear guide that helps you find clubs that fit your swing.",fCalc:"Calculators",fGuide:"Guides",fInfo:"Info",
+  fCalcL:["Driver","Irons","Wedges","Putter"],fGuideL:["Japanese clubs","Seniors & lightweight","US buying guide","Zero-torque putters"],fInfoL:["About","Affiliate disclosure","Privacy policy","Contact"],
+  fDisc:"© 2026 EasySwingPick. We participate in affiliate programs and may earn a commission on purchases made through our links. Calculator results are estimates based on general guidelines and do not replace a professional fitting. Trademarks belong to their owners."}
+};
+const ICONS={
+ driver:'<svg width="42" height="42" viewBox="0 0 64 64" aria-hidden="true"><path d="M29.951342281879192 45.0C39.98422818791946 45.0 46.185570469798655 38.79865771812081 46.185570469798655 28.5C46.185570469798655 18.201342281879192 39.98422818791946 12.0 29.951342281879192 12.0H17.81442953020134V45.0ZM25.63255033557047 38.31140939597316V18.688590604026846H29.508389261744966C35.288926174496645 18.688590604026846 38.36744966442953 21.346308724832213 38.36744966442953 28.5C38.36744966442953 35.65369127516779 35.288926174496645 38.31140939597316 29.619127516778523 38.31140939597316Z" fill="#fff"/><path d="M21 52.5H43" stroke="#e3c06a" stroke-width="2.6" stroke-linecap="round"/></svg>',
+ iron:'<svg width="42" height="42" viewBox="0 0 64 64" aria-hidden="true"><path d="M35.90906040268457 12.0H28.090939597315437V45.0H35.90906040268457Z" fill="#fff"/><path d="M21 52.5H43" stroke="#e3c06a" stroke-width="2.6" stroke-linecap="round"/></svg>',
+ wedge:'<svg width="42" height="42" viewBox="0 0 64 64" aria-hidden="true"><path d="M19.13422818791946 45.0H27.20805369127517L30.711409395973153 31.14765100671141C31.2751677852349 28.87248322147651 31.61744966442953 26.416107382550337 31.97986577181208 23.919463087248324C32.36241610738255 26.456375838926174 32.744966442953015 28.93288590604027 33.308724832214764 31.14765100671141L36.81208053691275 45.0H44.86577181208054L52.87919463087248 15.000000000000004H45.00671140939597L42.04697986577181 28.268456375838927C41.442953020134226 31.046979865771814 40.95973154362416 34.42953020134228 40.49664429530201 37.61073825503356C39.97315436241611 34.42953020134228 39.4496644295302 31.046979865771814 38.785234899328856 28.268456375838927L35.624161073825505 15.000000000000004H28.395973154362416L25.21476510067114 28.268456375838927C24.550335570469798 31.08724832214765 24.026845637583893 34.48993288590604 23.503355704697988 37.691275167785236C23.02013422818792 34.48993288590604 22.536912751677853 31.08724832214765 21.95302013422819 28.268456375838927L18.993288590604028 15.000000000000004H11.120805369127517Z" fill="#fff"/><path d="M21 52.5H43" stroke="#e3c06a" stroke-width="2.6" stroke-linecap="round"/></svg>',
+ putter:'<svg width="42" height="42" viewBox="0 0 64 64" aria-hidden="true"><path d="M19.23187919463087 45.0H27.05V34.70134228187919H32.520469798657714C40.09496644295302 34.70134228187919 44.76812080536913 30.20536912751678 44.76812080536913 23.406040268456376C44.76812080536913 16.651006711409394 40.18355704697987 12.0 32.741946308724835 12.0H19.23187919463087ZM27.05 28.522147651006712V18.33422818791946H31.080872483221476C34.75738255033557 18.33422818791946 36.662080536912754 20.305369127516776 36.662080536912754 23.406040268456376C36.662080536912754 26.46241610738255 34.75738255033557 28.522147651006712 31.10302013422819 28.522147651006712Z" fill="#fff"/><path d="M21 52.5H43" stroke="#e3c06a" stroke-width="2.6" stroke-linecap="round"/></svg>'};
+let lang="ko";
+const $=id=>document.getElementById(id);
+function render(){
+ const t=T[lang];document.documentElement.lang=lang;
+ document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.innerHTML=v;});
+ $("h1").innerHTML=t.h1;
+ const navH=t.nav.map(([h,l])=>`<a href="${h}">${l}</a>`).join("");$("nav").innerHTML=navH;$("mnav").innerHTML=navH;
+ $("trust").innerHTML=t.trust.map(x=>`<span>${x}</span>`).join("");
+ const L=k=>LINKS[k]||k;
+ $("heroClubs").innerHTML=t.clubsL.map(([k,n,h],i)=>`<a class="${i?'':'main'}" href="${LINKS[k]}">${n}<small>${h}</small></a>`).join("");
+ $("catbar").innerHTML=t.bar.map(([h,n,hl])=>`<a ${hl?'class="hl"':''} href="${L(h)}">${n}</a>`).join("");
+ $("pickGrid").innerHTML=t.picks.map(([b,br,n,d,p,u,g])=>`<div class="pk"><span class="bd2">${b}</span><div class="br">${br}</div><h3>${n}</h3><p>${d}</p><div class="ft2"><span class="pr">${p}</span><a class="go2" href="${u}">${g||t.go2} →</a></div></div>`).join("");
+ $("calcGrid").innerHTML=t.calcs.map(([k,h,p,b])=>`<a class="calc" href="${LINKS[k]}" target="_blank" rel="noopener">${b?`<span class="badge">${b}</span>`:""}<div class="ph" style="background-image:url(/assets/img/c-${k}.webp)"></div><div class="ic">${ICONS[k]}</div><h3>${h}</h3><p>${p}</p><span class="go">${t.go}</span></a>`).join("");
+ $("catGrid").innerHTML=t.cats.map(([n,h,p],i)=>`<a class="cat c${i+1}" href="${GUIDE[i]}"><span class="n">${n}</span><h3>${h}</h3><p>${p}</p></a>`).join("");
+ $("postGrid").innerHTML=POSTS.slice(0,6).map(p=>`<${p.u?'a':'div'} class="post" ${p.u?`href="${p.u}" target="_blank" rel="noopener"`:''}><div class="th" style="background:linear-gradient(140deg,${p.c},#0a1c29)"><span>${t.catName[p.cat]}</span></div><div class="bd"><h4>${p[lang]}</h4><p>${lang==="ko"?p.dko:p.den}</p><div class="meta"><span>EasySwingPick</span><span class="soon">${p.u?t.read:t.soon}</span></div></div></${p.u?'a':'div'}>`).join("");
+ $("whyGrid").innerHTML=t.why.map(([k,h,p])=>`<div class="wy"><div class="k">${k}</div><h4>${h}</h4><p>${p}</p></div>`).join("");
+ const fl=(arr,hrefs)=>arr.map((x,i)=>`<a href="${hrefs[i]}" ${hrefs[i].startsWith("http")?'target="_blank" rel="noopener"':''}>${x}</a>`).join("");
+ $("fCalcL").innerHTML=fl(t.fCalcL,[LINKS.driver,LINKS.iron,LINKS.wedge,LINKS.putter]);
+ $("fGuideL").innerHTML=fl(t.fGuideL,GUIDE);
+ $("fInfoL").innerHTML=fl(t.fInfoL,["#about","#top","#about","#about"]);
+}
+$("langT").onclick=e=>{const b=e.target.closest("button");if(!b)return;lang=b.dataset.lang;document.querySelectorAll("#langT button").forEach(x=>x.classList.toggle("on",x===b));render();};
+$("burger").onclick=()=>$("mnav").classList.toggle("open");
+$("mnav").onclick=e=>{if(e.target.tagName==="A")$("mnav").classList.remove("open");};
+
+// hero gauge demo (loops gently)
+const G={cx:150,cy:150,R:118,min:50,max:125};
+const ang=v=>Math.PI*(1-(Math.min(G.max,Math.max(G.min,v))-G.min)/(G.max-G.min));
+const pt=(v,r)=>[G.cx+r*Math.cos(ang(v)),G.cy-r*Math.sin(ang(v))];
+(function build(){
+ const L=Math.PI*G.R,[lx,ly]=pt(G.min,G.R),[rx,ry]=pt(G.max,G.R),arc=`M${lx} ${ly} A${G.R} ${G.R} 0 0 1 ${rx} ${ry}`;
+ let tk="";for(let v=50;v<=125;v+=5){const maj=v%10===0;const[a,b]=pt(v,G.R-11),[c,d]=pt(v,G.R-(maj?22:16));tk+=`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="rgba(255,255,255,${maj?.5:.2})" stroke-width="${maj?1.5:1}"/>`;}
+ const lab=[["L",61],["A",77],["R",87],["S",97],["X",113]].map(([l,v])=>{const[x,y]=pt(v,G.R+18);return `<text id="hl-${l}" x="${x}" y="${y+4}" font-size="11" text-anchor="middle" font-weight="700" font-family="Inter" fill="rgba(255,255,255,.4)">${l}</text>`;}).join("");
+ $("hgsvg").innerHTML=`<defs><linearGradient id="hgg" gradientUnits="userSpaceOnUse" x1="${lx}" x2="${rx}" y1="0" y2="0"><stop offset="0" stop-color="#1f7a57"/><stop offset=".55" stop-color="#3fb984"/><stop offset="1" stop-color="#e3c06a"/></linearGradient><filter id="hb"><feGaussianBlur stdDeviation="4"/></filter></defs>
+  <path d="${arc}" stroke="rgba(255,255,255,.08)" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path id="hpb" d="${arc}" stroke="url(#hgg)" stroke-width="12" fill="none" stroke-linecap="round" filter="url(#hb)" opacity=".5" stroke-dasharray="${L} ${L}" stroke-dashoffset="${L}"/>
+  <path id="hpa" d="${arc}" stroke="url(#hgg)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${L} ${L}" stroke-dashoffset="${L}"/>
+  ${tk}${lab}
+  <g id="hn" transform="rotate(-90 ${G.cx} ${G.cy})"><polygon points="${G.cx-3},${G.cy} ${G.cx-.5},${G.cy-92} ${G.cx+.5},${G.cy-92} ${G.cx+3},${G.cy} ${G.cx},${G.cy+14}" fill="#f4f7f9"/></g>
+  <circle cx="${G.cx}" cy="${G.cy}" r="10" fill="#0b1f2e" stroke="#c89b3c" stroke-width="2"/><circle cx="${G.cx}" cy="${G.cy}" r="3" fill="#c89b3c"/>`;
+})();
+const flexOf=s=>s<72?"L":s<82?"A":s<92?"R":s<102?"S":"X";
+function setG(v){const L=Math.PI*G.R,f=(Math.min(G.max,Math.max(G.min,v))-G.min)/(G.max-G.min);
+ $("hn").setAttribute("transform",`rotate(${90-ang(v)*180/Math.PI} ${G.cx} ${G.cy})`);
+ $("hpa").setAttribute("stroke-dashoffset",L*(1-f));$("hpb").setAttribute("stroke-dashoffset",L*(1-f));
+ $("hgn").textContent=Math.round(v);const fx=flexOf(Math.max(v,1));$("hgf").textContent=fx;
+ ["L","A","R","S","X"].forEach(l=>{const e=$("hl-"+l);e.setAttribute("fill",l===fx?"#fff":"rgba(255,255,255,.4)");});}
+function loop(){
+ const target=96,t0=performance.now(),d=1800;
+ if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){setG(target);return;}
+ const step=()=>{const p=Math.min(1,(performance.now()-t0)/d),e=1-Math.pow(1-p,3);setG(target*1.03*e - (p>.85?target*.03*((p-.85)/.15):0));
+  if(p<1)setTimeout(step,16);else{setG(target);setTimeout(()=>{setG(0);setTimeout(loop,500);},3500);}};
+ step();
+}
+render();setG(0);setTimeout(loop,600);
+</script>
+</body>
+</html>

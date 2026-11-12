@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driver Fit 드라이버 추천 계산기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f2a3d; --navy-2:#173b55; --ink:#15212b; --muted:#64727d; --line:#e3e8ec; --bg:#f3f5f7; --card:#fff;
+  --green:#178a5b; --green-l:#e6f4ee; --gold:#c89b3c; --gold-l:#fbf4e4; --blue-l:#eaf1f8;
+  --r:16px; --shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Noto Sans KR",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.top{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:18px 18px 64px}
+.top-in{max-width:680px;margin:0 auto}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.logo svg{flex-shrink:0}
+.logo small{display:block;font-weight:500;font-size:.72rem;opacity:.7;letter-spacing:.6px;text-transform:uppercase}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;color:#fff;opacity:.75;font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;cursor:pointer}
+.lang button.on{background:#fff;color:var(--navy);opacity:1;font-weight:600}
+.hero h1{font-size:1.55rem;line-height:1.3;margin:22px 0 6px;font-weight:700}
+.hero p{margin:0;opacity:.82;font-size:.95rem}
+.steps{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.steps span{font-size:.78rem;background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px}
+.steps b{color:var(--gold);margin-right:4px}
+main{max-width:680px;margin:-44px auto 0;padding:0 14px 40px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+.demo{font-size:.82rem;color:#7a5a12;background:var(--gold-l);border-radius:10px;padding:9px 12px;margin-bottom:16px}
+.sec{font-size:.75rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:4px 0 10px}
+.f{margin-bottom:16px}
+.f:last-of-type{margin-bottom:0}
+.lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-weight:600;font-size:.95rem}
+.tag{font-size:.72rem;font-weight:500;color:var(--muted);background:var(--bg);border-radius:6px;padding:2px 7px}
+.tag.req{color:#fff;background:var(--green)}
+.inp{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;transition:border-color .15s}
+.inp:focus-within{border-color:var(--green)}
+.inp input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:1.05rem;padding:12px 14px;background:transparent;color:var(--ink)}
+.inp em{font-style:normal;color:var(--muted);font-size:.88rem;padding-right:14px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.two>*{min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:.9rem;padding:9px 13px;border-radius:999px;cursor:pointer;transition:all .15s}
+.chips button.on{border-color:var(--green);background:var(--green-l);color:var(--green);font-weight:600}
+select{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364727d' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.go{width:100%;margin-top:18px;border:0;background:var(--green);color:#fff;font:inherit;font-size:1.05rem;font-weight:700;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 6px 16px rgba(23,138,91,.25)}
+.go:active{transform:translateY(1px)}
+.err{color:#b3261e;font-size:.9rem;margin:10px 0 0;display:none}
+#result{display:none}
+.disc{font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:9px 12px;margin-bottom:14px;background:#fff}
+.hint{font-size:.88rem;color:var(--navy-2);background:var(--blue-l);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.gauge{display:flex;flex-direction:column;align-items:center;text-align:center}
+.gauge .v{font-size:2.3rem;font-weight:700;color:var(--navy);line-height:1;margin-top:4px}
+.gauge .u{font-size:.85rem;color:var(--muted)}
+.gauge .rng{font-size:.85rem;color:var(--muted);margin-top:6px}
+.flexpill{display:inline-block;margin-top:10px;background:var(--navy-2);color:#fff;border-radius:999px;padding:5px 14px;font-weight:600;font-size:.9rem;transition:background .3s,transform .3s}
+.flexpill.run{background:var(--navy-2)!important;transform:none!important}
+.flexpill.done{background:var(--green);transform:scale(1.06)}
+.gauge .v{font-variant-numeric:tabular-nums}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 14px}
+.spec{background:var(--bg);border-radius:12px;padding:10px}
+.spec span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.3px}
+.spec b{display:block;font-size:.98rem;margin-top:2px}
+.why{list-style:none;margin:0;padding:0}
+.why li{position:relative;padding-left:26px;margin-bottom:8px;font-size:.93rem}
+.why li:before{content:"";position:absolute;left:0;top:3px;width:17px;height:17px;border-radius:50%;background:var(--green-l) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath d='M1 4l3 3 5-6' stroke='%23178a5b' stroke-width='1.8' fill='none'/%3E%3C/svg%3E") no-repeat center}
+.shafts{display:grid;gap:8px;margin-top:6px}
+.sh{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.sh b{display:block;font-size:.95rem}
+.sh span{font-size:.84rem;color:var(--muted)}
+.sh i{font-style:normal;font-size:.75rem;color:var(--green);font-weight:600}
+.note{font-size:.78rem;color:var(--muted);margin:10px 0 0}
+h2{font-size:1.08rem;margin:0 0 12px}
+.pick{position:relative;overflow:hidden}
+.pick.top1{border:2px solid var(--gold)}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.rank{font-size:.72rem;font-weight:700;color:#fff;background:var(--gold);border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:6px}
+.rank.s{background:var(--navy-2)}
+.brand{font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+.model{font-size:1.18rem;font-weight:700;margin:1px 0 4px}
+.score{text-align:right;flex-shrink:0}
+.score b{font-size:1.5rem;color:var(--green);display:block;line-height:1}
+.score span{font-size:.7rem;color:var(--muted)}
+.meter{height:6px;background:var(--bg);border-radius:6px;margin:10px 0 10px;overflow:hidden}
+.meter div{height:100%;background:linear-gradient(90deg,var(--green),#3fb984);border-radius:6px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tags span{font-size:.75rem;background:var(--blue-l);color:var(--navy-2);border-radius:6px;padding:3px 8px;font-weight:500}
+.point{font-size:.88rem;color:var(--muted);margin:0 0 10px}
+.buy{display:block;text-align:center;margin-top:12px;padding:12px;border-radius:10px;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
+.foot{font-size:.78rem;color:var(--muted);text-align:center;margin-top:18px;line-height:1.6}
+
+.gcard{background:radial-gradient(130% 100% at 50% 0%,#21506d 0%,#0f2a3d 55%,#0a1c29 100%);color:#fff;text-align:center;padding:16px 16px 22px;position:relative;overflow:hidden}
+.gcard:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 85%,rgba(63,185,132,.18),transparent 70%);pointer-events:none}
+.gtop{display:flex;justify-content:space-between;align-items:center;position:relative}
+.gsec{font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.gstat{font-size:.75rem;color:#e3c06a;display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.gstat:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;animation:blink .9s infinite}
+.gstat.ok{color:#5fd3a2}.gstat.ok:before{animation:none}
+svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;position:relative}
+.gread{margin-top:2px;display:flex;justify-content:center;align-items:baseline;gap:6px;position:relative}
+.gread .v{font-size:3.2rem;font-weight:700;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1;display:inline-block}
+.gread .u{font-size:.9rem;color:#e3c06a;font-weight:600;letter-spacing:.5px}
+.grng{color:rgba(255,255,255,.55);font-size:.83rem;margin-top:8px;position:relative}
+.fp{display:inline-flex;align-items:center;gap:12px;margin-top:16px;padding:6px 6px 6px 18px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);position:relative;backdrop-filter:blur(4px)}
+.fp span{font-size:.85rem;color:rgba(255,255,255,.78)}
+.fp b{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#173b55;color:#fff;font-size:1.1rem;transition:background .35s,color .35s,box-shadow .35s}
+.fp b.tick{animation:tick .24s ease}
+.fp.done b{background:linear-gradient(135deg,#f0d48a,#c89b3c);color:#0f2a3d;box-shadow:0 0 18px rgba(227,192,106,.5)}
+.fp.done:after{content:"";position:absolute;inset:-5px;border-radius:999px;border:2px solid #e3c06a;opacity:0;animation:ring 1.1s ease-out 1}
+.gread .v.pop{animation:pop .5s ease}
+@keyframes tick{0%{transform:translateY(5px);opacity:.45}100%{transform:none;opacity:1}}
+@keyframes ring{0%{opacity:.9;transform:scale(.95)}100%{opacity:0;transform:scale(1.14)}}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes blink{50%{opacity:.25}}
+</style>
+<style>
+.agw{margin-top:18px}
+.agw h2{margin:0 0 4px;font-size:1.15rem}.agw .ags{margin:0 0 12px;color:var(--muted,#64727d);font-size:.86rem}
+.agtabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.agtabs button{border:1px solid var(--line,#e3e8ec);background:#fff;border-radius:999px;padding:7px 13px;font:inherit;font-size:.85rem;font-weight:700;color:var(--navy,#0f2a3d);cursor:pointer}
+.agtabs button.on{background:var(--navy,#0f2a3d);color:#fff;border-color:var(--navy,#0f2a3d)}
+.agl{list-style:none;margin:0;padding:0}
+.agl li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line,#e3e8ec)}
+.agl li:first-child{border-top:0}
+.agl .n{width:30px;height:30px;border-radius:9px;background:#f3f6f8;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy,#0f2a3d)}
+.agl li:first-child .n{background:#e3c06a}
+.agl .bb{font-size:.68rem;font-weight:700;letter-spacing:.7px;color:var(--muted,#64727d);text-transform:uppercase}
+.agl .mm{font-weight:800;font-size:.98rem;line-height:1.3}.agl .rr{font-size:.84rem;color:var(--muted,#64727d)}
+.agl .you{display:inline-block;margin-left:6px;font-size:.66rem;font-weight:800;background:#e6f4ee;color:#178a5b;border-radius:5px;padding:1px 6px;vertical-align:2px}
+.agn{margin-top:10px;font-size:.76rem;color:var(--muted,#64727d);line-height:1.5}
+.agn a{color:inherit}
+</style>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="canonical" href="https://easyswingpick.com/driver/">
+<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Driver Fit 드라이버 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/driver/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<div class="top"><div class="top-in">
+  <div class="bar">
+    <a class="logo" href="/" style="color:inherit;text-decoration:none" title="EasySwingPick">
+      <img src="/assets/wordmark.svg" height="38" alt="EasySwingPick" style="display:block;height:38px;width:auto">
+    </a>
+    <div class="lang" id="langT"><button data-lang="ko" class="on">한국어</button><button data-lang="en">EN</button></div>
+  </div>
+  <div class="hero">
+    <h1 data-t="title"></h1>
+    <p data-t="sub"></p>
+    <div class="steps"><span><b>1</b><i data-t="st1" style="font-style:normal"></i></span><span><b>2</b><i data-t="st2" style="font-style:normal"></i></span><span><b>3</b><i data-t="st3" style="font-style:normal"></i></span></div>
+  </div>
+</div></div>
+
+<main>
+  <form class="card" id="f" novalidate>
+    <div class="demo" data-t="demo"></div>
+    <div class="sec" data-t="secSwing"></div>
+    <div class="f">
+      <div class="lab"><label for="dist" data-t="dist"></label><span class="tag req" data-t="required"></span></div>
+      <div class="inp"><input id="dist" type="number" inputmode="decimal" placeholder="200"><em data-t="uYd"></em></div>
+    </div>
+    <div class="f">
+      <div class="lab"><span data-t="flight"></span><span class="tag" data-t="optional"></span></div>
+      <div class="chips" id="flight"></div>
+    </div>
+
+    <div class="sec" style="margin-top:20px" data-t="secBody"></div>
+    <div class="two f">
+      <div>
+        <div class="lab"><label for="age" data-t="age"></label><span class="tag" data-t="optional"></span></div>
+        <div class="inp"><input id="age" type="number" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div>
+      </div>
+      <div>
+        <div class="lab"><label for="weight" data-t="weight"></label><span class="tag" data-t="optional"></span></div>
+        <div class="inp"><input id="weight" type="number" inputmode="decimal" placeholder="160"><em data-t="uLb"></em></div>
+      </div>
+    </div>
+    <div class="f">
+      <div class="lab"><label for="hft" data-t="height"></label><span class="tag" data-t="optional"></span></div>
+      <div class="two">
+        <div class="inp"><input id="hft" type="number" inputmode="numeric" placeholder="5"><em data-t="uFt"></em></div>
+        <div class="inp"><input id="hin" type="number" inputmode="numeric" placeholder="7"><em data-t="uIn"></em></div>
+      </div>
+    </div>
+
+    <div class="sec" style="margin-top:20px" data-t="secGear"></div>
+    <div class="f">
+      <div class="lab"><label for="brand" data-t="brand"></label><span class="tag" data-t="optional"></span></div>
+      <select id="brand"></select>
+    </div>
+    <div class="f">
+      <div class="lab"><span data-t="curFlex"></span><span class="tag" data-t="optional"></span></div>
+      <div class="chips" id="flex"></div>
+    </div>
+    <button class="go" type="submit" data-t="go"></button>
+    <p class="err" id="err"></p>
+  </form>
+
+  <section id="result"></section>
+  <section id="ageTop"></section>
+  <p class="foot" data-t="foot"></p>
+</main>
+
+<script>
+const T={
+ ko:{brandSub:"드라이버 피팅 가이드",title:"내 스윙에 맞는 드라이버 찾기",sub:"드라이버 거리만 넣으면 헤드스피드를 추정해 드라이버와 샤프트를 추천합니다.",
+  st1:"스윙 정보 입력",st2:"헤드스피드 분석",st3:"드라이버·샤프트 추천",
+  demo:"모델 정보는 2026년 출시 자료 기준이며, 결과는 추정치입니다. 일부 링크는 제휴 링크일 수 있습니다.",
+  secSwing:"스윙",secBody:"신체 정보",secGear:"현재 장비",
+  dist:"현재 드라이버 거리",required:"필수",optional:"선택",flight:"구질",age:"나이",ageUnit:"세",weight:"몸무게",height:"키",
+  uYd:"야드",uFt:"피트",uIn:"인치",uLb:"파운드",brand:"현재 드라이버 브랜드",curFlex:"현재 샤프트 강도",go:"분석하고 추천 받기",
+  fl:{slice:"슬라이스",hook:"훅",low:"낮은 탄도",high:"높은 탄도",straight:"대체로 곧음"},
+  none:"선택 안 함",other:"기타",unk:"모름",
+  errDist:"드라이버 거리를 입력해 주세요.",errRange:"거리가 일반적인 범위(80~350야드)를 벗어났습니다.",
+  disclose:"이 페이지의 일부 링크는 제휴(어필리에이트) 링크로, 링크를 통해 구매하시면 수수료를 받을 수 있습니다.",
+  hintFlight:"구질을 선택하시면 헤드 타입까지 더 정확하게 추천해 드립니다.",
+  speedT:"추정 헤드스피드",rng:(a,b)=>`예상 범위 ${a}~${b} mph`,flexP:f=>`추천 강도 ${f}`,flexLab:"추천 샤프트 강도",gBusy:"스윙 분석 중",gDone:"분석 완료",
+  shaftT:"추천 샤프트 세팅",flexL:"강도",swL:"샤프트 무게",tqL:"토크",kpL:"킥포인트",loftL:"로프트",lenL:"길이",
+  kp:{low:"낮음",mid:"중간",midhigh:"중~높음"},lenStd:"표준",lenShort:"−0.5인치",lenLong:"+0.5인치",
+  whyT:"이렇게 추천한 이유",shEx:"추천 샤프트 예시",shNote:"샤프트 이름은 예시입니다. 같은 모델도 무게·강도 버전이 여러 개라 시타로 확인하세요.",
+  picksT:"추천 드라이버",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"구매처 보기 (링크 준비 중)",
+  tg:{light:"경량",draw:"드로우",high:"고탄도",lowspin:"저스핀",forg:"관용성"},
+  foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 적합도는 입력값 기준의 상대 점수입니다. 구매 전 시타나 피팅을 권장합니다.",
+  r:{flex:(s,f)=>`추정 헤드스피드 약 ${s}mph에는 ${f} 강도가 일반적으로 맞습니다.`,
+   sw:w=>`스윙 속도에 맞춰 ${w} 샤프트를 추천합니다. 가벼울수록 휘두르기 쉬워 속도를 내기 좋습니다.`,
+   age:"60세 이상이셔서 한 단계 가벼운 샤프트로 조정했습니다.",kg:"체격이 있으셔서 한 단계 무거운 샤프트도 무리 없이 쓰실 수 있습니다.",
+   kpLow:"탄도가 낮으셔서 공을 띄우기 쉬운 낮은 킥포인트를 골랐습니다.",kpHigh:"탄도가 높으셔서 탄도를 눌러 주는 중간~높은 킥포인트를 골랐습니다.",
+   loft:l=>`헤드스피드에 맞는 로프트는 ${l}입니다. 느린 스윙일수록 로프트가 높아야 공이 잘 뜹니다.`,
+   loftLow:"탄도가 낮으셔서 로프트를 한 단계 높였습니다.",loftHigh:"탄도가 높으셔서 로프트를 한 단계 낮췄습니다.",
+   lenH:h=>`키 ${h}에 맞춰 길이를 정했습니다.`,lenNone:"키를 입력하지 않아 표준 길이로 추천했습니다.",
+   cmpStiff:(c,f)=>`지금 쓰시는 ${c} 강도는 추정 헤드스피드보다 강할 수 있습니다. ${f}로 낮추면 탄도와 거리가 좋아질 가능성이 있습니다.`,
+   cmpSoft:(c,f)=>`지금 쓰시는 ${c} 강도는 다소 약할 수 있습니다. ${f}로 올리면 방향이 더 안정될 수 있습니다.`,
+   cmpSame:c=>`지금 쓰시는 ${c} 강도는 추정 헤드스피드와 잘 맞습니다. 헤드와 샤프트 무게를 바꿔 보시는 걸 추천합니다.`,
+   brand:b=>`현재 ${b} 드라이버를 쓰고 계십니다. 아래 추천과 시타로 비교해 보세요.`,
+   inRange:(s,a,b)=>`추정 헤드스피드 약 ${s}mph가 이 모델의 권장 구간(${a}~${b}mph)에 들어갑니다.`,
+   near:(s,a,b)=>`추정 헤드스피드 약 ${s}mph는 이 모델의 권장 구간(${a}~${b}mph) 경계에 가깝습니다.`,
+   lightAge:"가벼운 모델이라 60세 이상 골퍼가 편하게 휘두르기 좋습니다.",lightSlow:"가벼운 헤드와 샤프트가 스윙 속도를 높여 거리를 늘리는 데 유리합니다.",
+   sliceDraw:"슬라이스가 있으셔서 드로우 설계 헤드를 골랐습니다. 공이 오른쪽으로 휘는 것을 줄여 줍니다.",
+   sliceSome:"무게 조정이나 약한 드로우 성향으로 슬라이스를 어느 정도 줄여 줍니다.",
+   hookNeutral:"훅이 있으셔서 드로우 설계가 없는 중립 헤드를 골랐습니다.",
+   lowHigh:"고탄도 설계라 낮은 탄도를 보완해 줍니다.",highLowSpin:"저스핀 설계라 높게 뜨는 공을 눌러 런을 늘려 줍니다.",
+   straight:"구질이 곧은 편이라 중립 헤드가 잘 맞습니다.",forg:"관용성이 높아 빗맞아도 거리 손실과 방향 오차가 적습니다."}},
+ en:{brandSub:"Driver fitting guide",title:"Find the driver that fits your swing",sub:"Enter your driver distance. We estimate your clubhead speed and recommend a driver and shaft.",
+  st1:"Enter swing info",st2:"Speed analysis",st3:"Driver & shaft picks",
+  demo:"Model info is based on 2026 release data; results are estimates. Some links may be affiliate links.",
+  secSwing:"Swing",secBody:"About you",secGear:"Current gear",
+  dist:"Current driver distance",required:"Required",optional:"Optional",flight:"Ball flight",age:"Age",ageUnit:"yrs",weight:"Weight",height:"Height",
+  uYd:"yd",uFt:"ft",uIn:"in",uLb:"lb",brand:"Current driver brand",curFlex:"Current shaft flex",go:"Analyze & recommend",
+  fl:{slice:"Slice",hook:"Hook",low:"Low flight",high:"High flight",straight:"Mostly straight"},
+  none:"Not selected",other:"Other",unk:"Don't know",
+  errDist:"Please enter your driver distance.",errRange:"That distance is outside the usual range (80–350 yd).",
+  disclose:"Some links on this page are affiliate links. We may earn a commission if you buy through them.",
+  hintFlight:"Pick your ball flight for a more precise head recommendation.",
+  speedT:"Estimated clubhead speed",rng:(a,b)=>`Likely range ${a}–${b} mph`,flexP:f=>`Recommended flex ${f}`,flexLab:"Recommended flex",gBusy:"Analyzing swing",gDone:"Analysis complete",
+  shaftT:"Recommended shaft setup",flexL:"Flex",swL:"Shaft weight",tqL:"Torque",kpL:"Kick point",loftL:"Loft",lenL:"Length",
+  kp:{low:"Low",mid:"Mid",midhigh:"Mid–high"},lenStd:"Standard",lenShort:"−0.5 in",lenLong:"+0.5 in",
+  whyT:"Why we recommend this",shEx:"Example shafts",shNote:"Shaft names are examples. Each comes in several weights and flexes, so confirm with a demo.",
+  picksT:"Recommended drivers",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"See where to buy (link coming soon)",
+  tg:{light:"Lightweight",draw:"Draw",high:"High launch",lowspin:"Low spin",forg:"Forgiving"},
+  foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Fit score is relative to your inputs. Demo or get fitted before buying.",
+  r:{flex:(s,f)=>`At an estimated ${s} mph, ${f} flex is the usual fit.`,
+   sw:w=>`We suggest a ${w} shaft for your speed. Lighter shafts are easier to swing faster.`,
+   age:"Because you are 60+, we moved you one step lighter.",kg:"With your build, a one-step heavier shaft should also feel fine.",
+   kpLow:"Your flight is low, so a low kick point helps launch.",kpHigh:"Your flight is high, so a mid–high kick point brings it down.",
+   loft:l=>`The loft that suits your speed is ${l}. Slower swings need more loft.`,
+   loftLow:"Your flight is low, so we raised the loft one step.",loftHigh:"Your flight is high, so we lowered the loft one step.",
+   lenH:h=>`Length is based on your height of ${h}.`,lenNone:"No height entered, so we recommend standard length.",
+   cmpStiff:(c,f)=>`Your current ${c} flex may be too stiff. Dropping to ${f} could improve launch and distance.`,
+   cmpSoft:(c,f)=>`Your current ${c} flex may be a bit soft. Moving up to ${f} could steady your direction.`,
+   cmpSame:c=>`Your current ${c} flex matches your speed. Try changing head and shaft weight instead.`,
+   brand:b=>`You currently play a ${b} driver. Compare it with the picks below in a demo.`,
+   inRange:(s,a,b)=>`Your estimated ${s} mph is inside this model's range (${a}–${b} mph).`,
+   near:(s,a,b)=>`Your estimated ${s} mph is near the edge of this model's range (${a}–${b} mph).`,
+   lightAge:"Lightweight, so golfers 60+ find it easy to swing.",lightSlow:"The light build helps you swing faster for more distance.",
+   sliceDraw:"You slice, so we chose a draw-biased head that reduces the curve to the right.",
+   sliceSome:"Weight adjustment or a mild draw bias helps reduce a slice somewhat.",
+   hookNeutral:"You hook, so we chose a neutral head with no draw bias.",
+   lowHigh:"High-launch design makes up for a low flight.",highLowSpin:"Low-spin design brings down a high flight for more roll.",
+   straight:"Your flight is mostly straight, so a neutral head fits well.",forg:"High forgiveness keeps mishits longer and straighter."}}
+};
+
+// Models based on 2026 release info. Swing-speed ranges are guide values to be reviewed before launch.
+const MODELS=[
+ {b:"XXIO",m:"XXIO 14",min:55,max:85,light:1,draw:1,launch:"high",spin:"mid",forg:1,
+  p:{ko:"초경량 설계, 시니어·여성 등 스윙이 느린 골퍼용 대표 모델",en:"Ultralight flagship for seniors, women and slower swingers"}},
+ {b:"XXIO",m:"XXIO 14+",min:75,max:95,light:1,draw:2,launch:"mid",spin:"mid",forg:1,
+  p:{ko:"XXIO 14보다 스윙이 빠른 골퍼용, 드로우 성향",en:"For a bit faster swings than XXIO 14, with draw bias"}},
+ {b:"Honma",m:"BERES 10",min:55,max:88,light:1,draw:1,launch:"high",spin:"mid",forg:1,
+  p:{ko:"일본 장인 제작 고급 경량 라인, 한인 골퍼 선호",en:"Premium Japanese-crafted lightweight line, a Korean-golfer favorite"}},
+ {b:"Cleveland",m:"Launcher XL 2 Draw",min:60,max:90,light:1,draw:2,launch:"high",spin:"mid",forg:1,
+  p:{ko:"경량 드로우 설계로 슬라이스 완화, 가격 부담이 적음",en:"Lightweight draw design to tame a slice, at a friendly price"}},
+ {b:"Callaway",m:"Quantum Max D",min:65,max:95,light:0,draw:2,launch:"high",spin:"mid",forg:1,
+  p:{ko:"슬라이스 교정에 강한 드로우 모델",en:"Draw model built to fix a slice"}},
+ {b:"Callaway",m:"Quantum Max",min:75,max:105,light:0,draw:1,launch:"mid",spin:"mid",forg:1,
+  p:{ko:"관용성 중심, 중간 핸디캡 골퍼에게 인기",en:"Forgiveness-focused, popular with mid-handicappers"}},
+ {b:"PING",m:"G440 K",min:70,max:105,light:0,draw:0,launch:"high",spin:"mid",forg:2,
+  p:{ko:"PING에서 가장 관용성이 높은 모델, 높고 곧게 날아감",en:"PING's most forgiving model; launches high and straight"}},
+ {b:"PING",m:"G440 Max",min:75,max:110,light:0,draw:1,launch:"mid",spin:"mid",forg:1,
+  p:{ko:"무게 이동으로 드로우·페이드 조정 가능한 대표 모델",en:"Flagship with movable weight for draw or fade"}},
+ {b:"Srixon",m:"ZXi RKT MAX",min:75,max:100,light:0,draw:0,launch:"high",spin:"mid",forg:2,
+  p:{ko:"Srixon 역대 최고 관용성(MOI), 높은 탄도",en:"Srixon's highest-MOI driver yet, with high launch"}},
+ {b:"TaylorMade",m:"Qi4D",min:85,max:112,light:0,draw:0,launch:"mid",spin:"mid",forg:1,
+  p:{ko:"속도와 관용성의 균형, 2026년 여러 리뷰에서 최고 평가",en:"Balance of speed and forgiveness; top-rated in many 2026 reviews"}},
+ {b:"Titleist",m:"GTS2",min:85,max:110,light:0,draw:0,launch:"mid",spin:"mid",forg:1,
+  p:{ko:"Titleist 라인 중 관용성이 높은 모델, 중간 핸디캡용",en:"The more forgiving Titleist model, for mid-handicappers"}},
+ {b:"Srixon",m:"ZXi RKT LS",min:100,max:120,light:0,draw:0,launch:"low",spin:"low",forg:0,
+  p:{ko:"가장 낮은 스핀의 강탄도 모델, 스윙이 빠른 골퍼용",en:"Lowest-spin, penetrating model for fast swingers"}},
+ {b:"PXG",m:"Lightning Max Lite",min:65,max:92,light:1,draw:0,launch:"high",spin:"mid",forg:1,
+  p:{ko:"PXG 경량 모델, 2026년 시니어 드라이버로 호평",en:"PXG's lightweight model, praised as a 2026 senior driver"}},
+ {b:"PXG",m:"Lightning Max 10K+",min:75,max:108,light:0,draw:0,launch:"high",spin:"mid",forg:2,
+  p:{ko:"PXG 역사상 가장 관용성 높은 모델, 높은 탄도",en:"The most forgiving driver in PXG history, with high launch"}},
+ {b:"PXG",m:"Lightning Tour",min:100,max:120,light:0,draw:0,launch:"low",spin:"low",forg:0,
+  p:{ko:"저탄도·저스핀, 빠른 스윙에 볼 스피드 극대화",en:"Low launch, low spin; maximizes ball speed for fast swings"}},
+ {b:"TaylorMade",m:"Qi4D LS",min:100,max:120,light:0,draw:0,launch:"low",spin:"low",forg:0,
+  p:{ko:"저스핀 버전, 높게 뜨는 공을 눌러 줌",en:"Low-spin version that flattens a high flight"}},
+ {b:"Srixon",m:"ZXi RKT",min:85,max:110,light:0,draw:1,launch:"mid",spin:"low",forg:1,p:{ko:"힐·토우 무게추로 직진성을 맞추는 2026 신모델, 동급 최고 수준 분산",en:"2026 model with heel/toe weights; class-leading dispersion"}},
+ {b:"Cobra",m:"OPTM X",min:88,max:112,light:0,draw:0,launch:"mid",spin:"low",forg:1,p:{ko:"정확도를 앞세운 Cobra의 2026 드라이버",en:"Cobra's accuracy-focused 2026 driver"}},
+ {b:"TaylorMade",m:"Qi4D Max Lite",min:55,max:85,light:1,draw:1,launch:"high",spin:"mid",forg:1,p:{ko:"가벼운 무게로 스윙 속도를 돕는 시니어용 Qi4D",en:"Lightweight Qi4D that helps slower swing speeds"}},
+ {b:"Callaway",m:"Quantum Max Fast",min:55,max:85,light:1,draw:1,launch:"high",spin:"mid",forg:1,p:{ko:"가벼운 무게와 쉬운 고탄도, 느린 스윙용",en:"Lightweight speed and easy high launch"}},
+ {b:"Tour Edge",m:"Exotics E725",min:65,max:95,light:0,draw:1,launch:"high",spin:"mid",forg:1,p:{ko:"시니어 드라이버 테스트 수상, 가격 대비 성능",en:"Award winner in a senior driver test; strong value"}}
+];
+const SHAFTS=[
+ {n:"Fujikura Air Speeder",b:[0,1],l:"high",ko:"40g대 초경량, 공을 쉽게 띄워 주는 시니어용",en:"Ultralight 40g class, easy launch for seniors"},
+ {n:"UST Mamiya Helium",b:[0,1],l:"high",ko:"가벼운 무게로 스윙 속도를 높여 주는 샤프트",en:"Light weight to help you swing faster"},
+ {n:"브랜드 순정 경량 샤프트",en_n:"Brand stock lightweight shaft",b:[0,1],l:"mid",ko:"XXIO·Honma 등은 순정 샤프트가 헤드와 맞게 설계됨",en:"XXIO, Honma and others design stock shafts to match the head"},
+ {n:"Fujikura Speeder NX",b:[1,2],l:"mid",ko:"부드러운 타감과 안정적인 방향성",en:"Smooth feel with steady direction"},
+ {n:"Fujikura Ventus Red",b:[1,3],l:"high",ko:"고탄도·드로우 성향, 낮은 탄도와 슬라이스 보완",en:"High launch, draw tendency; helps low flight and slices"},
+ {n:"Fujikura Ventus Blue",b:[2,3],l:"mid",ko:"중탄도·중스핀, 가장 무난한 투어급 샤프트",en:"Mid launch, mid spin; all-round tour-level choice"},
+ {n:"Mitsubishi Tensei Blue",b:[2,3],l:"mid",ko:"중탄도, 부드럽고 안정적인 느낌",en:"Mid launch with a smooth, stable feel"},
+ {n:"Project X HZRDUS Smoke",b:[3,4],l:"low",ko:"저탄도·저스핀, 빠르고 강한 스윙용",en:"Low launch, low spin for fast swings"},
+ {n:"Fujikura Ventus Black",b:[3,4],l:"low",ko:"저탄도·저스핀, 높이 뜨는 공을 눌러 줌",en:"Low launch, low spin; flattens a high flight"},
+ {n:"Mitsubishi Tensei White",b:[3,4],l:"low",ko:"단단한 느낌의 저탄도 샤프트",en:"Firm-feeling low-launch shaft"}
+];
+const BRANDS=["Callaway","TaylorMade","Titleist","PING","Cobra","XXIO","Honma","ONOFF","Srixon","Mizuno","Cleveland","PXG","Tour Edge"];
+const FLEX=["L","A","R","S","X"];
+const SW=["35~45g","40~50g","50~60g","60~70g","65~75g"],TQ=["5.5°+","4.5~5.5°","4.0~5.0°","3.5~4.5°","3.0~4.0°"],LOFTS=["12°+","10.5~12°","10.5°","9~10.5°"];
+let lang="ko",flight="",curFlex="";
+const $=id=>document.getElementById(id);
+const num=id=>{const v=parseFloat($(id).value);return isNaN(v)||v<=0?null:v;};
+
+function chips(id,items,val,set){
+  $(id).innerHTML=items.map(([k,v])=>`<button type="button" data-k="${k}" class="${k===val?'on':''}">${v}</button>`).join("");
+  $(id).onclick=e=>{const b=e.target.closest("button");if(!b)return;const k=b.dataset.k;set(k===val?"":k);};
+}
+function render(){
+  const t=T[lang];
+  document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.textContent=v;});
+  document.title="Driver Fit — "+t.title;
+  chips("flight",Object.entries(t.fl),flight,k=>{flight=k;render();});
+  chips("flex",[...FLEX.map(f=>[f,f]),["?",t.unk]],curFlex,k=>{curFlex=k;render();});
+  const bv=$("brand").value;
+  $("brand").innerHTML=`<option value="">${t.none}</option>`+BRANDS.map(b=>`<option>${b}</option>`).join("")+`<option value="other">${t.other}</option>`;
+  $("brand").value=bv;
+  if($("result").style.display==="block")run(true);
+}
+$("langT").onclick=e=>{const b=e.target.closest("button");if(!b)return;lang=b.dataset.lang;
+  document.querySelectorAll("#langT button").forEach(x=>x.classList.toggle("on",x===b));render();};
+$("f").onsubmit=e=>{e.preventDefault();run(false);};
+
+function flexOf(s){return s<72?"L":s<82?"A":s<92?"R":s<102?"S":"X";}
+const swIdx=s=>s<75?0:s<85?1:s<95?2:s<105?3:4, loftIdx=s=>s<80?0:s<90?1:s<100?2:3;
+
+const G={cx:150,cy:160,R:118,min:50,max:125};
+const gAng=v=>Math.PI*(1-(Math.min(G.max,Math.max(G.min,v))-G.min)/(G.max-G.min));
+const gPt=(v,r)=>[G.cx+r*Math.cos(gAng(v)),G.cy-r*Math.sin(gAng(v))];
+const ZONES=[["L",50,72],["A",72,82],["R",82,92],["S",92,102],["X",102,125]];
+function gauge(s,flex){
+  const{cx,cy,R}=G,L=Math.PI*R,f=(Math.min(G.max,Math.max(G.min,s))-G.min)/(G.max-G.min);
+  const [lx,ly]=gPt(G.min,R),[rx,ry]=gPt(G.max,R);
+  const arc=`M${lx} ${ly} A${R} ${R} 0 0 1 ${rx} ${ry}`;
+  let ticks="";
+  for(let v=50;v<=125;v+=5){const maj=v%10===0;const[a,b]=gPt(v,R-11),[c,d]=gPt(v,R-(maj?22:16));
+    ticks+=`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="rgba(255,255,255,${maj?.55:.22})" stroke-width="${maj?1.6:1}" stroke-linecap="round"/>`;
+    if(maj&&v<=120){const[x,y]=gPt(v,R-34);ticks+=`<text x="${x}" y="${y+3}" font-size="8.5" text-anchor="middle" fill="rgba(255,255,255,.38)" font-family="Inter">${v}</text>`;}}
+  const bounds=[72,82,92,102].map(v=>{const[a,b]=gPt(v,R-7),[c,d]=gPt(v,R+7);return `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="#0f2a3d" stroke-width="2.5"/>`;}).join("");
+  const labels=ZONES.map(([l,a,b])=>{const[x,y]=gPt((a+b)/2,R+19);const on=l===flex;
+    return `<text id="gl-${l}" x="${x}" y="${y+4}" font-size="${on?13:11}" text-anchor="middle" font-weight="700" font-family="Inter" fill="${on?'#fff':'rgba(255,255,255,.4)'}">${l}</text>`;}).join("");
+  const nl=R-26,deg=90-gAng(s)*180/Math.PI;
+  return `<svg class="g" viewBox="0 0 300 186" role="img" aria-label="${s} mph">
+  <defs>
+   <linearGradient id="gg" gradientUnits="userSpaceOnUse" x1="${lx}" y1="0" x2="${rx}" y2="0"><stop offset="0" stop-color="#1f7a57"/><stop offset=".55" stop-color="#3fb984"/><stop offset="1" stop-color="#e3c06a"/></linearGradient>
+   <filter id="gb" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="4"/></filter>
+   <filter id="ns" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity=".45"/></filter>
+   <radialGradient id="hub"><stop offset="0" stop-color="#21506d"/><stop offset="1" stop-color="#0b1f2e"/></radialGradient>
+  </defs>
+  <path d="${arc}" stroke="rgba(255,255,255,.08)" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path id="gpb" d="${arc}" stroke="url(#gg)" stroke-width="12" fill="none" stroke-linecap="round" filter="url(#gb)" opacity=".55" stroke-dasharray="${L} ${L}" stroke-dashoffset="${L*(1-f)}"/>
+  <path id="gpa" d="${arc}" stroke="url(#gg)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${L} ${L}" stroke-dashoffset="${L*(1-f)}"/>
+  ${bounds}${ticks}${labels}
+  <g id="needle" transform="rotate(${deg} ${cx} ${cy})" filter="url(#ns)">
+   <polygon points="${cx-3.2},${cy} ${cx-.6},${cy-nl} ${cx+.6},${cy-nl} ${cx+3.2},${cy} ${cx},${cy+16}" fill="#f4f7f9"/>
+   <circle cx="${cx}" cy="${cy-nl+2}" r="5" fill="#3fb984" filter="url(#gb)"/>
+   <circle cx="${cx}" cy="${cy-nl+2}" r="1.8" fill="#e3c06a"/>
+  </g>
+  <circle cx="${cx}" cy="${cy}" r="11" fill="url(#hub)" stroke="#c89b3c" stroke-width="2"/>
+  <circle cx="${cx}" cy="${cy}" r="3" fill="#c89b3c"/>
+  </svg>`;
+}
+let animId=0;
+function setGauge(v,flexNow){
+  const L=Math.PI*G.R,f=(Math.min(G.max,Math.max(G.min,v))-G.min)/(G.max-G.min),deg=90-gAng(v)*180/Math.PI;
+  document.getElementById("needle").setAttribute("transform",`rotate(${deg} ${G.cx} ${G.cy})`);
+  ["gpa","gpb"].forEach(id=>document.getElementById(id).setAttribute("stroke-dashoffset",L*(1-f)));
+  document.getElementById("gv").textContent=Math.max(0,Math.round(v));
+  ZONES.forEach(([l])=>{const e=document.getElementById("gl-"+l);const on=l===flexNow;e.setAttribute("fill",on?"#fff":"rgba(255,255,255,.4)");e.setAttribute("font-size",on?13:11);});
+  const b=document.getElementById("gpl");
+  if(b.textContent!==flexNow){b.textContent=flexNow;b.classList.remove("tick");void b.offsetWidth;b.classList.add("tick");}
+}
+function animateGauge(s,flex){
+  const t=T[lang],id=++animId,pill=document.getElementById("gp"),st=document.getElementById("gs"),vEl=document.getElementById("gv");
+  const finish=()=>{setGauge(s,flex);pill.classList.add("done");st.textContent=t.gDone;st.classList.add("ok");vEl.classList.remove("pop");void vEl.offsetWidth;vEl.classList.add("pop");};
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){finish();return;}
+  pill.classList.remove("done");st.textContent=t.gBusy;st.classList.remove("ok");
+  setGauge(0,"L");
+  const over=s*1.035,d1=1500,d2=550,wait=450;let t0=null;
+  const eo=x=>1-Math.pow(1-x,3),eio=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+  const step=()=>{if(id!==animId)return;const el=performance.now()-t0;
+    let v; if(el<d1)v=over*eo(Math.max(0,el/d1)); else if(el<d1+d2)v=over-(over-s)*eio((el-d1)/d2); else{finish();return;}
+    setGauge(v,flexOf(Math.max(v,1)));setTimeout(step,16);};
+  setTimeout(()=>{if(id!==animId)return;t0=performance.now();step();},wait);
+}
+
+function run(silent){
+  const t=T[lang],R=t.r,err=$("err");
+  const yd=num("dist");
+  if(!yd){if(!silent){err.textContent=t.errDist;err.style.display="block";}return;}
+  if(yd<80||yd>350){if(!silent){err.textContent=t.errRange;err.style.display="block";}return;}
+  err.style.display="none";
+  const age=num("age"),ft=num("hft"),inch=parseFloat($("hin").value)||0,lb=num("weight"),brand=$("brand").value;
+  const hTot=ft?ft*12+inch:null;
+  const s=Math.round(yd/2.4),sLo=Math.round(s*.96),sHi=Math.round(s*1.04),senior=age&&age>=60;
+
+  const flex=flexOf(s);let wi=swIdx(s);const why=[R.flex(s,flex)];
+  if(senior&&wi>0)wi--; if(lb&&lb>=200&&wi<4&&!senior)wi++;
+  why.push(R.sw(SW[wi])); if(senior)why.push(R.age); if(lb&&lb>=200&&!senior)why.push(R.kg);
+  let kp=s<85?"low":"mid";
+  if(flight==="low"){kp="low";why.push(R.kpLow);} if(flight==="high"){kp="midhigh";why.push(R.kpHigh);}
+  let li=loftIdx(s);why.push(R.loft(LOFTS[li]));
+  if(flight==="low"&&li>0){li--;why.push(R.loftLow);} if(flight==="high"&&li<3){li++;why.push(R.loftHigh);}
+  let len=t.lenStd;
+  if(hTot){const cm=hTot*2.54;len=cm<165?t.lenShort:cm>185?t.lenLong:t.lenStd;why.push(R.lenH(`${Math.floor(hTot/12)}'${Math.round(hTot%12)}"`));}
+  else why.push(R.lenNone);
+  if(curFlex&&curFlex!=="?"){const ci=FLEX.indexOf(curFlex),ri=FLEX.indexOf(flex);why.push(ci>ri?R.cmpStiff(curFlex,flex):ci<ri?R.cmpSoft(curFlex,flex):R.cmpSame(curFlex));}
+  if(brand)why.push(R.brand(brand==="other"?(lang==="ko"?"기타 브랜드":"another brand"):brand));
+
+  const want=flight==="high"?"low":flight==="low"?"high":(s<85?"high":s>=100?"low":"mid");
+  const shafts=SHAFTS.filter(x=>wi>=x.b[0]&&wi<=x.b[1]).map(x=>({x,sc:(x.l===want?2:x.l==="mid"?1:0)+(flight==="slice"&&x.n.includes("Red")?1:0)}))
+    .sort((a,b)=>b.sc-a.sc).slice(0,3).map(o=>o.x);
+
+  const scored=MODELS.map(m=>{
+    let sc=0;const mid=(m.min+m.max)/2;
+    if(s>=m.min&&s<=m.max)sc+=50-Math.abs(s-mid);else sc-=3*(s<m.min?m.min-s:s-m.max);
+    if(m.light&&senior)sc+=15; if(m.light&&s<80)sc+=10; if(!m.light&&s<72)sc-=10;
+    if(flight==="slice")sc+=m.draw===2?20:m.draw===1?10:0;
+    if(flight==="hook")sc+=m.draw>0?-15:10;
+    if(flight==="low"&&m.launch==="high")sc+=10;
+    if(flight==="high")sc+=(m.spin==="low"?10:0)+(m.launch==="high"?-5:0);
+    if(flight===""||flight==="straight")sc+=m.forg*3;
+    return{m,sc};
+  }).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  const top=scored[0].sc;
+  const pct=sc=>Math.max(55,Math.min(97,Math.round(92-(top-sc)*0.9+(top>40?4:0))));
+
+  const picks=scored.map(({m,sc},i)=>{
+    const r=[];const inR=s>=m.min&&s<=m.max;
+    r.push(inR?R.inRange(s,m.min,m.max):R.near(s,m.min,m.max));
+    if(m.light&&senior)r.push(R.lightAge);else if(m.light&&s<85)r.push(R.lightSlow);
+    if(flight==="slice"){if(m.draw===2)r.push(R.sliceDraw);else if(m.draw===1)r.push(R.sliceSome);}
+    if(flight==="hook"&&m.draw===0)r.push(R.hookNeutral);
+    if(flight==="low"&&m.launch==="high")r.push(R.lowHigh);
+    if(flight==="high"&&m.spin==="low")r.push(R.highLowSpin);
+    if(flight==="straight"&&m.draw===0)r.push(R.straight);
+    if(m.forg===2)r.push(R.forg);
+    const tags=[m.light&&t.tg.light,m.draw===2&&t.tg.draw,m.launch==="high"&&t.tg.high,m.spin==="low"&&t.tg.lowspin,m.forg>=1&&t.tg.forg].filter(Boolean);
+    const p=pct(sc);
+    return `<div class="card pick ${i===0?'top1':''}">
+      <div class="ph"><div><span class="rank ${i?'s':''}">${t.rank(i+1)}</span><div class="brand">${m.b}</div><div class="model">${m.m}</div></div>
+      <div class="score"><b>${p}%</b><span>${t.fit}</span></div></div>
+      <div class="meter"><div style="width:${p}%"></div></div>
+      <div class="tags">${tags.map(x=>`<span>${x}</span>`).join("")}</div>
+      <p class="point">${m.p[lang]}</p>
+      <ul class="why">${r.map(x=>`<li>${x}</li>`).join("")}</ul>
+      <a class="buy" href="#" onclick="return false">${t.buy}</a></div>`;
+  }).join("");
+
+  const res=$("result");
+  res.innerHTML=`<div class="disc">${t.disclose}</div>${!flight?`<div class="hint">${t.hintFlight}</div>`:""}
+   <div class="card gcard"><div class="gtop"><span class="gsec">${t.speedT}</span><span class="gstat ${silent?'ok':''}" id="gs">${silent?t.gDone:t.gBusy}</span></div>${gauge(silent?s:0,silent?flex:"L")}
+    <div class="gread"><span class="v" id="gv">${silent?s:0}</span><span class="u">mph</span></div><div class="grng">${t.rng(sLo,sHi)}</div>
+    <div class="fp ${silent?'done':''}" id="gp"><span>${t.flexLab}</span><b id="gpl">${silent?flex:"L"}</b></div></div>
+   <div class="card"><h2>${t.shaftT}</h2>
+    <div class="specs">
+     <div class="spec"><span>${t.flexL}</span><b>${flex}</b></div><div class="spec"><span>${t.swL}</span><b>${SW[wi]}</b></div><div class="spec"><span>${t.tqL}</span><b>${TQ[swIdx(s)]}</b></div>
+     <div class="spec"><span>${t.kpL}</span><b>${t.kp[kp]}</b></div><div class="spec"><span>${t.loftL}</span><b>${LOFTS[li]}</b></div><div class="spec"><span>${t.lenL}</span><b>${len}</b></div>
+    </div>
+    <div class="sec">${t.whyT}</div><ul class="why">${why.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <div class="sec" style="margin-top:14px">${t.shEx}</div>
+    <div class="shafts">${shafts.map(x=>`<div class="sh"><b>${lang==="en"&&x.en_n?x.en_n:x.n}</b><i>${flex} · ${SW[wi]}</i><br><span>${x[lang]}</span></div>`).join("")}</div>
+    <p class="note">${t.shNote}</p></div>
+   <h2 style="margin:20px 4px 12px">${t.picksT}</h2>${picks}`;
+  res.style.display="block";
+  if(!silent){res.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>animateGauge(s,flex),350);}
+  else{animId++;}
+}
+render();
+</script>
+<script>
+(function(){
+const AG={"u45": [["Titleist", "GTS2", "젊은 층 선호 1위권 브랜드, 투어 사용률 1위", "Top brand with younger golfers and on tour"], ["TaylorMade", "Qi4D", "2026 MyGolfSpy 최고의 드라이버(9.2점)", "MyGolfSpy's best driver of 2026 (9.2)"], ["Callaway", "Quantum Max", "Callaway는 45세 미만 선호 공동 1위 브랜드", "Callaway ties for #1 brand under 45"], ["Srixon", "ZXi RKT", "Srixon은 45세 미만에서 점유율이 가장 높음", "Srixon's share peaks under 45"], ["Cobra", "OPTM X", "Cobra도 45세 미만에서 점유율이 가장 높음", "Cobra's share also peaks under 45"]], "m45": [["PING", "G440 Max", "45~64세 선호 1위 브랜드, 한 테스트 최고 관용성", "#1 brand at 45–64; most forgiving in one test"], ["TaylorMade", "Qi4D", "45~64세 선호 2위 브랜드, 2026 최고의 드라이버", "#2 brand at 45–64; best driver of 2026"], ["Callaway", "Quantum Max", "한 테스트 2026 최고의 코어 드라이버", "Best core driver of 2026 in one test"], ["Titleist", "GTS2", "관용성과 속도를 함께 원하는 골퍼용", "For golfers wanting forgiveness and speed"], ["Callaway", "Quantum Max D", "슬라이스 교정, 한 매체 최장 드로우 드라이버", "Slice fix; longest draw driver in one test"]], "s65": [["PING", "G440 K", "65세 이상 선호 1위 브랜드, 시니어 추천 1순위", "#1 brand at 65+; a top senior pick"], ["TaylorMade", "Qi4D Max Lite", "경량 설계, 시니어 드라이버 추천 모델", "Lightweight; a recommended senior driver"], ["XXIO", "XXIO 14", "느린 스윙용 초경량, 처음으로 조절 슬리브", "Ultralight for slower swings, now adjustable"], ["Callaway", "Quantum Max Fast", "가벼운 무게로 쉬운 고탄도", "Lightweight build with easy high launch"], ["Tour Edge", "Exotics E725", "시니어 드라이버 테스트 수상 모델", "Award winner in a senior driver test"]]};
+const AGS=[["Golfshake \u2014 Brand preference by age", "https://www.golfshake.com/news/view/23200/Which_golf_equipment_brands_do_amateur_golfers_prefer.html"], ["MyGolfSpy \u2014 Testing vs. buying 2026", "https://mygolfspy.com/news-opinion/testing-vs-buying-what-drivers-golfers-are-buying-vs-our-best-performers/"], ["Today's Golfer \u2014 Best drivers 2026", "https://www.todays-golfer.com/equipment/best/drivers-us/"], ["Golf Monthly \u2014 Best drivers for seniors 2026", "https://www.golfmonthly.com/best-golf-deals/best-golf-drivers-for-seniors-206689"], ["GolfMagic \u2014 Best senior drivers 2026", "https://www.golfmagic.com/equipment/buying-guides/best-golf-drivers-seniors"], ["NCG \u2014 Best drivers for seniors 2026", "https://www.nationalclubgolfer.com/us/best-golf-deals/best-golf-drivers-for-seniors/"]];
+const AGT={ko:{t:"연령대별 인기 TOP 5 · 드라이버",s:"나이를 입력하면 해당 연령대가 자동으로 선택됩니다.",g:["45세 미만","45~64세","65세 이상"],you:"추천 결과",
+ n:"선정 방법: 연령대별 선호 브랜드 설문(Golfshake)과 2026년 테스트·리뷰·투어 사용 자료를 함께 반영한 EasySwingPick 편집부 선정입니다. 모델별 연령 판매 통계가 아니라 참고용 순위입니다.",src:"출처"},
+ en:{t:"Top 5 by age · Driver",s:"Enter your age and your group is selected automatically.",g:["Under 45","45–64","65+"],you:"Your pick",
+ n:"Method: EasySwingPick editors combined a brand-preference-by-age survey (Golfshake) with 2026 testing, reviews and tour usage. This is a guide, not model-level sales data by age.",src:"Sources"}};
+let ag=1;
+function groupOf(a){return a?(a<45?0:a<65?1:2):null;}
+function picked(){return [...document.querySelectorAll("#result .pick .model")].map(x=>x.textContent.trim());}
+function draw(){
+ const L=(typeof lang!=="undefined"?lang:"ko"),t=AGT[L],k=["u45","m45","s65"][ag],res=picked(),box=document.getElementById("ageTop");if(!box)return;
+ box.innerHTML=`<div class="card agw"><h2>${t.t}</h2><p class="ags">${t.s}</p>
+  <div class="agtabs">${t.g.map((x,i)=>`<button type="button" data-g="${i}" class="${i===ag?"on":""}">${x}</button>`).join("")}</div>
+  <ol class="agl">${AG[k].map(([b,m,rk,re],i)=>`<li><span class="n">${i+1}</span><div><div class="bb">${b}</div><div class="mm">${m}${res.includes(m)?`<span class="you">${t.you}</span>`:""}</div><div class="rr">${L==="ko"?rk:re}</div></div></li>`).join("")}</ol>
+  <p class="agn">${t.n}<br>${t.src}: ${AGS.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}</p></div>`;
+ box.querySelectorAll(".agtabs button").forEach(b=>b.onclick=()=>{ag=+b.dataset.g;draw();});
+}
+function sync(){const a=parseFloat((document.getElementById("age")||{}).value);const g=groupOf(a);if(g!==null)ag=g;draw();}
+const ai=document.getElementById("age");if(ai)ai.addEventListener("input",sync);
+const f=document.getElementById("f");if(f)f.addEventListener("submit",()=>setTimeout(sync,50));
+document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0));
+const rs=document.getElementById("result");if(rs)new MutationObserver(()=>draw()).observe(rs,{childList:true});
+draw();
+})();
+</script>
+</body>
+</html>

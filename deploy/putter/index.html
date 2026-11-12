@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Putter Fit 퍼터 추천 계산기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f2a3d; --navy-2:#173b55; --ink:#15212b; --muted:#64727d; --line:#e3e8ec; --bg:#f3f5f7; --card:#fff;
+  --green:#178a5b; --green-l:#e6f4ee; --gold:#c89b3c; --gold-l:#fbf4e4; --blue-l:#eaf1f8;
+  --r:16px; --shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Noto Sans KR",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.top{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:18px 18px 64px}
+.top-in{max-width:680px;margin:0 auto}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.logo svg{flex-shrink:0}
+.logo small{display:block;font-weight:500;font-size:.72rem;opacity:.7;letter-spacing:.6px;text-transform:uppercase}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;color:#fff;opacity:.75;font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;cursor:pointer}
+.lang button.on{background:#fff;color:var(--navy);opacity:1;font-weight:600}
+.hero h1{font-size:1.55rem;line-height:1.3;margin:22px 0 6px;font-weight:700}
+.hero p{margin:0;opacity:.82;font-size:.95rem}
+.steps{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.steps span{font-size:.78rem;background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px}
+.steps b{color:var(--gold);margin-right:4px}
+main{max-width:680px;margin:-44px auto 0;padding:0 14px 40px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+.demo{font-size:.82rem;color:#7a5a12;background:var(--gold-l);border-radius:10px;padding:9px 12px;margin-bottom:16px}
+.sec{font-size:.75rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:4px 0 10px}
+.f{margin-bottom:16px}
+.f:last-of-type{margin-bottom:0}
+.lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-weight:600;font-size:.95rem}
+.tag{font-size:.72rem;font-weight:500;color:var(--muted);background:var(--bg);border-radius:6px;padding:2px 7px}
+.tag.req{color:#fff;background:var(--green)}
+.inp{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;transition:border-color .15s}
+.inp:focus-within{border-color:var(--green)}
+.inp input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:1.05rem;padding:12px 14px;background:transparent;color:var(--ink)}
+.inp em{font-style:normal;color:var(--muted);font-size:.88rem;padding-right:14px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.two>*{min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:.9rem;padding:9px 13px;border-radius:999px;cursor:pointer;transition:all .15s}
+.chips button.on{border-color:var(--green);background:var(--green-l);color:var(--green);font-weight:600}
+select{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364727d' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.go{width:100%;margin-top:18px;border:0;background:var(--green);color:#fff;font:inherit;font-size:1.05rem;font-weight:700;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 6px 16px rgba(23,138,91,.25)}
+.go:active{transform:translateY(1px)}
+.err{color:#b3261e;font-size:.9rem;margin:10px 0 0;display:none}
+#result{display:none}
+.disc{font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:9px 12px;margin-bottom:14px;background:#fff}
+.hint{font-size:.88rem;color:var(--navy-2);background:var(--blue-l);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.gauge{display:flex;flex-direction:column;align-items:center;text-align:center}
+.gauge .v{font-size:2.3rem;font-weight:700;color:var(--navy);line-height:1;margin-top:4px}
+.gauge .u{font-size:.85rem;color:var(--muted)}
+.gauge .rng{font-size:.85rem;color:var(--muted);margin-top:6px}
+.flexpill{display:inline-block;margin-top:10px;background:var(--navy-2);color:#fff;border-radius:999px;padding:5px 14px;font-weight:600;font-size:.9rem;transition:background .3s,transform .3s}
+.flexpill.run{background:var(--navy-2)!important;transform:none!important}
+.flexpill.done{background:var(--green);transform:scale(1.06)}
+.gauge .v{font-variant-numeric:tabular-nums}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 14px}
+.spec{background:var(--bg);border-radius:12px;padding:10px}
+.spec span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.3px}
+.spec b{display:block;font-size:.98rem;margin-top:2px}
+.why{list-style:none;margin:0;padding:0}
+.why li{position:relative;padding-left:26px;margin-bottom:8px;font-size:.93rem}
+.why li:before{content:"";position:absolute;left:0;top:3px;width:17px;height:17px;border-radius:50%;background:var(--green-l) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath d='M1 4l3 3 5-6' stroke='%23178a5b' stroke-width='1.8' fill='none'/%3E%3C/svg%3E") no-repeat center}
+.shafts{display:grid;gap:8px;margin-top:6px}
+.sh{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.sh b{display:block;font-size:.95rem}
+.sh span{font-size:.84rem;color:var(--muted)}
+.sh i{font-style:normal;font-size:.75rem;color:var(--green);font-weight:600}
+.note{font-size:.78rem;color:var(--muted);margin:10px 0 0}
+h2{font-size:1.08rem;margin:0 0 12px}
+.pick{position:relative;overflow:hidden}
+.pick.top1{border:2px solid var(--gold)}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.rank{font-size:.72rem;font-weight:700;color:#fff;background:var(--gold);border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:6px}
+.rank.s{background:var(--navy-2)}
+.brand{font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+.model{font-size:1.18rem;font-weight:700;margin:1px 0 4px}
+.score{text-align:right;flex-shrink:0}
+.score b{font-size:1.5rem;color:var(--green);display:block;line-height:1}
+.score span{font-size:.7rem;color:var(--muted)}
+.meter{height:6px;background:var(--bg);border-radius:6px;margin:10px 0 10px;overflow:hidden}
+.meter div{height:100%;background:linear-gradient(90deg,var(--green),#3fb984);border-radius:6px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tags span{font-size:.75rem;background:var(--blue-l);color:var(--navy-2);border-radius:6px;padding:3px 8px;font-weight:500}
+.point{font-size:.88rem;color:var(--muted);margin:0 0 10px}
+.buy{display:block;text-align:center;margin-top:12px;padding:12px;border-radius:10px;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
+.foot{font-size:.78rem;color:var(--muted);text-align:center;margin-top:18px;line-height:1.6}
+
+.gcard{background:radial-gradient(130% 100% at 50% 0%,#21506d 0%,#0f2a3d 55%,#0a1c29 100%);color:#fff;text-align:center;padding:16px 16px 22px;position:relative;overflow:hidden}
+.gcard:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 85%,rgba(63,185,132,.18),transparent 70%);pointer-events:none}
+.gtop{display:flex;justify-content:space-between;align-items:center;position:relative}
+.gsec{font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.gstat{font-size:.75rem;color:#e3c06a;display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.gstat:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;animation:blink .9s infinite}
+.gstat.ok{color:#5fd3a2}.gstat.ok:before{animation:none}
+svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;position:relative}
+.gread{margin-top:2px;display:flex;justify-content:center;align-items:baseline;gap:6px;position:relative}
+.gread .v{font-size:3.2rem;font-weight:700;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1;display:inline-block}
+.gread .u{font-size:.9rem;color:#e3c06a;font-weight:600;letter-spacing:.5px}
+.grng{color:rgba(255,255,255,.55);font-size:.83rem;margin-top:8px;position:relative}
+.fp{display:inline-flex;align-items:center;gap:12px;margin-top:16px;padding:6px 6px 6px 18px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);position:relative;backdrop-filter:blur(4px)}
+.fp span{font-size:.85rem;color:rgba(255,255,255,.78)}
+.fp b{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#173b55;color:#fff;font-size:1.1rem;transition:background .35s,color .35s,box-shadow .35s}
+.fp b.tick{animation:tick .24s ease}
+.fp.done b{background:linear-gradient(135deg,#f0d48a,#c89b3c);color:#0f2a3d;box-shadow:0 0 18px rgba(227,192,106,.5)}
+.fp.done:after{content:"";position:absolute;inset:-5px;border-radius:999px;border:2px solid #e3c06a;opacity:0;animation:ring 1.1s ease-out 1}
+.gread .v.pop{animation:pop .5s ease}
+@keyframes tick{0%{transform:translateY(5px);opacity:.45}100%{transform:none;opacity:1}}
+@keyframes ring{0%{opacity:.9;transform:scale(.95)}100%{opacity:0;transform:scale(1.14)}}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes blink{50%{opacity:.25}}
+
+svg.stroke{width:100%;height:auto;display:block;margin:8px auto 0;position:relative}
+svg.hang{width:100%;max-width:340px;height:auto;display:block;margin:4px auto 0;position:relative}
+.sublab{text-align:center;font-size:.72rem;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:10px;position:relative}
+.hangval{text-align:center;font-size:1.5rem;font-weight:700;margin-top:6px;position:relative;font-variant-numeric:tabular-nums}
+.hangval small{font-size:.8rem;color:#e3c06a;font-weight:600;margin-left:4px}
+.ctr{text-align:center}
+</style>
+<style>
+.agw{margin-top:18px}
+.agw h2{margin:0 0 4px;font-size:1.15rem}.agw .ags{margin:0 0 12px;color:var(--muted,#64727d);font-size:.86rem}
+.agtabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.agtabs button{border:1px solid var(--line,#e3e8ec);background:#fff;border-radius:999px;padding:7px 13px;font:inherit;font-size:.85rem;font-weight:700;color:var(--navy,#0f2a3d);cursor:pointer}
+.agtabs button.on{background:var(--navy,#0f2a3d);color:#fff;border-color:var(--navy,#0f2a3d)}
+.agl{list-style:none;margin:0;padding:0}
+.agl li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line,#e3e8ec)}
+.agl li:first-child{border-top:0}
+.agl .n{width:30px;height:30px;border-radius:9px;background:#f3f6f8;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy,#0f2a3d)}
+.agl li:first-child .n{background:#e3c06a}
+.agl .bb{font-size:.68rem;font-weight:700;letter-spacing:.7px;color:var(--muted,#64727d);text-transform:uppercase}
+.agl .mm{font-weight:800;font-size:.98rem;line-height:1.3}.agl .rr{font-size:.84rem;color:var(--muted,#64727d)}
+.agl .you{display:inline-block;margin-left:6px;font-size:.66rem;font-weight:800;background:#e6f4ee;color:#178a5b;border-radius:5px;padding:1px 6px;vertical-align:2px}
+.agn{margin-top:10px;font-size:.76rem;color:var(--muted,#64727d);line-height:1.5}
+.agn a{color:inherit}
+</style>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="canonical" href="https://easyswingpick.com/putter/">
+<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Putter Fit 퍼터 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/putter/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<div class="top"><div class="top-in">
+  <div class="bar">
+    <a class="logo" href="/" style="color:inherit;text-decoration:none" title="EasySwingPick">
+      <img src="/assets/wordmark.svg" height="38" alt="EasySwingPick" style="display:block;height:38px;width:auto">
+    </a>
+    <div class="lang" id="langT"><button data-lang="ko" class="on">한국어</button><button data-lang="en">EN</button></div>
+  </div>
+  <div class="hero">
+    <h1 data-t="title"></h1>
+    <p data-t="sub"></p>
+    <div class="steps"><span><b>1</b><i data-t="st1" style="font-style:normal"></i></span><span><b>2</b><i data-t="st2" style="font-style:normal"></i></span><span><b>3</b><i data-t="st3" style="font-style:normal"></i></span></div>
+  </div>
+</div></div>
+
+<main>
+  <form class="card" id="f" novalidate>
+    <div class="demo" data-t="demo"></div>
+    <div class="sec" data-t="secStroke"></div>
+    <div class="f">
+      <div class="lab"><span data-t="stroke"></span><span class="tag req" data-t="required"></span></div>
+      <div class="chips" id="stroke"></div>
+      <p class="note" data-t="strokeNote"></p>
+    </div>
+    <div class="f"><div class="lab"><span data-t="miss"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="miss"></div></div>
+    <div class="f"><div class="lab"><span data-t="hcp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="hcp"></div></div>
+    <div class="sec" style="margin-top:20px" data-t="secBody"></div>
+    <div class="f">
+      <div class="lab"><label for="hft" data-t="height"></label><span class="tag" data-t="optional"></span></div>
+      <div class="two">
+        <div class="inp"><input id="hft" type="number" inputmode="numeric" placeholder="5"><em data-t="uFt"></em></div>
+        <div class="inp"><input id="hin" type="number" inputmode="numeric" placeholder="7"><em data-t="uIn"></em></div>
+      </div>
+    </div>
+    <div class="f"><div class="lab"><span data-t="posture"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="posture"></div></div>
+    <div class="f"><div class="lab"><label for="age" data-t="age"></label><span class="tag" data-t="optional"></span></div>
+      <div class="inp"><input id="age" type="number" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div></div>
+    <div class="sec" style="margin-top:20px" data-t="secPref"></div>
+    <div class="f"><div class="lab"><span data-t="headp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="headp"></div></div>
+    <div class="f"><div class="lab"><span data-t="alignp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="alignp"></div></div>
+    <div class="f"><div class="lab"><span data-t="gripp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="gripp"></div></div>
+    <div class="f"><div class="lab"><label for="brand" data-t="brand"></label><span class="tag" data-t="optional"></span></div><select id="brand"></select></div>
+    <button class="go" type="submit" data-t="go"></button>
+    <p class="err" id="err"></p>
+  </form>
+  <section id="result"></section>
+  <section id="ageTop"></section>
+  <p class="foot" data-t="foot"></p>
+</main>
+<script>
+const T={
+ ko:{brandSub:"퍼터 피팅 가이드",title:"내 스트로크에 맞는 퍼터 찾기",sub:"스트로크 모양만 고르면 헤드 균형(토우행), 헤드 모양, 길이까지 추천합니다.",
+  st1:"스트로크 입력",st2:"궤적·토우행 분석",st3:"퍼터 추천",
+  demo:"모델 정보는 2026년 테스트·리뷰 자료 기준이며, 결과는 추정치입니다. 일부 링크는 제휴 링크일 수 있습니다.",
+  secStroke:"스트로크",secBody:"신체·자세",secPref:"선호",
+  stroke:"스트로크 모양",required:"필수",optional:"선택",
+  strokeNote:"모르시면: 백스윙 때 헤드가 몸 쪽으로 들어오는 정도를 떠올려 보세요. 거의 안 들어오면 일자, 조금이면 약한 아크, 많이면 강한 아크입니다.",
+  sk:{straight:"일자형",slight:"약한 아크",strong:"강한 아크",unk:"모름"},
+  miss:"자주 나는 미스",ms:{push:"오른쪽으로 밀림",pull:"왼쪽으로 당김",dist:"거리 조절",short:"짧은 퍼트 불안"},
+  hcp:"핸디캡",hc:{h0:"0~5",h1:"6~12",h2:"13~20",h3:"21 이상"},
+  height:"키",uFt:"피트",uIn:"인치",posture:"셋업 자세",po:{bent:"많이 숙임",norm:"보통",up:"꼿꼿한 편"},age:"나이",ageUnit:"세",
+  headp:"선호하는 헤드 모양",hp:{blade:"블레이드",mid:"미드 말렛",mallet:"말렛",any:"상관없음"},
+  alignp:"정렬선",al:{single:"한 줄",multi:"여러 줄",none:"없음·점"},
+  gripp:"그립 굵기",gp:{thin:"가는",std:"표준",fat:"굵은"},
+  brand:"현재 퍼터 브랜드",none:"선택 안 함",other:"기타",go:"분석하고 추천 받기",
+  errStroke:"스트로크 모양을 골라 주세요. 모르시면 '모름'을 누르세요.",
+  disclose:"이 페이지의 일부 링크는 제휴(어필리에이트) 링크로, 링크를 통해 구매하시면 수수료를 받을 수 있습니다.",
+  hintMiss:"자주 나는 미스를 고르시면 제로토크 여부와 정렬선까지 더 정확하게 추천해 드립니다.",
+  pathT:"스트로크 궤적 분석",gBusy:"궤적 분석 중",gDone:"분석 완료",target:"목표",
+  hangT:"추천 헤드 균형",hangLab:"추천 토우행",
+  hang:{zt:"제로토크",fb:"페이스 밸런스",slight:"약한 토우행",strong:"강한 토우행"},
+  setT:"추천 퍼터 세팅",hL:"헤드 균형",shL:"헤드 모양",lenL:"길이",gripL:"그립",alL:"정렬선",hs:{blade:"블레이드",mid:"미드 말렛",mallet:"말렛"},
+  whyT:"이렇게 추천한 이유",picksT:"추천 퍼터",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"구매처 보기 (링크 준비 중)",
+  tg:{zt:"제로토크",lt:"로우토크",forg:"고관용성",milled:"밀링",jp:"일본 제작",align:"정렬 쉬움",pace:"거리감"},
+  foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 적합도는 입력값 기준의 상대 점수입니다. 구매 전 시타나 피팅을 권장합니다.",
+  r:{straight:"일자형 스트로크라 헤드가 비틀리지 않는 페이스 밸런스나 제로토크가 잘 맞습니다.",
+   slight:"약한 아크 스트로크라 토우가 살짝 처지는(약 15~35°) 헤드가 자연스러운 개폐를 도와줍니다.",
+   strong:"강한 아크 스트로크라 토우가 많이 처지는(약 40° 이상) 블레이드가 문처럼 열리고 닫히는 움직임과 맞습니다.",
+   unk:"스트로크를 몰라 가장 흔한 약한 아크로 계산했습니다.",
+   short:"짧은 퍼트가 불안하시다고 해서 페이스가 덜 돌아가는 제로토크를 우선했습니다.",
+   push:"오른쪽으로 밀리는 미스가 있어 페이스가 열린 채 맞지 않도록 정렬이 쉬운 헤드를 우선했습니다.",
+   pull:"왼쪽으로 당기는 미스가 있어 손목 사용을 줄여 주는 굵은 그립과 안정적인 헤드를 추천합니다.",
+   dist:"거리 조절이 어려우시다고 해서 타감과 거리감이 좋은 모델을 우선했습니다.",
+   ztNo:"강한 아크 스트로크에는 제로토크가 오히려 어색할 수 있어 추천에서 낮췄습니다.",
+   forg:"관용성 높은 말렛이 빗맞은 퍼트도 거리를 지켜 줍니다.",
+   len:(h,l)=>`키 ${h}와 셋업 자세를 고려해 길이 ${l}를 추천합니다.`,lenNone:"키를 입력하지 않아 가장 흔한 34인치로 추천했습니다.",
+   brand:b=>`현재 ${b} 퍼터를 쓰고 계십니다. 아래 추천과 시타로 비교해 보세요.`,
+   hangOk:h=>`추천 헤드 균형(${h})과 맞는 모델입니다.`,headOk:"선호하신 헤드 모양과 맞습니다.",
+   ztOk:"제로토크 설계라 스트로크 중 페이스가 거의 돌아가지 않습니다.",
+   forgOk:"관용성이 높아 빗맞아도 거리 손실이 적습니다.",paceOk:"거리감(페이스 컨트롤)이 뛰어나다는 평가를 받았습니다.",
+   jpOk:"일본 밀링 퍼터로 타감이 부드럽습니다."}},
+ en:{brandSub:"Putter fitting guide",title:"Find the putter that fits your stroke",sub:"Pick your stroke type and we recommend toe hang, head shape and length.",
+  st1:"Enter stroke",st2:"Path & toe-hang analysis",st3:"Putter picks",
+  demo:"Model info is based on 2026 testing and reviews; results are estimates. Some links may be affiliate links.",
+  secStroke:"Stroke",secBody:"Body & setup",secPref:"Preferences",
+  stroke:"Stroke type",required:"Required",optional:"Optional",
+  strokeNote:"Not sure? Think about how far the head swings inside on the backstroke: barely = straight, a little = slight arc, a lot = strong arc.",
+  sk:{straight:"Straight",slight:"Slight arc",strong:"Strong arc",unk:"Don't know"},
+  miss:"Common miss",ms:{push:"Push right",pull:"Pull left",dist:"Distance control",short:"Short-putt nerves"},
+  hcp:"Handicap",hc:{h0:"0–5",h1:"6–12",h2:"13–20",h3:"21+"},
+  height:"Height",uFt:"ft",uIn:"in",posture:"Setup posture",po:{bent:"Bent over",norm:"Normal",up:"Upright"},age:"Age",ageUnit:"yrs",
+  headp:"Preferred head shape",hp:{blade:"Blade",mid:"Mid-mallet",mallet:"Mallet",any:"No preference"},
+  alignp:"Alignment",al:{single:"Single line",multi:"Multiple lines",none:"None / dot"},
+  gripp:"Grip size",gp:{thin:"Thin",std:"Standard",fat:"Oversize"},
+  brand:"Current putter brand",none:"Not selected",other:"Other",go:"Analyze & recommend",
+  errStroke:"Pick a stroke type, or tap 'Don't know'.",
+  disclose:"Some links on this page are affiliate links. We may earn a commission if you buy through them.",
+  hintMiss:"Pick your common miss for a more precise zero-torque and alignment suggestion.",
+  pathT:"Stroke path analysis",gBusy:"Analyzing path",gDone:"Analysis complete",target:"Target",
+  hangT:"Recommended head balance",hangLab:"Recommended toe hang",
+  hang:{zt:"Zero torque",fb:"Face-balanced",slight:"Slight toe hang",strong:"Strong toe hang"},
+  setT:"Recommended putter setup",hL:"Balance",shL:"Head shape",lenL:"Length",gripL:"Grip",alL:"Alignment",hs:{blade:"Blade",mid:"Mid-mallet",mallet:"Mallet"},
+  whyT:"Why we recommend this",picksT:"Recommended putters",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"See where to buy (link coming soon)",
+  tg:{zt:"Zero torque",lt:"Low torque",forg:"High MOI",milled:"Milled",jp:"Made in Japan",align:"Easy alignment",pace:"Pace control"},
+  foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Fit score is relative to your inputs. Demo or get fitted before buying.",
+  r:{straight:"A straight stroke suits face-balanced or zero-torque heads that resist twisting.",
+   slight:"A slight arc suits a little toe hang (about 15–35°) that helps the face open and close naturally.",
+   strong:"A strong arc suits a blade with strong toe hang (40°+) that swings open and closed like a door.",
+   unk:"Stroke unknown, so we used a slight arc, the most common type.",
+   short:"Short putts make you nervous, so we favored zero torque, which keeps the face from rotating.",
+   push:"You push putts, so we favored heads that are easy to align square.",
+   pull:"You pull putts, so we suggest an oversize grip and a stable head to quiet the hands.",
+   dist:"Distance control is tough, so we favored models with good feel and pace.",
+   ztNo:"Zero torque can feel awkward with a strong arc, so we ranked it lower.",
+   forg:"A forgiving mallet keeps mishit putts closer to the right distance.",
+   len:(h,l)=>`Based on your ${h} height and setup, we suggest ${l}.`,lenNone:"No height entered, so we suggest 34 in, the most common length.",
+   brand:b=>`You currently play a ${b} putter. Compare it with the picks below in a demo.`,
+   hangOk:h=>`Matches the recommended balance (${h}).`,headOk:"Matches your preferred head shape.",
+   ztOk:"Zero-torque design keeps the face from rotating during the stroke.",
+   forgOk:"High forgiveness limits distance loss on mishits.",paceOk:"Praised for excellent pace control.",
+   jpOk:"Milled in Japan with a soft feel."}}
+};
+// 2026 testing & reviews. hang: zt, fb, slight, strong.
+const MODELS=[
+ {b:"Odyssey",m:"Ai-Dual Square 2 Square #7",hang:"zt",shape:"mallet",forg:2,align:"multi",p:{ko:"MyGolfSpy 2026 테스트 1위 퍼터",en:"MyGolfSpy's best putter tested in 2026"}},
+ {b:"L.A.B. Golf",m:"DF3",hang:"zt",shape:"mallet",forg:2,align:"single",p:{ko:"L.A.B. 기술이 가장 잘 드러나는 최고 안정성 모델",en:"The clearest showcase of L.A.B. stability"}},
+ {b:"L.A.B. Golf",m:"Mezz.1 Max",hang:"zt",shape:"mallet",forg:2,align:"single",p:{ko:"익숙한 말렛 모양의 L.A.B., 정렬이 쉬움",en:"L.A.B. performance in a familiar mallet shape"}},
+ {b:"L.A.B. Golf",m:"OZ.1i",hang:"zt",shape:"mid",forg:1,align:"single",p:{ko:"미드 말렛 크기의 L.A.B. 제로토크",en:"Mid-mallet sized L.A.B. zero torque"}},
+ {b:"L.A.B. Golf",m:"LINK.2.1",hang:"zt",shape:"blade",forg:1,align:"single",p:{ko:"2026 신모델, 블레이드 모양 제로토크",en:"New for 2026: zero torque in a blade shape"}},
+ {b:"TaylorMade",m:"Spider ZT",hang:"zt",shape:"mallet",forg:2,align:"multi",p:{ko:"고관용성 Spider의 제로토크 버전",en:"Zero-torque version of the high-MOI Spider"}},
+ {b:"SeeMore",m:"SBx",hang:"zt",shape:"mallet",forg:1,align:"single",p:{ko:"각진 모양으로 정렬이 쉬운 제로토크",en:"Square shape zero torque that's easy to aim"}},
+ {b:"Scotty Cameron",m:"Studio Style Fastback OC",hang:"lt",shape:"mid",forg:1,align:"single",pace:1,p:{ko:"Scotty의 로우토크, 거리감이 뛰어나다는 평가",en:"Scotty's low-torque model, praised for pace control"}},
+ {b:"TaylorMade",m:"Spider Tour",hang:"fb",shape:"mallet",forg:2,align:"multi",p:{ko:"한 매체 테스트에서 2026 최고의 퍼터",en:"Rated the best putter of 2026 in one major test"}},
+ {b:"PING",m:"Scottsdale CRAZ-E",hang:"fb",shape:"mallet",forg:2,align:"single",p:{ko:"관용성 최고 수준의 말렛",en:"One of the most forgiving mallets"}},
+ {b:"Scotty Cameron",m:"Phantom 5",hang:"fb",shape:"mallet",forg:1,align:"single",p:{ko:"Scotty 타감에 말렛의 안정감",en:"Scotty feel with mallet stability"}},
+ {b:"PING",m:"Vault Bergen",hang:"slight",shape:"mid",forg:1,align:"single",milled:1,p:{ko:"약한 아크 스트로크용 미드 말렛",en:"Mid-mallet built for slight-arc strokes"}},
+ {b:"Odyssey",m:"Ai-DUAL Double Wide",hang:"slight",shape:"mid",forg:1,align:"multi",p:{ko:"정렬하기 쉬운 넓은 블레이드",en:"Wide blade that's easy to align"}},
+ {b:"PING",m:"PLD Anser",hang:"strong",shape:"blade",forg:0,align:"single",p:{ko:"2026 블레이드 테스트 종합 1위",en:"Best overall blade in a 2026 test"}},
+ {b:"Scotty Cameron",m:"Studio Style Newport 2",hang:"strong",shape:"blade",forg:0,align:"single",milled:1,pace:1,p:{ko:"프리미엄 블레이드의 대명사",en:"The benchmark premium blade"}},
+ {b:"Mizuno",m:"M.Craft Osaka",hang:"strong",shape:"blade",forg:0,align:"single",milled:1,jp:1,p:{ko:"일본 밀링 블레이드, 2026 블레이드 상위",en:"Japanese milled blade, a top 2026 blade"}},
+ {b:"Mizuno",m:"Kyoto",hang:"slight",shape:"blade",forg:1,align:"single",milled:1,jp:1,p:{ko:"안정성이 가장 좋은 블레이드로 평가",en:"Rated the most stable blade"}},
+ {b:"TaylorMade",m:"Spider Tour X",hang:"fb",shape:"mallet",forg:2,align:"multi",p:{ko:"2026 PGA 투어 최다 우승 퍼터, 정렬이 쉬움",en:"2026's winningest PGA Tour putter; easy to align"}},
+ {b:"L.A.B. Golf",m:"OZ.1",hang:"zt",shape:"mid",forg:1,align:"single",p:{ko:"한 매체 테스트 2026 최고의 제로토크",en:"Best zero-torque putter in a 2026 test"}},
+ {b:"PING",m:"Scottsdale Anser",hang:"strong",shape:"blade",forg:0,align:"single",p:{ko:"한 매체 2026 퍼터 테스트 종합 3위",en:"Third overall in a 2026 putter test"}},
+ {b:"Odyssey",m:"Ai-ONE",hang:"fb",shape:"mallet",forg:2,align:"multi",p:{ko:"인서트 타감의 인기 말렛, 할인이 잦음",en:"Popular insert mallet, often discounted"}},
+ {b:"Cleveland",m:"HB Soft 2 Black Retreve",hang:"fb",shape:"mallet",forg:2,align:"single",p:{ko:"2026 말렛 테스트 상위권, 합리적인 가격",en:"Top-five mallet in 2026 testing at a fair price"}},
+ {b:"Wilson",m:"Infinite ZT",hang:"zt",shape:"mallet",forg:2,align:"single",p:{ko:"부담 없는 가격의 제로토크 입문 모델",en:"Affordable entry into zero torque"}}
+];
+const BRANDS=["Scotty Cameron","Odyssey","TaylorMade","PING","L.A.B. Golf","SeeMore","Mizuno","Bettinardi","Evnroll","PXG","Cleveland","Wilson"];
+const HANGORD={zt:0,fb:0,lt:0.5,slight:1,strong:2};
+let lang="ko",stroke="",miss="",hcp="",posture="",headp="",alignp="",gripp="";
+const $=id=>document.getElementById(id);
+const num=id=>{const v=parseFloat($(id).value);return isNaN(v)||v<=0?null:v;};
+function chips(id,items,val,set){$(id).innerHTML=items.map(([k,v])=>`<button type="button" data-k="${k}" class="${k===val?'on':''}">${v}</button>`).join("");
+  $(id).onclick=e=>{const b=e.target.closest("button");if(!b)return;const k=b.dataset.k;set(k===val?"":k);};}
+function render(){
+  const t=T[lang];document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.textContent=v;});
+  document.title="Putter Fit — "+t.title;
+  chips("stroke",Object.entries(t.sk),stroke,k=>{stroke=k;render();});
+  chips("miss",Object.entries(t.ms),miss,k=>{miss=k;render();});
+  chips("hcp",Object.entries(t.hc),hcp,k=>{hcp=k;render();});
+  chips("posture",Object.entries(t.po),posture,k=>{posture=k;render();});
+  chips("headp",Object.entries(t.hp),headp,k=>{headp=k;render();});
+  chips("alignp",Object.entries(t.al),alignp,k=>{alignp=k;render();});
+  chips("gripp",Object.entries(t.gp),gripp,k=>{gripp=k;render();});
+  const bv=$("brand").value;$("brand").innerHTML=`<option value="">${t.none}</option>`+BRANDS.map(b=>`<option>${b}</option>`).join("")+`<option value="other">${t.other}</option>`;$("brand").value=bv;
+  if($("result").style.display==="block")run(true);
+}
+$("langT").onclick=e=>{const b=e.target.closest("button");if(!b)return;lang=b.dataset.lang;document.querySelectorAll("#langT button").forEach(x=>x.classList.toggle("on",x===b));render();};
+$("f").onsubmit=e=>{e.preventDefault();run(false);};
+
+// ---- stroke path SVG ----
+const SP={x0:150,y0:92,ball:166};
+const Kof={straight:0,slight:0.0028,strong:0.0062};
+function headShape(shape){
+  if(shape==="blade")return `<rect x="-4" y="-17" width="8" height="34" rx="2" fill="#dfe6ea"/><line x1="4" y1="-17" x2="4" y2="17" stroke="#c89b3c" stroke-width="1.5"/>`;
+  if(shape==="mid")return `<path d="M-4 -17 H4 V17 H-4 Z M-4 -14 Q-16 -10 -16 0 Q-16 10 -4 14" fill="#dfe6ea"/><line x1="4" y1="-17" x2="4" y2="17" stroke="#c89b3c" stroke-width="1.5"/>`;
+  return `<path d="M4 -18 V18 H-6 Q-22 18 -22 4 V-4 Q-22 -18 -6 -18 Z" fill="#dfe6ea"/><line x1="-18" y1="0" x2="2" y2="0" stroke="#3fb984" stroke-width="1.5"/><line x1="4" y1="-18" x2="4" y2="18" stroke="#c89b3c" stroke-width="1.5"/>`;
+}
+function strokeSvg(k,shape,label){
+  const pts=[];for(let dx=-70;dx<=70;dx+=2)pts.push(`${SP.x0+dx},${SP.y0+k*dx*dx}`);
+  return `<svg class="stroke" viewBox="0 0 300 170" role="img">
+   <defs><linearGradient id="tr" x1="0" x2="1"><stop offset="0" stop-color="#3fb984" stop-opacity=".2"/><stop offset=".5" stop-color="#3fb984"/><stop offset="1" stop-color="#e3c06a"/></linearGradient>
+   <filter id="sg" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter></defs>
+   <line x1="18" y1="${SP.y0}" x2="282" y2="${SP.y0}" stroke="rgba(255,255,255,.22)" stroke-dasharray="4 5"/>
+   <path d="M276 ${SP.y0-4} L284 ${SP.y0} L276 ${SP.y0+4}" fill="rgba(255,255,255,.35)"/>
+   <text x="280" y="${SP.y0-10}" font-size="9" text-anchor="end" fill="rgba(255,255,255,.45)" font-family="Inter">${label}</text>
+   <polyline id="ghost" points="${pts.join(" ")}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10" stroke-linecap="round"/>
+   <polyline id="trailG" points="" fill="none" stroke="url(#tr)" stroke-width="5" stroke-linecap="round" filter="url(#sg)" opacity=".7"/>
+   <polyline id="trail" points="" fill="none" stroke="url(#tr)" stroke-width="2.5" stroke-linecap="round"/>
+   <circle id="ball" cx="${SP.ball}" cy="${SP.y0}" r="4.5" fill="#fff"/>
+   <g id="phead" transform="translate(${SP.x0} ${SP.y0})">${headShape(shape)}</g>
+   <text x="150" y="160" font-size="9" text-anchor="middle" fill="rgba(255,255,255,.4)" font-family="Inter">▲ ${lang==="ko"?"골퍼 위치 (위에서 본 모습)":"Golfer side (top view)"}</text>
+  </svg>`;
+}
+function hangSvg(){
+  const cx=96,cy=8,R=96;
+  const pt=(deg,r)=>[cx+r*Math.sin(deg*Math.PI/180),cy+r*Math.cos(deg*Math.PI/180)];
+  const zone=(a,b,c)=>{const[x1,y1]=pt(a,R),[x2,y2]=pt(b,R);return `<path d="M${x1} ${y1} A${R} ${R} 0 0 0 ${x2} ${y2}" stroke="${c}" stroke-width="10" fill="none" stroke-linecap="butt"/>`;};
+  const arcs=`<path d="M${pt(0,R).join(" ")} A${R} ${R} 0 0 0 ${pt(72,R).join(" ")}" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"/>`+zone(0,11,"#5fd3a2")+zone(13,36,"#3fb984")+zone(38,72,"#c89b3c");
+  let tk="";for(let d=0;d<=70;d+=5){const maj=d%10===0;const[a,b]=pt(d,R-8),[c,e]=pt(d,R-(maj?16:12));tk+=`<line x1="${a}" y1="${b}" x2="${c}" y2="${e}" stroke="rgba(255,255,255,${maj?.45:.2})"/>`;
+    if(d%20===0||d===70){const[x,y]=pt(d,R+14);tk+=`<text x="${x}" y="${y+3}" font-size="9" text-anchor="middle" fill="rgba(255,255,255,.45)" font-family="Inter">${d}°</text>`;}}
+  const lg=(y,c,txt)=>`<circle cx="214" cy="${y-3}" r="4" fill="${c}"/><text x="223" y="${y}" font-size="9.5" fill="rgba(255,255,255,.7)" font-family="Inter,Noto Sans KR">${txt}</text>`;
+  const t=T[lang];
+  return `<svg class="hang" viewBox="0 0 300 122" role="img">${arcs}${tk}
+   ${lg(34,"#5fd3a2",t.hang.fb+" · ZT")}${lg(54,"#3fb984",t.hang.slight)}${lg(74,"#c89b3c",t.hang.strong)}
+   <g id="pend" transform="rotate(0 ${cx} ${cy})"><line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy+R-6}" stroke="#f4f7f9" stroke-width="2.5" stroke-linecap="round"/><circle cx="${cx}" cy="${cy+R-6}" r="5.5" fill="#e3c06a"/></g>
+   <circle cx="${cx}" cy="${cy}" r="6" fill="#0b1f2e" stroke="#c89b3c" stroke-width="2"/></svg>`;
+}
+const HDEG={zt:0,fb:0,slight:25,strong:50};
+let animId=0;
+function setPend(deg){$("pend").setAttribute("transform",`rotate(${-deg} 96 8)`);$("hv").firstChild.nodeValue=Math.max(0,Math.round(deg))+"°";}
+function animate(k,shape,hang){
+  const t=T[lang],id=++animId,st=$("gs"),pill=$("gp");
+  const head=$("phead"),trail=$("trail"),trailG=$("trailG"),ball=$("ball");
+  const finish=()=>{setPend(HDEG[hang]);st.textContent=t.gDone;st.classList.add("ok");pill.classList.add("done");};
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){finish();return;}
+  const pos=dx=>[SP.x0+dx,SP.y0+k*dx*dx,Math.atan(2*k*dx)*180/Math.PI];
+  const seg=[[0,-62,900],[-62,70,700]];const pts=[];let si=0,t0=null,ballGo=null;
+  const eio=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
+  const step=()=>{if(id!==animId)return;const now=performance.now();if(t0===null)t0=now;
+    const [a,b,d]=seg[si];const p=Math.min(1,(now-t0)/d),dx=a+(b-a)*(si===0?eio(p):p*p*(3-2*p));
+    const [x,y,ang]=pos(dx);head.setAttribute("transform",`translate(${x} ${y}) rotate(${ang})`);
+    pts.push(`${x},${y}`);const s=pts.join(" ");trail.setAttribute("points",s);trailG.setAttribute("points",s);
+    if(si===1&&!ballGo&&x>=SP.ball-6)ballGo=now;
+    if(ballGo){const bp=Math.min(1,(now-ballGo)/1100),e=1-Math.pow(1-bp,3);ball.setAttribute("cx",SP.ball+(282-SP.ball)*e);ball.setAttribute("opacity",1-bp*.6);}
+    if(p>=1){si++;t0=null;if(si>=seg.length){setTimeout(()=>pendulum(id,hang,finish),350);return;}}
+    setTimeout(step,16);};
+  setPend(70);setTimeout(step,500);
+}
+function pendulum(id,hang,finish){
+  const target=HDEG[hang],t0=performance.now(),A=70-target;
+  const step=()=>{if(id!==animId)return;const s=(performance.now()-t0)/1000;
+    const v=target+A*Math.exp(-2.6*s)*Math.cos(7.5*s);setPend(v);
+    if(s<1.9)setTimeout(step,16);else finish();};
+  step();
+}
+
+function run(silent){
+  const t=T[lang],R=t.r,err=$("err");
+  if(!stroke){if(!silent){err.textContent=t.errStroke;err.style.display="block";}return;}
+  err.style.display="none";
+  const sk=stroke==="unk"?"slight":stroke,age=num("age"),senior=age&&age>=60;
+  const ft=num("hft"),inch=parseFloat($("hin").value)||0,hTot=ft?ft*12+inch:null,brand=$("brand").value;
+  const why=[R[stroke==="unk"?"unk":sk]];
+  if(stroke==="unk")why.push(R.slight);
+  const wantZT=(miss==="short")||((miss==="push"||miss==="pull")&&sk!=="strong");
+  let hang=sk==="straight"?(wantZT||miss==="short"?"zt":"fb"):sk==="slight"?(miss==="short"?"zt":"slight"):"strong";
+  if(miss&&R[miss])why.push(R[miss]);
+  if(sk==="strong"&&miss==="short")why.push(R.ztNo);
+  let shape=headp&&headp!=="any"?headp:(sk==="straight"?"mallet":sk==="slight"?"mid":"blade");
+  if(!headp&&(hcp==="h3"||senior)&&shape!=="mallet"&&sk!=="strong"){shape="mallet";why.push(R.forg);}
+  // length
+  let len=34;if(hTot){len=hTot<66?33:hTot<72?34:hTot<75?35:35.5;}
+  if(posture==="bent")len-=1;if(posture==="up")len+=1;len=Math.max(32,Math.min(36,len));
+  const lenTxt=`${len}"`;
+  why.push(hTot?R.len(`${Math.floor(hTot/12)}'${Math.round(hTot%12)}"`,lenTxt):R.lenNone);
+  const grip=gripp||((miss==="pull"||miss==="short")?"fat":"std");
+  const align=alignp||((miss==="push"||miss==="pull")?"multi":"single");
+  if(brand)why.push(R.brand(brand==="other"?(lang==="ko"?"기타 브랜드":"another brand"):brand));
+  // models
+  const scored=MODELS.map(m=>{let sc=0;
+    const mh=m.hang==="lt"?"lt":m.hang;
+    if(hang==="zt")sc+=mh==="zt"?40:mh==="lt"?25:mh==="fb"?18:-15;
+    else if(hang==="fb")sc+=mh==="fb"?40:mh==="zt"?(wantZT?32:26):mh==="lt"?24:mh==="slight"?8:-20;
+    else if(hang==="slight")sc+=mh==="slight"?40:mh==="lt"?24:mh==="fb"?12:mh==="strong"?12:mh==="zt"?6:0;
+    else sc+=mh==="strong"?40:mh==="slight"?14:mh==="zt"?-25:-15;
+    if(m.shape===shape)sc+=headp&&headp!=="any"?18:10;
+    if(hcp==="h2"||hcp==="h3"||senior)sc+=m.forg*5;
+    if(miss==="dist"&&m.pace)sc+=10; if(miss==="dist"&&m.milled)sc+=4;
+    if(m.align===align)sc+=4; if(hcp==="h0"&&m.milled)sc+=4;
+    return{m,sc};}).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  const topS=scored[0].sc,pct=sc=>Math.max(55,Math.min(97,Math.round(93-(topS-sc)*.8)));
+  const picks=scored.map(({m,sc},i)=>{const r=[];
+    if(m.hang===hang||(hang==="fb"&&m.hang==="zt")||(m.hang==="lt"&&hang!=="strong"))r.push(m.hang==="zt"?R.ztOk:R.hangOk(t.hang[hang]));
+    if(m.shape===shape&&headp&&headp!=="any")r.push(R.headOk);
+    if(m.forg===2)r.push(R.forgOk); if(m.pace)r.push(R.paceOk); if(m.jp)r.push(R.jpOk);
+    const tags=[m.hang==="zt"&&t.tg.zt,m.hang==="lt"&&t.tg.lt,m.forg===2&&t.tg.forg,m.milled&&t.tg.milled,m.jp&&t.tg.jp,m.align==="multi"&&t.tg.align,m.pace&&t.tg.pace].filter(Boolean);
+    const p=pct(sc);
+    return `<div class="card pick ${i===0?'top1':''}">
+      <div class="ph"><div><span class="rank ${i?'s':''}">${t.rank(i+1)}</span><div class="brand">${m.b} · ${t.hs[m.shape]}</div><div class="model">${m.m}</div></div>
+      <div class="score"><b>${p}%</b><span>${t.fit}</span></div></div>
+      <div class="meter"><div style="width:${p}%"></div></div>
+      <div class="tags">${tags.map(x=>`<span>${x}</span>`).join("")}</div>
+      <p class="point">${m.p[lang]}</p>
+      <ul class="why">${r.map(x=>`<li>${x}</li>`).join("")}</ul>
+      <a class="buy" href="#" onclick="return false">${t.buy}</a></div>`;}).join("");
+  const res=$("result");
+  res.innerHTML=`<div class="disc">${t.disclose}</div>${!miss?`<div class="hint">${t.hintMiss}</div>`:""}
+   <div class="card gcard"><div class="gtop"><span class="gsec">${t.pathT}</span><span class="gstat ${silent?'ok':''}" id="gs">${silent?t.gDone:t.gBusy}</span></div>
+    ${strokeSvg(Kof[sk],shape,t.target)}
+    <div class="sublab">${t.hangT}</div>${hangSvg()}
+    <div class="hangval" id="hv">${silent?HDEG[hang]:70}°<small>toe hang</small></div>
+    <div class="ctr"><div class="fp ${silent?'done':''}" id="gp"><span>${t.hangLab}</span><b style="width:auto;padding:0 12px;border-radius:999px;font-size:.92rem">${t.hang[hang]}</b></div></div></div>
+   <div class="card"><h2>${t.setT}</h2>
+    <div class="specs">
+     <div class="spec"><span>${t.hL}</span><b>${t.hang[hang]}</b></div><div class="spec"><span>${t.shL}</span><b>${t.hs[shape]}</b></div><div class="spec"><span>${t.lenL}</span><b>${lenTxt}</b></div>
+     <div class="spec"><span>${t.gripL}</span><b>${t.gp[grip]}</b></div><div class="spec"><span>${t.alL}</span><b>${t.al[align]}</b></div><div class="spec"><span>Toe hang</span><b>${hang==="zt"?"0° (ZT)":HDEG[hang]===0?"0°":hang==="slight"?"15~35°":"40°+"}</b></div>
+    </div>
+    <div class="sec">${t.whyT}</div><ul class="why">${why.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+   <h2 style="margin:20px 4px 12px">${t.picksT}</h2>${picks}`;
+  res.style.display="block";
+  if(silent){animId++;setPend(HDEG[hang]);const [x,y,a]=[SP.x0+70,SP.y0+Kof[sk]*4900,Math.atan(2*Kof[sk]*70)*180/Math.PI];$("phead").setAttribute("transform",`translate(${x} ${y}) rotate(${a})`);
+    const pts=[];for(let dx=-62;dx<=70;dx+=2)pts.push(`${SP.x0+dx},${SP.y0+Kof[sk]*dx*dx}`);$("trail").setAttribute("points",pts.join(" "));$("trailG").setAttribute("points",pts.join(" "));$("ball").setAttribute("cx",282);$("ball").setAttribute("opacity",.4);}
+  else{res.scrollIntoView({behavior:"smooth",block:"start"});animate(Kof[sk],shape,hang);}
+}
+render();
+</script>
+<script>
+(function(){
+const AG={"u45": [["TaylorMade", "Spider Tour X", "2026 PGA 투어 최다 우승 퍼터", "2026's winningest PGA Tour putter"], ["Scotty Cameron", "Phantom 5", "Scotty 타감과 말렛 안정감", "Scotty feel with mallet stability"], ["L.A.B. Golf", "OZ.1", "한 매체 2026 최고의 제로토크", "Best zero-torque putter in one test"], ["Odyssey", "Ai-Dual Square 2 Square #7", "MyGolfSpy 2026 테스트 1위", "MyGolfSpy's best putter of 2026"], ["PING", "PLD Anser", "한 매체 2026 최고의 블레이드", "Best blade putter in one 2026 test"]], "m45": [["Odyssey", "Ai-Dual Square 2 Square #7", "전통 퍼터에서 넘어가기 쉬운 제로토크", "Easy switch from a traditional putter"], ["TaylorMade", "Spider Tour", "한 매체 2026 최고의 퍼터", "Best putter of 2026 in one test"], ["L.A.B. Golf", "DF3", "최고 수준의 페이스 안정성", "Exceptional face stability"], ["PING", "Scottsdale Anser", "한 매체 2026 테스트 종합 3위", "Third overall in a 2026 test"], ["Odyssey", "Ai-ONE", "인기 인서트 말렛, 할인 잦음", "Popular insert mallet, often on sale"]], "s65": [["Odyssey", "Ai-Dual Square 2 Square #7", "짧은 퍼트가 불안할 때 1순위", "First pick for nervous short putts"], ["TaylorMade", "Spider Tour", "관용성 높은 말렛의 대표", "The classic high-MOI mallet"], ["L.A.B. Golf", "DF3", "손떨림에도 페이스가 덜 돌아감", "Face stays square even with shaky hands"], ["Cleveland", "HB Soft 2 Black Retreve", "합리적인 가격의 상위권 말렛", "Top mallet at a fair price"], ["Wilson", "Infinite ZT", "부담 없는 가격의 제로토크", "Affordable zero torque"]]};
+const AGS=[["Golfshake \u2014 Brand preference by age", "https://www.golfshake.com/news/view/23200/Which_golf_equipment_brands_do_amateur_golfers_prefer.html"], ["GOLF.com \u2014 Winningest putters 2026", "https://golf.com/gear/putters/2026-pga-tours-winningest-putters/?amp=1"], ["Today's Golfer \u2014 Best putters 2026", "https://www.todays-golfer.com/equipment/best/putters-us/"], ["MyGolfSpy \u2014 Best putters 2026", "https://mygolfspy.com/buyers-guide/best-putters-of-2026-test-data-from-75-putters/"], ["NCG \u2014 Best putters 2026", "https://www.nationalclubgolfer.com/gb/best-golf-deals/best-putters/"], ["Golfalot \u2014 Best putters 2026", "https://golfalot.com/category/buying-guide/best-golf-putters-2026-every-new-model-tested-and-ranked"]];
+const AGT={ko:{t:"연령대별 인기 TOP 5 · 퍼터",s:"나이를 입력하면 해당 연령대가 자동으로 선택됩니다.",g:["45세 미만","45~64세","65세 이상"],you:"추천 결과",
+ n:"선정 방법: 연령대별 선호 브랜드 설문(Golfshake)과 2026년 테스트·리뷰·투어 사용 자료를 함께 반영한 EasySwingPick 편집부 선정입니다. 모델별 연령 판매 통계가 아니라 참고용 순위입니다.",src:"출처"},
+ en:{t:"Top 5 by age · Putter",s:"Enter your age and your group is selected automatically.",g:["Under 45","45–64","65+"],you:"Your pick",
+ n:"Method: EasySwingPick editors combined a brand-preference-by-age survey (Golfshake) with 2026 testing, reviews and tour usage. This is a guide, not model-level sales data by age.",src:"Sources"}};
+let ag=1;
+function groupOf(a){return a?(a<45?0:a<65?1:2):null;}
+function picked(){return [...document.querySelectorAll("#result .pick .model")].map(x=>x.textContent.trim());}
+function draw(){
+ const L=(typeof lang!=="undefined"?lang:"ko"),t=AGT[L],k=["u45","m45","s65"][ag],res=picked(),box=document.getElementById("ageTop");if(!box)return;
+ box.innerHTML=`<div class="card agw"><h2>${t.t}</h2><p class="ags">${t.s}</p>
+  <div class="agtabs">${t.g.map((x,i)=>`<button type="button" data-g="${i}" class="${i===ag?"on":""}">${x}</button>`).join("")}</div>
+  <ol class="agl">${AG[k].map(([b,m,rk,re],i)=>`<li><span class="n">${i+1}</span><div><div class="bb">${b}</div><div class="mm">${m}${res.includes(m)?`<span class="you">${t.you}</span>`:""}</div><div class="rr">${L==="ko"?rk:re}</div></div></li>`).join("")}</ol>
+  <p class="agn">${t.n}<br>${t.src}: ${AGS.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}</p></div>`;
+ box.querySelectorAll(".agtabs button").forEach(b=>b.onclick=()=>{ag=+b.dataset.g;draw();});
+}
+function sync(){const a=parseFloat((document.getElementById("age")||{}).value);const g=groupOf(a);if(g!==null)ag=g;draw();}
+const ai=document.getElementById("age");if(ai)ai.addEventListener("input",sync);
+const f=document.getElementById("f");if(f)f.addEventListener("submit",()=>setTimeout(sync,50));
+document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0));
+const rs=document.getElementById("result");if(rs)new MutationObserver(()=>draw()).observe(rs,{childList:true});
+draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wedge Fit 웨지 추천 계산기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f2a3d; --navy-2:#173b55; --ink:#15212b; --muted:#64727d; --line:#e3e8ec; --bg:#f3f5f7; --card:#fff;
+  --green:#178a5b; --green-l:#e6f4ee; --gold:#c89b3c; --gold-l:#fbf4e4; --blue-l:#eaf1f8;
+  --r:16px; --shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,"Noto Sans KR",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.top{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:18px 18px 64px}
+.top-in{max-width:680px;margin:0 auto}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+.logo svg{flex-shrink:0}
+.logo small{display:block;font-weight:500;font-size:.72rem;opacity:.7;letter-spacing:.6px;text-transform:uppercase}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;color:#fff;opacity:.75;font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;cursor:pointer}
+.lang button.on{background:#fff;color:var(--navy);opacity:1;font-weight:600}
+.hero h1{font-size:1.55rem;line-height:1.3;margin:22px 0 6px;font-weight:700}
+.hero p{margin:0;opacity:.82;font-size:.95rem}
+.steps{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.steps span{font-size:.78rem;background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px}
+.steps b{color:var(--gold);margin-right:4px}
+main{max-width:680px;margin:-44px auto 0;padding:0 14px 40px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+.demo{font-size:.82rem;color:#7a5a12;background:var(--gold-l);border-radius:10px;padding:9px 12px;margin-bottom:16px}
+.sec{font-size:.75rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin:4px 0 10px}
+.f{margin-bottom:16px}
+.f:last-of-type{margin-bottom:0}
+.lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-weight:600;font-size:.95rem}
+.tag{font-size:.72rem;font-weight:500;color:var(--muted);background:var(--bg);border-radius:6px;padding:2px 7px}
+.tag.req{color:#fff;background:var(--green)}
+.inp{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;transition:border-color .15s}
+.inp:focus-within{border-color:var(--green)}
+.inp input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:1.05rem;padding:12px 14px;background:transparent;color:var(--ink)}
+.inp em{font-style:normal;color:var(--muted);font-size:.88rem;padding-right:14px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.two>*{min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1.5px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:.9rem;padding:9px 13px;border-radius:999px;cursor:pointer;transition:all .15s}
+.chips button.on{border-color:var(--green);background:var(--green-l);color:var(--green);font-weight:600}
+select{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364727d' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.go{width:100%;margin-top:18px;border:0;background:var(--green);color:#fff;font:inherit;font-size:1.05rem;font-weight:700;padding:15px;border-radius:12px;cursor:pointer;box-shadow:0 6px 16px rgba(23,138,91,.25)}
+.go:active{transform:translateY(1px)}
+.err{color:#b3261e;font-size:.9rem;margin:10px 0 0;display:none}
+#result{display:none}
+.disc{font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:9px 12px;margin-bottom:14px;background:#fff}
+.hint{font-size:.88rem;color:var(--navy-2);background:var(--blue-l);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.gauge{display:flex;flex-direction:column;align-items:center;text-align:center}
+.gauge .v{font-size:2.3rem;font-weight:700;color:var(--navy);line-height:1;margin-top:4px}
+.gauge .u{font-size:.85rem;color:var(--muted)}
+.gauge .rng{font-size:.85rem;color:var(--muted);margin-top:6px}
+.flexpill{display:inline-block;margin-top:10px;background:var(--navy-2);color:#fff;border-radius:999px;padding:5px 14px;font-weight:600;font-size:.9rem;transition:background .3s,transform .3s}
+.flexpill.run{background:var(--navy-2)!important;transform:none!important}
+.flexpill.done{background:var(--green);transform:scale(1.06)}
+.gauge .v{font-variant-numeric:tabular-nums}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 14px}
+.spec{background:var(--bg);border-radius:12px;padding:10px}
+.spec span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.3px}
+.spec b{display:block;font-size:.98rem;margin-top:2px}
+.why{list-style:none;margin:0;padding:0}
+.why li{position:relative;padding-left:26px;margin-bottom:8px;font-size:.93rem}
+.why li:before{content:"";position:absolute;left:0;top:3px;width:17px;height:17px;border-radius:50%;background:var(--green-l) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath d='M1 4l3 3 5-6' stroke='%23178a5b' stroke-width='1.8' fill='none'/%3E%3C/svg%3E") no-repeat center}
+.shafts{display:grid;gap:8px;margin-top:6px}
+.sh{border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.sh b{display:block;font-size:.95rem}
+.sh span{font-size:.84rem;color:var(--muted)}
+.sh i{font-style:normal;font-size:.75rem;color:var(--green);font-weight:600}
+.note{font-size:.78rem;color:var(--muted);margin:10px 0 0}
+h2{font-size:1.08rem;margin:0 0 12px}
+.pick{position:relative;overflow:hidden}
+.pick.top1{border:2px solid var(--gold)}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.rank{font-size:.72rem;font-weight:700;color:#fff;background:var(--gold);border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:6px}
+.rank.s{background:var(--navy-2)}
+.brand{font-size:.75rem;color:var(--muted);font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+.model{font-size:1.18rem;font-weight:700;margin:1px 0 4px}
+.score{text-align:right;flex-shrink:0}
+.score b{font-size:1.5rem;color:var(--green);display:block;line-height:1}
+.score span{font-size:.7rem;color:var(--muted)}
+.meter{height:6px;background:var(--bg);border-radius:6px;margin:10px 0 10px;overflow:hidden}
+.meter div{height:100%;background:linear-gradient(90deg,var(--green),#3fb984);border-radius:6px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tags span{font-size:.75rem;background:var(--blue-l);color:var(--navy-2);border-radius:6px;padding:3px 8px;font-weight:500}
+.point{font-size:.88rem;color:var(--muted);margin:0 0 10px}
+.buy{display:block;text-align:center;margin-top:12px;padding:12px;border-radius:10px;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;font-size:.95rem}
+.foot{font-size:.78rem;color:var(--muted);text-align:center;margin-top:18px;line-height:1.6}
+
+.gcard{background:radial-gradient(130% 100% at 50% 0%,#21506d 0%,#0f2a3d 55%,#0a1c29 100%);color:#fff;text-align:center;padding:16px 16px 22px;position:relative;overflow:hidden}
+.gcard:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 85%,rgba(63,185,132,.18),transparent 70%);pointer-events:none}
+.gtop{display:flex;justify-content:space-between;align-items:center;position:relative}
+.gsec{font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.gstat{font-size:.75rem;color:#e3c06a;display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.gstat:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;animation:blink .9s infinite}
+.gstat.ok{color:#5fd3a2}.gstat.ok:before{animation:none}
+svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;position:relative}
+.gread{margin-top:2px;display:flex;justify-content:center;align-items:baseline;gap:6px;position:relative}
+.gread .v{font-size:3.2rem;font-weight:700;letter-spacing:-1.5px;font-variant-numeric:tabular-nums;line-height:1;display:inline-block}
+.gread .u{font-size:.9rem;color:#e3c06a;font-weight:600;letter-spacing:.5px}
+.grng{color:rgba(255,255,255,.55);font-size:.83rem;margin-top:8px;position:relative}
+.fp{display:inline-flex;align-items:center;gap:12px;margin-top:16px;padding:6px 6px 6px 18px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);position:relative;backdrop-filter:blur(4px)}
+.fp span{font-size:.85rem;color:rgba(255,255,255,.78)}
+.fp b{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#173b55;color:#fff;font-size:1.1rem;transition:background .35s,color .35s,box-shadow .35s}
+.fp b.tick{animation:tick .24s ease}
+.fp.done b{background:linear-gradient(135deg,#f0d48a,#c89b3c);color:#0f2a3d;box-shadow:0 0 18px rgba(227,192,106,.5)}
+.fp.done:after{content:"";position:absolute;inset:-5px;border-radius:999px;border:2px solid #e3c06a;opacity:0;animation:ring 1.1s ease-out 1}
+.gread .v.pop{animation:pop .5s ease}
+@keyframes tick{0%{transform:translateY(5px);opacity:.45}100%{transform:none;opacity:1}}
+@keyframes ring{0%{opacity:.9;transform:scale(.95)}100%{opacity:0;transform:scale(1.14)}}
+@keyframes pop{0%{transform:scale(1)}35%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes blink{50%{opacity:.25}}
+
+.lcard{background:radial-gradient(130% 100% at 50% 0%,#21506d 0%,#0f2a3d 55%,#0a1c29 100%);color:#fff;padding:16px 14px 20px;position:relative;overflow:hidden}
+.lcard:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 90%,rgba(63,185,132,.18),transparent 70%);pointer-events:none}
+.gtop{display:flex;justify-content:space-between;align-items:center;position:relative}
+.gsec{font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.gstat{font-size:.75rem;color:#e3c06a;display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.gstat:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;animation:blink .9s infinite}
+.gstat.ok{color:#5fd3a2}.gstat.ok:before{animation:none}
+svg.ruler{width:100%;height:auto;display:block;margin:10px auto 0;position:relative}
+.setline{text-align:center;margin-top:10px;position:relative}
+.setline .lab2{font-size:.8rem;color:rgba(255,255,255,.6)}
+.setpill{display:inline-flex;gap:6px;margin-top:8px;flex-wrap:wrap;justify-content:center}
+.setpill b{display:inline-block;padding:7px 12px;border-radius:999px;background:#173b55;font-size:.95rem;transition:all .35s;opacity:.35}
+.setpill b.on{opacity:1}
+.setpill.done b{background:linear-gradient(135deg,#f0d48a,#c89b3c);color:#0f2a3d;box-shadow:0 0 14px rgba(227,192,106,.45)}
+.gapnote{font-size:.8rem;color:#e3c06a;margin-top:8px;position:relative}
+.wt{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:.88rem}
+.wt th{text-align:left;font-size:.7rem;font-weight:600;color:var(--muted);letter-spacing:.4px;padding:0 6px}
+.wt td{background:var(--bg);padding:10px 6px}
+.wt td:first-child{border-radius:10px 0 0 10px;font-weight:700}
+.wt td:last-child{border-radius:0 10px 10px 0}
+.wt .nm{display:block;font-size:.7rem;color:var(--muted);font-weight:600}
+.grinds{font-size:.8rem;color:var(--navy-2);background:var(--blue-l);border-radius:8px;padding:6px 9px;margin:0 0 10px}
+@keyframes blink{50%{opacity:.25}}
+</style>
+<style>
+.agw{margin-top:18px}
+.agw h2{margin:0 0 4px;font-size:1.15rem}.agw .ags{margin:0 0 12px;color:var(--muted,#64727d);font-size:.86rem}
+.agtabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.agtabs button{border:1px solid var(--line,#e3e8ec);background:#fff;border-radius:999px;padding:7px 13px;font:inherit;font-size:.85rem;font-weight:700;color:var(--navy,#0f2a3d);cursor:pointer}
+.agtabs button.on{background:var(--navy,#0f2a3d);color:#fff;border-color:var(--navy,#0f2a3d)}
+.agl{list-style:none;margin:0;padding:0}
+.agl li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line,#e3e8ec)}
+.agl li:first-child{border-top:0}
+.agl .n{width:30px;height:30px;border-radius:9px;background:#f3f6f8;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--navy,#0f2a3d)}
+.agl li:first-child .n{background:#e3c06a}
+.agl .bb{font-size:.68rem;font-weight:700;letter-spacing:.7px;color:var(--muted,#64727d);text-transform:uppercase}
+.agl .mm{font-weight:800;font-size:.98rem;line-height:1.3}.agl .rr{font-size:.84rem;color:var(--muted,#64727d)}
+.agl .you{display:inline-block;margin-left:6px;font-size:.66rem;font-weight:800;background:#e6f4ee;color:#178a5b;border-radius:5px;padding:1px 6px;vertical-align:2px}
+.agn{margin-top:10px;font-size:.76rem;color:var(--muted,#64727d);line-height:1.5}
+.agn a{color:inherit}
+</style>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="canonical" href="https://easyswingpick.com/wedge/">
+<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Wedge Fit 웨지 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/wedge/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+<div class="top"><div class="top-in">
+  <div class="bar">
+    <a class="logo" href="/" style="color:inherit;text-decoration:none" title="EasySwingPick">
+      <img src="/assets/wordmark.svg" height="38" alt="EasySwingPick" style="display:block;height:38px;width:auto">
+    </a>
+    <div class="lang" id="langT"><button data-lang="ko" class="on">한국어</button><button data-lang="en">EN</button></div>
+  </div>
+  <div class="hero">
+    <h1 data-t="title"></h1>
+    <p data-t="sub"></p>
+    <div class="steps"><span><b>1</b><i data-t="st1" style="font-style:normal"></i></span><span><b>2</b><i data-t="st2" style="font-style:normal"></i></span><span><b>3</b><i data-t="st3" style="font-style:normal"></i></span></div>
+  </div>
+</div></div>
+
+<main>
+  <form class="card" id="f" novalidate>
+    <div class="demo" data-t="demo"></div>
+    <div class="sec" data-t="secSet"></div>
+    <div class="f">
+      <div class="lab"><label for="pw" data-t="pw"></label><span class="tag req" data-t="required"></span></div>
+      <div class="inp"><input id="pw" type="number" inputmode="decimal" placeholder="45"><em>°</em></div>
+      <div class="chips" id="pwq" style="margin-top:8px"></div>
+      <p class="note" data-t="pwNote"></p>
+    </div>
+    <div class="f">
+      <div class="lab"><span data-t="cnt"></span><span class="tag" data-t="optional"></span></div>
+      <div class="chips" id="cnt"></div>
+    </div>
+    <div class="f">
+      <div class="lab"><label for="i7" data-t="i7"></label><span class="tag" data-t="optional"></span></div>
+      <div class="inp"><input id="i7" type="number" inputmode="decimal" placeholder="140"><em data-t="uYd"></em></div>
+    </div>
+    <div class="sec" style="margin-top:20px" data-t="secPlay"></div>
+    <div class="f"><div class="lab"><span data-t="hcp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="hcp"></div></div>
+    <div class="f"><div class="lab"><span data-t="swing"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="swing"></div></div>
+    <div class="f"><div class="lab"><span data-t="turf"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="turf"></div></div>
+    <div class="f"><div class="lab"><span data-t="bunker"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="bunker"></div></div>
+    <div class="f"><div class="lab"><span data-t="style"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="style"></div></div>
+    <div class="f"><div class="lab"><label for="age" data-t="age"></label><span class="tag" data-t="optional"></span></div>
+      <div class="inp"><input id="age" type="number" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div></div>
+    <button class="go" type="submit" data-t="go"></button>
+    <p class="err" id="err"></p>
+  </form>
+  <section id="result"></section>
+  <section id="ageTop"></section>
+  <p class="foot" data-t="foot"></p>
+</main>
+<script>
+const T={
+ ko:{brandSub:"웨지 피팅 가이드",title:"내 숏게임에 맞는 웨지 찾기",sub:"피칭웨지 로프트만 넣으면 웨지 간격, 바운스, 그라인드를 추천합니다.",
+  st1:"세팅·플레이 입력",st2:"로프트 간격 분석",st3:"웨지 추천",
+  demo:"모델 정보는 2026년 리뷰 자료 기준이며, 결과는 추정치입니다. 일부 링크는 제휴 링크일 수 있습니다.",
+  secSet:"현재 세팅",secPlay:"플레이 스타일",
+  pw:"피칭웨지(PW) 로프트",required:"필수",optional:"선택",pwNote:"아이언 세트에 들어 있는 PW 로프트입니다. 제조사 스펙표에서 확인할 수 있고, 모르시면 '모름'을 누르세요(45°로 계산).",
+  unk:"모름",cnt:"넣고 싶은 웨지 개수",auto:"자동",i7:"7번 아이언 캐리 거리",uYd:"야드",
+  hcp:"핸디캡",swing:"스윙 타입",turf:"주로 치는 코스 상태",bunker:"벙커 샷",style:"그린 주변 샷 스타일",age:"나이",ageUnit:"세",go:"분석하고 추천 받기",
+  hc:{h0:"0~5",h1:"6~12",h2:"13~20",h3:"21 이상"},
+  sw:{dig:"디거 (디봇이 깊음)",mid:"중간",slide:"슬라이더 (잔디를 스침)"},
+  tf:{soft:"부드럽거나 젖음",norm:"보통",firm:"단단하고 마름"},
+  bk:{hard:"어렵다",ok:"보통",good:"자신 있다"},
+  st:{square:"풀스윙·스퀘어 위주",open:"페이스를 여는 샷 많음"},
+  errPw:"피칭웨지 로프트를 입력하거나 '모름'을 눌러 주세요.",errRange:"PW 로프트는 보통 40~50° 사이입니다. 다시 확인해 주세요.",
+  disclose:"이 페이지의 일부 링크는 제휴(어필리에이트) 링크로, 링크를 통해 구매하시면 수수료를 받을 수 있습니다.",
+  hintPlay:"스윙 타입과 코스 상태를 선택하시면 바운스와 그라인드를 더 정확하게 추천해 드립니다.",
+  rulerT:"로프트 간격 분석",gBusy:"간격 분석 중",gDone:"분석 완료",setLab:"추천 웨지 세팅",
+  gapWide:"PW와 다음 웨지 사이 간격이 넓습니다. 웨지를 하나 더 넣는 것을 고려해 보세요.",
+  tblT:"웨지별 추천 세팅",thL:"로프트",thB:"바운스",thG:"그라인드",thD:"예상 거리",
+  bn:{low:"로우 (4~8°)",mid:"미드 (10~12°)",high:"하이 (14°+)"},
+  gr:{full:"풀 솔",std:"표준",vers:"다용도 (힐 릴리프)",wide:"와이드 솔",lowg:"로우 바운스"},
+  nm:{GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지"},
+  whyT:"이렇게 추천한 이유",picksT:"추천 웨지",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"구매처 보기 (링크 준비 중)",grOpt:"그라인드 옵션",
+  tg:{tour:"투어형",cav:"캐비티백",wide:"넓은 솔",spin:"고스핀",wet:"젖은 날 강함",forg:"관용성"},
+  foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 예상 거리는 7번 아이언 거리를 바탕으로 한 대략적인 값입니다. 구매 전 시타나 피팅을 권장합니다.",
+  r:{pw:p=>`PW가 ${p}°라서 이 로프트를 기준으로 웨지 간격을 잡았습니다.`,pwUnk:"PW 로프트를 몰라서 요즘 아이언 평균인 45°로 계산했습니다.",
+   gap:(l,g)=>`추천 로프트 ${l}는 웨지 사이를 ${g}° 안팎으로 고르게 나눠 거리 공백을 줄입니다.`,
+   top58:"페이스를 여는 샷이나 낮은 핸디캡을 고려해 가장 높은 웨지를 58° 이상으로 잡았습니다.",
+   top56:"관리하기 쉬운 56° 전후를 가장 높은 웨지로 잡았습니다. 로브웨지는 실수가 커질 수 있습니다.",
+   hi:"디봇이 깊거나 코스가 부드러운 편이라 바운스를 높여 땅에 박히는 것을 줄였습니다.",
+   lo:"잔디를 스치듯 치거나 코스가 단단한 편이라 바운스를 낮춰 공 밑으로 날이 잘 들어가게 했습니다.",
+   bunker:"벙커 샷이 어려우시다고 해서 샌드웨지에 넓은 솔과 높은 바운스를 추천합니다.",
+   open:"페이스를 여는 샷이 많아 힐 쪽을 깎은 다용도 그라인드를 추천합니다.",
+   square:"스퀘어로 치는 샷이 많아 솔 전체가 바닥을 받쳐 주는 풀·표준 그라인드를 추천합니다.",
+   dist:"7번 아이언 거리를 바탕으로 웨지별 풀스윙 거리를 추정했습니다.",
+   cnt3:"PW와 가장 높은 웨지 사이가 넓어 웨지 3개를 추천합니다.",
+   tourOk:"투어형 웨지라 그라인드 선택지가 많아 추천 세팅을 그대로 맞추기 좋습니다.",
+   cavOk:"캐비티백 웨지라 아이언처럼 쉽게 칠 수 있고 빗맞아도 거리 손실이 적습니다.",
+   wet:"젖은 날에도 스핀이 잘 유지된다는 평가를 받은 모델입니다.",
+   wideOk:"넓은 솔이 벙커와 뒤땅 실수를 줄여 줍니다.",
+   sr:"60세 이상 골퍼가 쓰기 편한 관용성 높은 모델입니다."}},
+ en:{brandSub:"Wedge fitting guide",title:"Find the wedges that fit your short game",sub:"Enter your pitching wedge loft. We recommend wedge gapping, bounce and grind.",
+  st1:"Enter setup & play",st2:"Loft gap analysis",st3:"Wedge picks",
+  demo:"Model info is based on 2026 review data; results are estimates. Some links may be affiliate links.",
+  secSet:"Current setup",secPlay:"Play style",
+  pw:"Pitching wedge (PW) loft",required:"Required",optional:"Optional",pwNote:"The PW loft from your iron set (see the maker's spec sheet). Not sure? Tap 'Don't know' (we use 45°).",
+  unk:"Don't know",cnt:"How many wedges",auto:"Auto",i7:"7-iron carry distance",uYd:"yd",
+  hcp:"Handicap",swing:"Swing type",turf:"Usual course conditions",bunker:"Bunker shots",style:"Around-the-green style",age:"Age",ageUnit:"yrs",go:"Analyze & recommend",
+  hc:{h0:"0–5",h1:"6–12",h2:"13–20",h3:"21+"},
+  sw:{dig:"Digger (deep divots)",mid:"Neutral",slide:"Slider (sweeps turf)"},
+  tf:{soft:"Soft or wet",norm:"Normal",firm:"Firm and dry"},
+  bk:{hard:"Tough",ok:"OK",good:"Confident"},
+  st:{square:"Full swings, square face",open:"Lots of open-face shots"},
+  errPw:"Enter your PW loft or tap 'Don't know'.",errRange:"PW loft is usually 40–50°. Please check it.",
+  disclose:"Some links on this page are affiliate links. We may earn a commission if you buy through them.",
+  hintPlay:"Pick swing type and course conditions for a more precise bounce and grind suggestion.",
+  rulerT:"Loft gap analysis",gBusy:"Analyzing gaps",gDone:"Analysis complete",setLab:"Recommended wedge setup",
+  gapWide:"The gap after your PW is wide. Consider adding one more wedge.",
+  tblT:"Setup by wedge",thL:"Loft",thB:"Bounce",thG:"Grind",thD:"Est. carry",
+  bn:{low:"Low (4–8°)",mid:"Mid (10–12°)",high:"High (14°+)"},
+  gr:{full:"Full sole",std:"Standard",vers:"Versatile (heel relief)",wide:"Wide sole",lowg:"Low bounce"},
+  nm:{GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge"},
+  whyT:"Why we recommend this",picksT:"Recommended wedges",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"See where to buy (link coming soon)",grOpt:"Grind options",
+  tg:{tour:"Tour shape",cav:"Cavity back",wide:"Wide sole",spin:"High spin",wet:"Wet-weather spin",forg:"Forgiving"},
+  foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Carry estimates are rough, based on your 7-iron. Demo or get fitted before buying.",
+  r:{pw:p=>`Your PW is ${p}°, so we built the gaps from there.`,pwUnk:"PW loft unknown, so we used 45°, a common modern loft.",
+   gap:(l,g)=>`${l} splits your wedges about ${g}° apart to avoid distance holes.`,
+   top58:"For open-face shots or a lower handicap, the top wedge is 58° or more.",
+   top56:"We capped the top wedge near 56°, which is easier to control than a lob wedge.",
+   hi:"Deep divots or soft turf, so we raised bounce to stop digging.",
+   lo:"You sweep the turf or play firm courses, so lower bounce gets the edge under the ball.",
+   bunker:"Bunkers are tough for you, so the sand wedge gets a wide sole and high bounce.",
+   open:"You open the face a lot, so a versatile heel-relief grind fits.",
+   square:"You mostly hit square, so a full or standard grind supports the club.",
+   dist:"Carry estimates for each wedge are based on your 7-iron distance.",
+   cnt3:"The span from PW to your top wedge is wide, so we suggest three wedges.",
+   tourOk:"A tour wedge with many grind options, so you can match the setup exactly.",
+   cavOk:"A cavity-back wedge that plays like your irons and keeps mishits closer.",
+   wet:"Reviewed as holding spin well in wet conditions.",
+   wideOk:"A wide sole reduces fat and bunker mistakes.",
+   sr:"A forgiving model that golfers 60+ find easy to use."}}
+};
+// 2026 review data. Grind options listed only where confirmed.
+const MODELS=[
+ {b:"Titleist",m:"Vokey SM11",type:"tour",lv:[0,1,2],wide:0,spin:1,wet:1,gr:"F · S · M · K · L · D",p:{ko:"2026 PGA 투어 최다 우승 웨지, 젖은 날에도 스핀 유지",en:"2026's winningest PGA Tour wedge; holds spin in the wet"}},
+ {b:"TaylorMade",m:"MG5",type:"tour",lv:[0,1,2],wide:0,spin:1,wet:1,gr:"LB · SC · SB · SX · HB · TW",p:{ko:"2026년 투어 7승, 고스핀 단조 느낌",en:"Seven tour wins in 2026, high spin and soft feel"}},
+ {b:"Cleveland",m:"RTZ",type:"tour",lv:[0,1,2],wide:1,spin:1,wet:1,gr:"",p:{ko:"하이 바운스와 젖은 날 일관성으로 호평",en:"Praised for high-bounce options and wet-weather consistency"}},
+ {b:"Callaway",m:"Opus SP",type:"tour",lv:[0,1,2],wide:0,spin:0,wet:0,gr:"X · C · S · T · W",p:{ko:"낮고 통제된 탄도, 투어 검증 헤드",en:"Lower, controlled flight with a tour-proven head"}},
+ {b:"PING",m:"S259",type:"tour",lv:[0,1,2],wide:0,spin:0,wet:0,gr:"",p:{ko:"저평가된 실력파, E·T 그라인드 개선",en:"Underrated performer with refined E and T grinds"}},
+ {b:"Mizuno",m:"Pro T-1",type:"tour",lv:[0,1],wide:0,spin:1,wet:0,gr:"",p:{ko:"Mizuno 특유의 부드러운 타감",en:"Mizuno's signature soft feel"}},
+ {b:"Fourteen",m:"FRZ",type:"tour",lv:[0,1,2],wide:0,spin:1,wet:0,gr:"",p:{ko:"일본 웨지 전문 브랜드, 풀샷 스핀 상위권",en:"Japanese wedge specialist; high full-shot spin"}},
+ {b:"PXG",m:"Sugar Daddy III",type:"tour",lv:[0,1,2],wide:0,spin:1,wet:0,gr:"",p:{ko:"2026 풀샷 스핀 테스트 상위권",en:"Near the top of 2026 full-shot spin tests"}},
+ {b:"Cleveland",m:"CBX 4 ZipCore",type:"cav",lv:[2,3],wide:1,spin:0,wet:0,gr:"",p:{ko:"둥글고 큰 캐비티백, 숏게임이 어려운 골퍼용",en:"Larger rounded cavity back for struggling short games"}},
+ {b:"Callaway",m:"CB 12",type:"cav",lv:[2,3],wide:1,spin:1,wet:0,gr:"",p:{ko:"Opus 그루브를 쓴 캐비티백, 부드러운 타감",en:"Cavity back with Opus grooves and soft feel"}},
+ {b:"Cleveland",m:"Smart Sole 4.0",type:"spec",lv:[3],wide:1,spin:0,wet:0,gr:"",p:{ko:"3단 와이드 솔, 시니어·초보자 벙커 탈출용",en:"Three-tier wide sole for seniors and beginners"}},
+ {b:"Takomo",m:"Skyforger 002",type:"tour",lv:[0,1,2],wide:0,spin:1,wet:0,gr:"",p:{ko:"가성비 최고로 꼽히는 직판 웨지",en:"Direct-to-consumer wedge rated best on a budget"}},
+ {b:"TaylorMade",m:"Hi-Toe 4",type:"tour",lv:[1,2],wide:0,spin:1,wet:0,gr:"",p:{ko:"토우가 높은 헤드로 빗맞아도 스핀 유지",en:"High-toe head that keeps spin on off-center hits"}},
+ {b:"Cleveland",m:"Smart Sole Full-Face",type:"cav",lv:[2,3],wide:1,spin:0,wet:1,gr:"",p:{ko:"Cleveland 역대 가장 넓은 타구면, 고핸디캡용",en:"Cleveland's largest-ever face, built for high handicaps"}},
+ {b:"Wilson",m:"Staff ZM",type:"cav",lv:[1,2,3],wide:1,spin:0,wet:0,gr:"",p:{ko:"한 리뷰 사이트 선정 시니어 최고의 웨지",en:"Named best wedge for seniors by one review site"}}
+];
+let lang="ko",pwq="",cnt="",hcp="",swing="",turf="",bunker="",style="";
+const $=id=>document.getElementById(id);
+const num=id=>{const v=parseFloat($(id).value);return isNaN(v)||v<=0?null:v;};
+function chips(id,items,val,set){$(id).innerHTML=items.map(([k,v])=>`<button type="button" data-k="${k}" class="${k===val?'on':''}">${v}</button>`).join("");
+  $(id).onclick=e=>{const b=e.target.closest("button");if(!b)return;const k=b.dataset.k;set(k===val?"":k);};}
+function render(){
+  const t=T[lang];document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.textContent=v;});
+  document.title="Wedge Fit — "+t.title;
+  chips("pwq",[["43","43°"],["44","44°"],["45","45°"],["46","46°"],["47","47°"],["48","48°"],["unk",t.unk]],pwq,k=>{pwq=k;if(k&&k!=="unk")$("pw").value=k;if(k==="unk")$("pw").value="";render();});
+  chips("cnt",[["","—"].slice(0,0),["1","1"],["2","2"],["3","3"]].filter(x=>x.length),cnt,k=>{cnt=k;render();});
+  chips("hcp",Object.entries(t.hc),hcp,k=>{hcp=k;render();});
+  chips("swing",Object.entries(t.sw),swing,k=>{swing=k;render();});
+  chips("turf",Object.entries(t.tf),turf,k=>{turf=k;render();});
+  chips("bunker",Object.entries(t.bk),bunker,k=>{bunker=k;render();});
+  chips("style",Object.entries(t.st),style,k=>{style=k;render();});
+  if($("result").style.display==="block")run(true);
+}
+$("langT").onclick=e=>{const b=e.target.closest("button");if(!b)return;lang=b.dataset.lang;document.querySelectorAll("#langT button").forEach(x=>x.classList.toggle("on",x===b));render();};
+$("pw").oninput=()=>{pwq="";document.querySelectorAll("#pwq button").forEach(b=>b.classList.remove("on"));};
+$("f").onsubmit=e=>{e.preventDefault();run(false);};
+
+function bestLofts(pw,top,n){
+  const opts=[];for(let l=Math.ceil((pw+3)/2)*2;l<=62;l+=2)opts.push(l);
+  let best=null;
+  const evalSet=s=>{const all=[pw,...s];const g=all.slice(1).map((v,i)=>v-all[i]);if(g.some(x=>x<3||x>8))return 1e9;
+    const m=g.reduce((a,b)=>a+b)/g.length;return g.reduce((a,b)=>a+(b-m)**2,0)+Math.abs(s[s.length-1]-top)*3;};
+  const rec=(start,cur)=>{if(cur.length===n){const sc=evalSet(cur);if(!best||sc<best.sc)best={s:[...cur],sc};return;}
+    for(let i=start;i<opts.length;i++){cur.push(opts[i]);rec(i+1,cur);cur.pop();}};
+  rec(0,[]);
+  return best&&best.sc<1e9?best.s:[top];
+}
+const nameOf=l=>l<=52?"GW":l<=56?"SW":"LW";
+
+const RX={min:40,max:64,x0:18,x1:282};
+const rx=l=>RX.x0+(l-RX.min)/(RX.max-RX.min)*(RX.x1-RX.x0);
+function ruler(pw,lofts,dists,show){
+  let tk="";for(let l=RX.min;l<=RX.max;l++){const maj=l%4===0,x=rx(l);
+    tk+=`<line x1="${x}" y1="92" x2="${x}" y2="${maj?100:96}" stroke="rgba(255,255,255,${maj?.5:.2})" stroke-width="${maj?1.4:1}"/>`;
+    if(maj)tk+=`<text x="${x}" y="112" font-size="8.5" text-anchor="middle" fill="rgba(255,255,255,.4)" font-family="Inter">${l}°</text>`;}
+  const all=[pw,...lofts];
+  let gaps="";for(let i=1;i<all.length;i++){const a=rx(all[i-1]),b=rx(all[i]),m=(a+b)/2,g=all[i]-all[i-1];
+    gaps+=`<g class="gp" id="gap${i}" style="opacity:${show?1:0};transition:opacity .4s"><path d="M${a} 40 V34 H${b} V40" stroke="#e3c06a" stroke-width="1.2" fill="none" opacity=".8"/><text x="${m}" y="29" font-size="10" text-anchor="middle" fill="#e3c06a" font-weight="700" font-family="Inter">${g}°</text></g>`;}
+  const mk=(l,lab,i,isPw)=>{const x=isPw?rx(pw):(show?rx(l):rx(pw));const d=dists?dists[i]:null;
+    return `<g id="mk${i}" transform="translate(${x} 0)" style="opacity:${isPw||show?1:0}">
+      <line x1="0" y1="50" x2="0" y2="88" stroke="${isPw?'rgba(255,255,255,.35)':'url(#lg)'}" stroke-width="2"/>
+      <circle cx="0" cy="88" r="${isPw?5:7}" fill="${isPw?'#5b6b75':'#3fb984'}" ${isPw?'':'filter="url(#gl)"'}/>
+      <circle cx="0" cy="88" r="${isPw?2:3}" fill="${isPw?'#c9d3da':'#f0d48a'}"/>
+      <text x="0" y="62" font-size="10" text-anchor="middle" fill="${isPw?'rgba(255,255,255,.55)':'#fff'}" font-weight="700" font-family="Inter">${lab}</text>
+      <text x="0" y="74" font-size="9.5" text-anchor="middle" fill="${isPw?'rgba(255,255,255,.45)':'#5fd3a2'}" font-family="Inter">${l}°</text>
+      ${d?`<text x="0" y="128" font-size="9" text-anchor="middle" fill="rgba(255,255,255,.6)" font-family="Inter">${d}y</text>`:""}</g>`;};
+  return `<svg class="ruler" viewBox="0 0 300 136" role="img">
+   <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3c06a" stop-opacity=".2"/><stop offset="1" stop-color="#3fb984"/></linearGradient>
+   <filter id="gl" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+   <rect x="${RX.x0}" y="86" width="${RX.x1-RX.x0}" height="4" rx="2" fill="rgba(255,255,255,.1)"/>
+   ${tk}${gaps}${mk(pw,"PW",0,true)}${lofts.map((l,i)=>mk(l,nameOf(l),i+1,false)).join("")}</svg>`;
+}
+let animId=0;
+function animateRuler(pw,lofts){
+  const t=T[lang],id=++animId,st=$("gs"),pill=$("sp");
+  const done=()=>{st.textContent=t.gDone;st.classList.add("ok");pill.classList.add("done");pill.querySelectorAll("b").forEach(b=>b.classList.add("on"));};
+  if(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches){lofts.forEach((l,i)=>{const g=$("mk"+(i+1));g.setAttribute("transform",`translate(${rx(l)} 0)`);g.style.opacity=1;$("gap"+(i+1)).style.opacity=1;});done();return;}
+  const easeBack=x=>{const c1=1.4,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+  let i=0;
+  const next=()=>{if(id!==animId)return;if(i>=lofts.length){setTimeout(()=>{if(id===animId)done();},250);return;}
+    const idx=i+1,g=$("mk"+idx),from=rx(i===0?pw:lofts[i-1]),to=rx(lofts[i]),t0=performance.now(),dur=650;g.style.opacity=1;
+    const step=()=>{if(id!==animId)return;const p=Math.min(1,(performance.now()-t0)/dur),x=from+(to-from)*easeBack(p);g.setAttribute("transform",`translate(${x} 0)`);
+      if(p<1)setTimeout(step,16);else{$("gap"+idx).style.opacity=1;pill.querySelectorAll("b")[i].classList.add("on");i++;setTimeout(next,180);}};
+    step();};
+  setTimeout(next,500);
+}
+
+function run(silent){
+  const t=T[lang],R=t.r,err=$("err");
+  let pw=num("pw");const unk=pwq==="unk";
+  if(!pw&&!unk){if(!silent){err.textContent=t.errPw;err.style.display="block";}return;}
+  if(unk&&!pw)pw=45;
+  if(pw<40||pw>50){if(!silent){err.textContent=t.errRange;err.style.display="block";}return;}
+  err.style.display="none";pw=Math.round(pw);
+  const age=num("age"),i7=num("i7"),senior=age&&age>=60;
+  const why=[unk&&!num("pw")?R.pwUnk:R.pw(pw)];
+  const low=hcp==="h0"||hcp==="h1";
+  const top=(style==="open"||low)?(hcp==="h0"&&style==="open"?60:58):(hcp==="h3"||senior?56:58);
+  why.push(top>=58?R.top58:R.top56);
+  let n=cnt?parseInt(cnt):(top-pw>=14?3:2);
+  if(!cnt&&n===3)why.push(R.cnt3);
+  const lofts=bestLofts(pw,top,n);
+  const all=[pw,...lofts],gaps=all.slice(1).map((v,i)=>v-all[i]);
+  why.push(R.gap(lofts.map(l=>l+"°").join(" · "),Math.round(gaps.reduce((a,b)=>a+b)/gaps.length)));
+  // bounce score
+  let bs=(swing==="dig"?1:swing==="slide"?-1:0)+(turf==="soft"?1:turf==="firm"?-1:0)+(hcp==="h3"||senior?1:0);
+  if(bs>=1)why.push(R.hi);else if(bs<=-1)why.push(R.lo);
+  if(bunker==="hard")why.push(R.bunker);
+  if(style==="open")why.push(R.open);else if(style==="square")why.push(R.square);
+  const rows=lofts.map((l,i)=>{const nm=nameOf(l);let b=bs+(nm==="SW"&&bunker==="hard"?1:0)+(nm==="GW"?-0.5:0)+(nm==="LW"&&style==="open"?-0.5:0);
+    const bn=b>=1?"high":b<=-1?"low":"mid";
+    let g;if(nm==="GW")g=style==="open"?"std":"full";else if(bn==="high")g=style==="open"?"vers":"wide";else if(bn==="low")g=style==="open"?"lowg":"std";else g=style==="open"?"vers":"std";
+    return{l,nm,bn,g};});
+  // distances
+  let dists=null;
+  if(i7){why.push(R.dist);const pwd=i7*0.78,ypd=pwd/40;dists=[Math.round(pwd),...lofts.map(l=>Math.round(pwd-(l-pw)*ypd))];}
+  const wideWarn=gaps[0]>=8;
+  // models
+  const lvl=hcp?{h0:0,h1:1,h2:2,h3:3}[hcp]:(senior?3:2);
+  const scored=MODELS.map(m=>{let sc=0;
+    sc+=m.lv.includes(lvl)?40:-15;
+    if(m.type==="tour"&&lvl<=1)sc+=10; if(m.type!=="tour"&&lvl>=3)sc+=12; if(m.type==="cav"&&lvl===2)sc+=6;
+    if(senior&&m.type!=="tour")sc+=8;
+    if(bunker==="hard"&&m.wide)sc+=10; if(turf==="soft"&&m.wet)sc+=6; if(style==="open"&&m.type==="tour")sc+=8; if(style==="open"&&m.type!=="tour")sc-=8;
+    if(m.gr)sc+=3; if(m.spin)sc+=2;
+    return{m,sc};}).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  const topS=scored[0].sc,pct=sc=>Math.max(55,Math.min(97,Math.round(93-(topS-sc)*.9)));
+  const picks=scored.map(({m,sc},i)=>{const r=[];
+    r.push(m.type==="tour"?R.tourOk:R.cavOk);
+    if(m.wet&&(turf==="soft"||!turf))r.push(R.wet); if(m.wide&&(bunker==="hard"||swing==="dig"))r.push(R.wideOk); if(senior&&m.type!=="tour")r.push(R.sr);
+    const tags=[m.type==="tour"&&t.tg.tour,m.type!=="tour"&&t.tg.cav,m.wide&&t.tg.wide,m.spin&&t.tg.spin,m.wet&&t.tg.wet,m.type!=="tour"&&t.tg.forg].filter(Boolean);
+    const p=pct(sc);
+    return `<div class="card pick ${i===0?'top1':''}">
+      <div class="ph"><div><span class="rank ${i?'s':''}">${t.rank(i+1)}</span><div class="brand">${m.b}</div><div class="model">${m.m}</div></div>
+      <div class="score"><b>${p}%</b><span>${t.fit}</span></div></div>
+      <div class="meter"><div style="width:${p}%"></div></div>
+      <div class="tags">${tags.map(x=>`<span>${x}</span>`).join("")}</div>
+      <p class="point">${m.p[lang]}</p>
+      ${m.gr?`<p class="grinds">${t.grOpt}: ${m.gr}</p>`:""}
+      <ul class="why">${r.map(x=>`<li>${x}</li>`).join("")}</ul>
+      <a class="buy" href="#" onclick="return false">${t.buy}</a></div>`;}).join("");
+  const res=$("result");
+  res.innerHTML=`<div class="disc">${t.disclose}</div>${!swing&&!turf?`<div class="hint">${t.hintPlay}</div>`:""}
+   <div class="card lcard"><div class="gtop"><span class="gsec">${t.rulerT}</span><span class="gstat ${silent?'ok':''}" id="gs">${silent?t.gDone:t.gBusy}</span></div>
+    ${ruler(pw,lofts,dists,silent)}
+    <div class="setline"><div class="lab2">${t.setLab}</div><div class="setpill ${silent?'done':''}" id="sp">${lofts.map(l=>`<b class="${silent?'on':''}">${l}°</b>`).join("")}</div>
+    ${wideWarn?`<div class="gapnote">${t.gapWide}</div>`:""}</div></div>
+   <div class="card"><h2>${t.tblT}</h2>
+    <table class="wt"><tr><th>${t.thL}</th><th>${t.thB}</th><th>${t.thG}</th>${dists?`<th>${t.thD}</th>`:""}</tr>
+    ${rows.map((w,i)=>`<tr><td>${w.l}°<span class="nm">${t.nm[w.nm]}</span></td><td>${t.bn[w.bn]}</td><td>${t.gr[w.g]}</td>${dists?`<td>${dists[i+1]} yd</td>`:""}</tr>`).join("")}</table>
+    <div class="sec" style="margin-top:12px">${t.whyT}</div><ul class="why">${why.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+   <h2 style="margin:20px 4px 12px">${t.picksT}</h2>${picks}`;
+  res.style.display="block";
+  if(!silent){res.scrollIntoView({behavior:"smooth",block:"start"});animateRuler(pw,lofts);}else{animId++;}
+}
+render();
+</script>
+<script>
+(function(){
+const AG={"u45": [["Titleist", "Vokey SM11", "2026 투어 최다 우승 웨지, 그라인드 6종", "Winningest tour wedge, six grinds"], ["TaylorMade", "MG5", "짧은 샷 스핀이 많은 2026 신모델", "New for 2026 with high partial-shot spin"], ["Callaway", "Opus SP", "한 리뷰 사이트 중급자 최고의 웨지", "Best mid-handicap wedge on one review site"], ["Cleveland", "RTZ", "타감이 매우 부드러운 투어 웨지", "Tour wedge with very soft feel"], ["Takomo", "Skyforger 002", "가성비 최고로 꼽히는 웨지", "Rated the best budget wedge"]], "m45": [["Titleist", "Vokey SM11", "그라인드를 맞춰 쓰기 좋은 표준", "The standard for fitting grinds"], ["Cleveland", "RTZ", "하이 바운스, 젖은 날에도 일관성", "High-bounce options; consistent in the wet"], ["Cleveland", "CBX 4 ZipCore", "중·고핸디캡을 위한 캐비티 웨지 1순위", "Top cavity wedge for mid-high handicaps"], ["Callaway", "Opus SP", "낮고 통제된 탄도", "Lower, controlled flight"], ["TaylorMade", "Hi-Toe 4", "빗맞아도 스핀 유지", "Keeps spin on mishits"]], "s65": [["Cleveland", "Smart Sole Full-Face", "가장 넓은 타구면, 벙커·뒤땅 걱정 줄임", "Largest face; fewer chunks and bunker woes"], ["Cleveland", "CBX 4 ZipCore", "관용성 높은 캐비티백", "Forgiving cavity back"], ["Wilson", "Staff ZM", "한 리뷰 사이트 시니어 최고의 웨지", "Best wedge for seniors on one review site"], ["Cleveland", "Smart Sole 4.0", "넓은 3단 솔, 시니어 추천", "Wide three-tier sole; a senior favorite"], ["Cleveland", "RTZ", "하이 바운스 선택지로 벙커에 강함", "High-bounce options for bunkers"]]};
+const AGS=[["Golfshake \u2014 Brand preference by age", "https://www.golfshake.com/news/view/23200/Which_golf_equipment_brands_do_amateur_golfers_prefer.html"], ["Independent Golf Reviews \u2014 Wedge rankings 2026", "https://www.independentgolfreviews.com/best-wedges/"], ["GOLF.com \u2014 Winningest wedges 2026", "https://golf.com/gear/wedges/winningest-wedges-pga-tour-2026/"], ["Golferhive \u2014 Wedges for high handicappers", "https://golferhive.com/best-golf-wedges-for-high-handicappers/"], ["Dunlop \u2014 Cleveland wedge finder", "https://ca.dunlopsports.com/pages/cleveland-find-your-wedge"], ["GolfLink \u2014 Wedges for high handicappers", "https://www.golflink.com/equipment/best-wedges-high-handicappers-3246708"]];
+const AGT={ko:{t:"연령대별 인기 TOP 5 · 웨지",s:"나이를 입력하면 해당 연령대가 자동으로 선택됩니다.",g:["45세 미만","45~64세","65세 이상"],you:"추천 결과",
+ n:"선정 방법: 연령대별 선호 브랜드 설문(Golfshake)과 2026년 테스트·리뷰·투어 사용 자료를 함께 반영한 EasySwingPick 편집부 선정입니다. 모델별 연령 판매 통계가 아니라 참고용 순위입니다.",src:"출처"},
+ en:{t:"Top 5 by age · Wedge",s:"Enter your age and your group is selected automatically.",g:["Under 45","45–64","65+"],you:"Your pick",
+ n:"Method: EasySwingPick editors combined a brand-preference-by-age survey (Golfshake) with 2026 testing, reviews and tour usage. This is a guide, not model-level sales data by age.",src:"Sources"}};
+let ag=1;
+function groupOf(a){return a?(a<45?0:a<65?1:2):null;}
+function picked(){return [...document.querySelectorAll("#result .pick .model")].map(x=>x.textContent.trim());}
+function draw(){
+ const L=(typeof lang!=="undefined"?lang:"ko"),t=AGT[L],k=["u45","m45","s65"][ag],res=picked(),box=document.getElementById("ageTop");if(!box)return;
+ box.innerHTML=`<div class="card agw"><h2>${t.t}</h2><p class="ags">${t.s}</p>
+  <div class="agtabs">${t.g.map((x,i)=>`<button type="button" data-g="${i}" class="${i===ag?"on":""}">${x}</button>`).join("")}</div>
+  <ol class="agl">${AG[k].map(([b,m,rk,re],i)=>`<li><span class="n">${i+1}</span><div><div class="bb">${b}</div><div class="mm">${m}${res.includes(m)?`<span class="you">${t.you}</span>`:""}</div><div class="rr">${L==="ko"?rk:re}</div></div></li>`).join("")}</ol>
+  <p class="agn">${t.n}<br>${t.src}: ${AGS.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join(" · ")}</p></div>`;
+ box.querySelectorAll(".agtabs button").forEach(b=>b.onclick=()=>{ag=+b.dataset.g;draw();});
+}
+function sync(){const a=parseFloat((document.getElementById("age")||{}).value);const g=groupOf(a);if(g!==null)ag=g;draw();}
+const ai=document.getElementById("age");if(ai)ai.addEventListener("input",sync);
+const f=document.getElementById("f");if(f)f.addEventListener("submit",()=>setTimeout(sync,50));
+document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0));
+const rs=document.getElementById("result");if(rs)new MutationObserver(()=>draw()).observe(rs,{childList:true});
+draw();
+})();
+</script>
+</body>
+</html>
