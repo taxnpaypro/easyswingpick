@@ -164,7 +164,7 @@ svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;pos
     <div class="sec" data-t="secSwing"></div>
     <div class="f">
       <div class="lab"><label for="dist" data-t="dist"></label><span class="tag req" data-t="required"></span></div>
-      <div class="inp"><input id="dist" type="number" inputmode="decimal" placeholder="140"><em data-t="uYd"></em></div>
+      <div class="inp"><input id="dist" type="number" min="60" max="220" step="1" inputmode="decimal" placeholder="140"><em data-t="uYd"></em></div>
     </div>
     <div class="f">
       <div class="lab"><span data-t="hcp"></span><span class="tag" data-t="optional"></span></div>
@@ -177,18 +177,18 @@ svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;pos
     <div class="sec" style="margin-top:20px" data-t="secBody"></div>
     <div class="f">
       <div class="lab"><label for="age" data-t="age"></label><span class="tag" data-t="optional"></span></div>
-      <div class="inp"><input id="age" type="number" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div>
+      <div class="inp"><input id="age" type="number" min="10" max="99" step="1" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div>
     </div>
     <div class="f">
       <div class="lab"><label for="hft" data-t="height"></label><span class="tag" data-t="optional"></span></div>
       <div class="two">
-        <div class="inp"><input id="hft" type="number" inputmode="numeric" placeholder="5"><em data-t="uFt"></em></div>
-        <div class="inp"><input id="hin" type="number" inputmode="numeric" placeholder="7"><em data-t="uIn"></em></div>
+        <div class="inp"><input id="hft" type="number" min="4" max="7" step="1" inputmode="numeric" placeholder="5"><em data-t="uFt"></em></div>
+        <div class="inp"><input id="hin" type="number" min="0" max="11" step="1" inputmode="numeric" placeholder="7"><em data-t="uIn"></em></div>
       </div>
     </div>
     <div class="f">
       <div class="lab"><label for="wtf" data-t="wtf"></label><span class="tag" data-t="optional"></span></div>
-      <div class="inp"><input id="wtf" type="number" inputmode="decimal" placeholder="33"><em data-t="uIn"></em></div>
+      <div class="inp"><input id="wtf" type="number" min="20" max="45" step="0.5" inputmode="decimal" placeholder="33"><em data-t="uIn"></em></div>
       <p class="note" data-t="wtfNote"></p>
     </div>
     <div class="sec" style="margin-top:20px" data-t="secGear"></div>
@@ -433,7 +433,7 @@ function run(silent){
   if(!yd){if(!silent){err.textContent=t.errDist;err.style.display="block";}return;}
   if(yd<60||yd>220){if(!silent){err.textContent=t.errRange;err.style.display="block";}return;}
   err.style.display="none";
-  const age=num("age"),ft=num("hft"),inch=parseFloat($("hin").value)||0,wtf=num("wtf"),brand=$("brand").value;
+  const age=num("age"),ft=num("hft"),inch=Math.min(11,Math.max(0,parseFloat($("hin").value)||0)),wtf=num("wtf"),brand=$("brand").value;
   const hTot=ft?ft*12+inch:null,senior=age&&age>=60;
   const s=Math.round(yd/1.9),sLo=Math.round(s*.95),sHi=Math.round(s*1.05);
   const flex=flexOf(s);
@@ -531,6 +531,9 @@ document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0)
 const rs=document.getElementById("result");if(rs)new MutationObserver(()=>draw()).observe(rs,{childList:true});
 draw();
 })();
+
+// keep number fields inside sensible ranges (stepper arrows can't go below min, typed values are clamped on leaving the field)
+document.querySelectorAll('input[type=number][min]').forEach(e=>e.addEventListener("change",()=>{if(e.value==="")return;let v=parseFloat(e.value);if(isNaN(v)){e.value="";return;}v=Math.min(+e.max,Math.max(+e.min,v));if(String(v)!==e.value){e.value=v;e.dispatchEvent(new Event("input",{bubbles:true}));}}));
 </script>
 </body>
 </html>

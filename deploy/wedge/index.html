@@ -184,7 +184,7 @@ svg.ruler{width:100%;height:auto;display:block;margin:10px auto 0;position:relat
     <div class="sec" data-t="secSet"></div>
     <div class="f">
       <div class="lab"><label for="pw" data-t="pw"></label><span class="tag req" data-t="required"></span></div>
-      <div class="inp"><input id="pw" type="number" inputmode="decimal" placeholder="45"><em>°</em></div>
+      <div class="inp"><input id="pw" type="number" min="40" max="50" step="0.5" inputmode="decimal" placeholder="45"><em>°</em></div>
       <div class="chips" id="pwq" style="margin-top:8px"></div>
       <p class="note" data-t="pwNote"></p>
     </div>
@@ -194,7 +194,7 @@ svg.ruler{width:100%;height:auto;display:block;margin:10px auto 0;position:relat
     </div>
     <div class="f">
       <div class="lab"><label for="i7" data-t="i7"></label><span class="tag" data-t="optional"></span></div>
-      <div class="inp"><input id="i7" type="number" inputmode="decimal" placeholder="140"><em data-t="uYd"></em></div>
+      <div class="inp"><input id="i7" type="number" min="60" max="220" step="1" inputmode="decimal" placeholder="140"><em data-t="uYd"></em></div>
     </div>
     <div class="sec" style="margin-top:20px" data-t="secPlay"></div>
     <div class="f"><div class="lab"><span data-t="hcp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="hcp"></div></div>
@@ -203,7 +203,7 @@ svg.ruler{width:100%;height:auto;display:block;margin:10px auto 0;position:relat
     <div class="f"><div class="lab"><span data-t="bunker"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="bunker"></div></div>
     <div class="f"><div class="lab"><span data-t="style"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="style"></div></div>
     <div class="f"><div class="lab"><label for="age" data-t="age"></label><span class="tag" data-t="optional"></span></div>
-      <div class="inp"><input id="age" type="number" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div></div>
+      <div class="inp"><input id="age" type="number" min="10" max="99" step="1" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div></div>
     <button class="go" type="submit" data-t="go"></button>
     <p class="err" id="err"></p>
   </form>
@@ -495,6 +495,9 @@ document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0)
 const rs=document.getElementById("result");if(rs)new MutationObserver(()=>draw()).observe(rs,{childList:true});
 draw();
 })();
+
+// keep number fields inside sensible ranges (stepper arrows can't go below min, typed values are clamped on leaving the field)
+document.querySelectorAll('input[type=number][min]').forEach(e=>e.addEventListener("change",()=>{if(e.value==="")return;let v=parseFloat(e.value);if(isNaN(v)){e.value="";return;}v=Math.min(+e.max,Math.max(+e.min,v));if(String(v)!==e.value){e.value=v;e.dispatchEvent(new Event("input",{bubbles:true}));}}));
 </script>
 <script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script></body>
 </html>

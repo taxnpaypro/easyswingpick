@@ -175,13 +175,13 @@ svg.hang{width:100%;max-width:340px;height:auto;display:block;margin:4px auto 0;
     <div class="f">
       <div class="lab"><label for="hft" data-t="height"></label><span class="tag" data-t="optional"></span></div>
       <div class="two">
-        <div class="inp"><input id="hft" type="number" inputmode="numeric" placeholder="5"><em data-t="uFt"></em></div>
-        <div class="inp"><input id="hin" type="number" inputmode="numeric" placeholder="7"><em data-t="uIn"></em></div>
+        <div class="inp"><input id="hft" type="number" min="4" max="7" step="1" inputmode="numeric" placeholder="5"><em data-t="uFt"></em></div>
+        <div class="inp"><input id="hin" type="number" min="0" max="11" step="1" inputmode="numeric" placeholder="7"><em data-t="uIn"></em></div>
       </div>
     </div>
     <div class="f"><div class="lab"><span data-t="posture"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="posture"></div></div>
     <div class="f"><div class="lab"><label for="age" data-t="age"></label><span class="tag" data-t="optional"></span></div>
-      <div class="inp"><input id="age" type="number" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div></div>
+      <div class="inp"><input id="age" type="number" min="10" max="99" step="1" inputmode="numeric" placeholder="60"><em data-t="ageUnit"></em></div></div>
     <div class="sec" style="margin-top:20px" data-t="secPref"></div>
     <div class="f"><div class="lab"><span data-t="headp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="headp"></div></div>
     <div class="f"><div class="lab"><span data-t="alignp"></span><span class="tag" data-t="optional"></span></div><div class="chips" id="alignp"></div></div>
@@ -405,7 +405,7 @@ function run(silent){
   if(!stroke){if(!silent){err.textContent=t.errStroke;err.style.display="block";}return;}
   err.style.display="none";
   const sk=stroke==="unk"?"slight":stroke,age=num("age"),senior=age&&age>=60;
-  const ft=num("hft"),inch=parseFloat($("hin").value)||0,hTot=ft?ft*12+inch:null,brand=$("brand").value;
+  const ft=num("hft"),inch=Math.min(11,Math.max(0,parseFloat($("hin").value)||0)),hTot=ft?ft*12+inch:null,brand=$("brand").value;
   const why=[R[stroke==="unk"?"unk":sk]];
   if(stroke==="unk")why.push(R.slight);
   const wantZT=(miss==="short")||((miss==="push"||miss==="pull")&&sk!=="strong");
@@ -497,6 +497,9 @@ document.getElementById("langT").addEventListener("click",()=>setTimeout(draw,0)
 const rs=document.getElementById("result");if(rs)new MutationObserver(()=>draw()).observe(rs,{childList:true});
 draw();
 })();
+
+// keep number fields inside sensible ranges (stepper arrows can't go below min, typed values are clamped on leaving the field)
+document.querySelectorAll('input[type=number][min]').forEach(e=>e.addEventListener("change",()=>{if(e.value==="")return;let v=parseFloat(e.value);if(isNaN(v)){e.value="";return;}v=Math.min(+e.max,Math.max(+e.min,v));if(String(v)!==e.value){e.value=v;e.dispatchEvent(new Event("input",{bubbles:true}));}}));
 </script>
 </body>
 </html>
