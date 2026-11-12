@@ -17,12 +17,6 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 
-## Pending change to ship with the next post (owner request, 2026-11-12)
-Branch `pending/seo-titles` makes every page's <title>/meta description bilingual (English | Korean) for Google results. Ship it with the next blog post:
-- After creating `publish/YYYY-MM-DD`, run `git merge --no-edit origin/pending/seo-titles` before building, then `python3 build_deploy.py`.
-- Mention it in the approval message ("검색 결과 제목 영·한 변경도 함께 반영됩니다").
-- After approval and pushing main, delete this section from CLAUDE.md (commit on main). Remote branch deletion is not permitted from Claude; leave the branch.
-- Also list the new post's URL in the approval message so the owner can request indexing in Search Console.
  (scheduled runs)
 1. **Collect 10 hot candidates** with web search (last 2–4 weeks): new club releases, GolfWRX/MyGolfSpy/Golf Digest tests, seasonal topics (holiday deals, new season, spring fitting), rising searches. Skip anything already in `POSTS`.
 2. **Score each 1–5** on: fit for Korean-American & senior golfers, affiliate potential (2nd Swing, FlexOffers merchants, later Awin: Dunlop/Honma), current interest, link to one of our calculators, no overlap with existing posts. Pick the top one.
