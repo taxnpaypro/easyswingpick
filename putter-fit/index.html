@@ -233,7 +233,7 @@ const T={
    dist:"거리 조절이 어려우시다고 해서 타감과 거리감이 좋은 모델을 우선했습니다.",
    ztNo:"강한 아크 스트로크에는 제로토크가 오히려 어색할 수 있어 추천에서 낮췄습니다.",
    forg:"관용성 높은 말렛이 빗맞은 퍼트도 거리를 지켜 줍니다.",
-   len:(h,l)=>`키 ${h}와 셋업 자세를 고려해 길이 ${l}를 추천합니다.`,lenNone:"키를 입력하지 않아 가장 흔한 34인치로 추천했습니다.",
+   len:(h,l)=>`키 ${h}와 셋업 자세를 고려해 길이 ${l}를 추천합니다.`,lenNone:"키를 입력하지 않아 가장 흔한 34인치로 추천했습니다.",lenPost:l=>`키를 입력하지 않아 34인치를 기준으로 셋업 자세에 맞춰 ${l}를 추천합니다.`,
    brand:b=>`현재 ${b} 퍼터를 쓰고 계십니다. 아래 추천과 시타로 비교해 보세요.`,
    hangOk:h=>`추천 헤드 균형(${h})과 맞는 모델입니다.`,headOk:"선호하신 헤드 모양과 맞습니다.",
    ztOk:"제로토크 설계라 스트로크 중 페이스가 거의 돌아가지 않습니다.",
@@ -276,7 +276,7 @@ const T={
    dist:"Distance control is tough, so we favored models with good feel and pace.",
    ztNo:"Zero torque can feel awkward with a strong arc, so we ranked it lower.",
    forg:"A forgiving mallet keeps mishit putts closer to the right distance.",
-   len:(h,l)=>`Based on your ${h} height and setup, we suggest ${l}.`,lenNone:"No height entered, so we suggest 34 in, the most common length.",
+   len:(h,l)=>`Based on your ${h} height and setup, we suggest ${l}.`,lenNone:"No height entered, so we suggest 34 in, the most common length.",lenPost:l=>`No height entered, so we started from 34 in and adjusted for your setup to ${l}.`,
    brand:b=>`You currently play a ${b} putter. Compare it with the picks below in a demo.`,
    hangOk:h=>`Matches the recommended balance (${h}).`,headOk:"Matches your preferred head shape.",
    ztOk:"Zero-torque design keeps the face from rotating during the stroke.",
@@ -417,7 +417,7 @@ function run(silent){
   let len=34;if(hTot){len=hTot<66?33:hTot<72?34:hTot<75?35:35.5;}
   if(posture==="bent")len-=1;if(posture==="up")len+=1;len=Math.max(32,Math.min(36,len));
   const lenTxt=`${len}"`;
-  why.push(hTot?R.len(`${Math.floor(hTot/12)}'${Math.round(hTot%12)}"`,lenTxt):R.lenNone);
+  why.push(hTot?R.len(`${Math.floor(hTot/12)}'${Math.round(hTot%12)}"`,lenTxt):len!==34?R.lenPost(lenTxt):R.lenNone);
   const grip=gripp||((miss==="pull"||miss==="short")?"fat":"std");
   if(miss==="pull"||miss==="short"){if(grip==="fat")why.push(R.gripFat);else why.push(R.gripTry);}
   const align=alignp||((miss==="push"||miss==="pull")?"multi":"single");

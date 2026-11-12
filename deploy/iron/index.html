@@ -239,6 +239,9 @@ const T={
    flex:f=>`이 속도에는 ${f} 강도가 일반적으로 맞습니다.`,
    catH:(h,c)=>`핸디캡 ${h}에는 ${c} 아이언이 가장 잘 맞습니다.`,
    catD:c=>`7번 아이언 거리로 보면 ${c} 아이언이 적당합니다.`,
+   catEasier:c=>`다만 지금 스윙 속도에서는 공을 띄우고 거리를 내기 쉬운 ${c} 쪽이 더 잘 맞아 한 단계 조정했습니다.`,
+   catHarder:c=>`다만 스윙 속도가 빨라 ${c} 아이언이 탄도와 방향 조절에 더 유리해 조정했습니다.`,
+   fatNone:"뒤땅이 잦으시면 솔이 넓은 모델도 시타해 보세요. 이 속도대 추천 모델은 솔이 보통 폭입니다.",
    gr:"스윙 속도가 느린 편이라 가벼운 그라파이트 샤프트가 거리와 탄도에 유리합니다.",
    grAge:"60세 이상이셔서 손목·팔꿈치 부담이 적은 그라파이트 샤프트를 추천합니다.",
    ls:"중간 속도라 휘두르기 편한 경량 스틸 샤프트가 잘 맞습니다.",
@@ -286,6 +289,9 @@ const T={
    flex:f=>`${f} flex is the usual fit for that speed.`,
    catH:(h,c)=>`At a ${h} handicap, ${c} irons fit best.`,
    catD:c=>`Based on your 7-iron distance, ${c} irons fit well.`,
+   catEasier:c=>`At your swing speed, ${c} heads launch and carry more easily, so we moved one step.`,
+   catHarder:c=>`Your speed is high, so ${c} irons give better flight and control; we adjusted.`,
+   fatNone:"If you hit it fat often, also try wide-sole models; the picks for this speed have normal soles.",
    gr:"Your speed is on the slower side, so a light graphite shaft helps distance and launch.",
    grAge:"Because you are 60+, we suggest graphite, which is easier on wrists and elbows.",
    ls:"At a moderate speed, a light steel shaft is easy to swing.",
@@ -444,8 +450,11 @@ function run(silent){
   if(hcp){ci={h0:3,h1:2,h2:1,h3:0}[hcp];if(hcp==="h0"&&s>=90)ci=4;}
   else ci=yd<125?0:yd<145?1:yd<165?2:3;
   if(senior&&ci>0&&!hcp)ci--;
+  // keep the head type within reach of the swing speed
+  const spdCi=yd<125?0:yd<145?1:yd<165?2:3,ci0=ci;ci=Math.max(Math.min(ci,spdCi+1),spdCi-1);
   const cat=CATS[ci];
-  why.push(hcp?R.catH(t.hc[hcp],t.cat[cat]):R.catD(t.cat[cat]));
+  why.push(hcp?R.catH(t.hc[hcp],t.cat[CATS[ci0]]):R.catD(t.cat[cat]));
+  if(ci!==ci0)why.push(ci<ci0?R.catEasier(t.cat[cat]):R.catHarder(t.cat[cat]));
   // shaft
   let wi=s<62?0:s<70?1:s<80?2:s<90?3:4; if(senior&&wi>0)wi--;
   const mat=MAT[wi];
@@ -457,7 +466,7 @@ function run(silent){
   else why.push(R.lenNone);
   if(wtf&&hTot){const d=wtf-hTot*0.486;lie=d>1?(lang==="ko"?"1° 업라이트":"1° upright"):d<-1?(lang==="ko"?"1° 플랫":"1° flat"):t.lieStd;why.push(R.lie(Math.round(wtf*10)/10,lie));}
   else why.push(R.lieNone);
-  if(cshaft==="steel"&&mat==="gr")why.push(R.cmpSt); if(cshaft==="graphite"&&mat!=="gr")why.push(R.cmpGr);
+  if(cshaft==="steel"&&mat==="gr")why.push(R.cmpSt); if(cshaft==="graphite"&&mat==="st")why.push(R.cmpGr);
   if(brand)why.push(R.brand(brand==="other"?(lang==="ko"?"기타 브랜드":"another brand"):brand));
   const shafts=SHAFTS.filter(x=>wi>=x.b[0]&&wi<=x.b[1]).slice(0,3);
   // models
@@ -469,6 +478,7 @@ function run(silent){
     if(miss==="slice"&&mc<=1)sc+=8;
     return{m,sc};
   }).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  if(miss==="fat"&&!scored.some(o=>o.m.wide)){const k=why.indexOf(R.fat);if(k>=0)why[k]=R.fatNone;}
   const top=scored[0].sc,pct=sc=>Math.max(55,Math.min(97,Math.round(93-(top-sc)*.8)));
   const picks=scored.map(({m,sc},i)=>{
     const r=[],inR=s>=m.min&&s<=m.max;

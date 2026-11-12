@@ -233,6 +233,7 @@ const T={
    lenH:h=>`키 ${h}에 맞춰 길이를 정했습니다.`,lenNone:"키를 입력하지 않아 표준 길이로 추천했습니다.",
    cmpStiff:(c,f)=>`지금 쓰시는 ${c} 강도는 추정 헤드스피드보다 강할 수 있습니다. ${f}로 낮추면 탄도와 거리가 좋아질 가능성이 있습니다.`,
    cmpSoft:(c,f)=>`지금 쓰시는 ${c} 강도는 다소 약할 수 있습니다. ${f}로 올리면 방향이 더 안정될 수 있습니다.`,
+   sliceFast:"빠른 스윙용 저스핀 모델은 드로우 설계가 거의 없어, 무게추를 힐 쪽으로 옮기거나 드로우 세팅으로 조정해 쓰시는 걸 권합니다.",
    cmpSame:c=>`지금 쓰시는 ${c} 강도는 추정 헤드스피드와 잘 맞습니다. 헤드와 샤프트 무게를 바꿔 보시는 걸 추천합니다.`,
    brand:b=>`현재 ${b} 드라이버를 쓰고 계십니다. 아래 추천과 시타로 비교해 보세요.`,
    inRange:(s,a,b)=>`추정 헤드스피드 약 ${s}mph가 이 모델의 권장 구간(${a}~${b}mph)에 들어갑니다.`,
@@ -271,6 +272,7 @@ const T={
    lenH:h=>`Length is based on your height of ${h}.`,lenNone:"No height entered, so we recommend standard length.",
    cmpStiff:(c,f)=>`Your current ${c} flex may be too stiff. Dropping to ${f} could improve launch and distance.`,
    cmpSoft:(c,f)=>`Your current ${c} flex may be a bit soft. Moving up to ${f} could steady your direction.`,
+   sliceFast:"Low-spin heads for fast swings rarely have draw bias, so move the adjustable weight toward the heel or use a draw setting.",
    cmpSame:c=>`Your current ${c} flex matches your speed. Try changing head and shaft weight instead.`,
    brand:b=>`You currently play a ${b} driver. Compare it with the picks below in a demo.`,
    inRange:(s,a,b)=>`Your estimated ${s} mph is inside this model's range (${a}–${b} mph).`,
@@ -458,12 +460,13 @@ function run(silent){
     if(s>=m.min&&s<=m.max)sc+=50-Math.abs(s-mid);else sc-=3*(s<m.min?m.min-s:s-m.max);
     if(m.light&&senior)sc+=15; if(m.light&&s<80)sc+=10; if(!m.light&&s<72)sc-=10;
     if(flight==="slice")sc+=m.draw===2?20:m.draw===1?10:0;
-    if(flight==="hook")sc+=m.draw>0?-15:10;
+    if(flight==="hook")sc+=m.draw===2?-60:m.draw===1?-15:10;
     if(flight==="low"&&m.launch==="high")sc+=10;
     if(flight==="high")sc+=(m.spin==="low"?10:0)+(m.launch==="high"?-5:0);
     if(flight===""||flight==="straight")sc+=m.forg*3;
     return{m,sc};
   }).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  if(flight==="slice"&&!scored.some(o=>o.m.draw>0))why.push(R.sliceFast);
   const top=scored[0].sc;
   const pct=sc=>Math.max(55,Math.min(97,Math.round(92-(top-sc)*0.9+(top>40?4:0))));
 

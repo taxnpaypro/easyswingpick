@@ -240,6 +240,8 @@ const T={
    gap:(l,g)=>`추천 로프트 ${l}는 웨지 사이를 ${g}° 안팎으로 고르게 나눠 거리 공백을 줄입니다.`,
    top58:"페이스를 여는 샷이나 낮은 핸디캡을 고려해 가장 높은 웨지를 58° 이상으로 잡았습니다.",
    top58std:"가장 높은 웨지는 벙커와 어프로치에 두루 쓰기 좋은 58°로 잡았습니다.",
+   one:l=>`웨지를 1개만 쓰신다면 PW와의 간격을 고려해 ${l}°를 추천합니다.`,
+   bunkerAdd:"벙커 샷이 어려우시다면 바운스가 높은 56° 샌드웨지를 하나 더 넣는 것을 권합니다.",
    top56:"관리하기 쉬운 56° 전후를 가장 높은 웨지로 잡았습니다. 로브웨지는 실수가 커질 수 있습니다.",
    hiH:"핸디캡이 높거나 시니어 골퍼라 실수를 줄이도록 바운스를 넉넉하게 잡았습니다.",
    hi:"디봇이 깊거나 코스가 부드러운 편이라 바운스를 높여 땅에 박히는 것을 줄였습니다.",
@@ -282,6 +284,8 @@ const T={
    gap:(l,g)=>`${l} splits your wedges about ${g}° apart to avoid distance holes.`,
    top58:"For open-face shots or a lower handicap, the top wedge is 58° or more.",
    top58std:"Your top wedge is 58°, a common all-round choice for bunkers and pitches.",
+   one:l=>`With only one wedge, ${l}° fits best given your PW gap.`,
+   bunkerAdd:"Bunkers are tough for you, so consider adding a high-bounce 56° sand wedge.",
    top56:"We capped the top wedge near 56°, which is easier to control than a lob wedge.",
    hiH:"For a higher handicap or senior golfer, extra bounce helps forgive heavy contact.",
    hi:"Deep divots or soft turf, so we raised bounce to stop digging.",
@@ -403,19 +407,19 @@ function run(silent){
   
   let n=cnt?parseInt(cnt):(top-pw>=14?3:2);
   const lofts=bestLofts(pw,top,n),topL=lofts[lofts.length-1];
-  why.push(topL>=58?((style==="open"||low)?R.top58:R.top58std):R.top56);
+  why.push(lofts.length===1?R.one(topL):topL>=58?((style==="open"||low)?R.top58:R.top58std):R.top56);
   if(!cnt&&n===3)why.push(R.cnt3);
   const all=[pw,...lofts],gaps=all.slice(1).map((v,i)=>v-all[i]);
   why.push(R.gap(lofts.map(l=>l+"°").join(" · "),Math.round(gaps.reduce((a,b)=>a+b)/gaps.length)));
   // bounce score
-  let bs=(swing==="dig"?1:swing==="slide"?-1:0)+(turf==="soft"?1:turf==="firm"?-1:0)+(hcp==="h3"||senior?1:0);
+  let bs=(swing==="dig"?1:swing==="slide"?-1:0)+(turf==="soft"?1:turf==="firm"?-1:0)+(hcp==="h3"||(senior&&!low)?1:0);
   const bsC=(swing==="dig"?1:swing==="slide"?-1:0)+(turf==="soft"?1:turf==="firm"?-1:0);
   if(bs>=1)why.push(bsC>=1?R.hi:R.hiH);else if(bs<=-1)why.push(R.lo);
   
   if(style==="open")why.push(R.open);else if(style==="square")why.push(R.square);
   // the wedge used in bunkers: the sand wedge, or the top wedge if the set has no 54-56°
   const names=lofts.map(nameOf),sIdx=sandIdx(lofts);
-  if(bunker==="hard"&&sIdx>=0)why.push(R.bunker(lofts[sIdx],style!=="open"));
+  if(bunker==="hard")why.push(sIdx>=0?R.bunker(lofts[sIdx],style!=="open"):R.bunkerAdd);
   const rows=lofts.map((l,i)=>{let nm=names[i];const sand=i===sIdx;if(sand&&nm==="LW")nm="SL";
     let b=bs+(nm==="GW"?-0.5:0)+(nm==="LW"&&style==="open"?-0.5:0);
     if(sand&&bunker==="hard")b=Math.max(b+1.5,0);
