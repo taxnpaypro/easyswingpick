@@ -332,7 +332,7 @@ for f in os.listdir(f"{OUT}/blog"):
     if f == "index.html" or not f.endswith(".html"): continue
     p = f"{OUT}/blog/{f}"; s = open(p).read()
     ko = re.search(r'<div data-l="ko"><h1>(.*?)</h1>', s, re.S); en = re.search(r'<div data-l="en"><h1>(.*?)</h1><p class="sub">(.*?)</p>', s, re.S)
-    strip = lambda x: re.sub(r"<[^>]+>", "", x).strip()
+    strip = lambda x: re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", x)).replace(" +", " +").strip()
     if not (ko and en):
         h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", s, re.S)
         if len(h1) < 2: continue
