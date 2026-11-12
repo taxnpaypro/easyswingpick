@@ -231,19 +231,21 @@ const T={
   rulerT:"로프트 간격 분석",gBusy:"간격 분석 중",gDone:"분석 완료",setLab:"추천 웨지 세팅",
   gapWide:"PW와 다음 웨지 사이 간격이 넓습니다. 웨지를 하나 더 넣는 것을 고려해 보세요.",
   tblT:"웨지별 추천 세팅",thL:"로프트",thB:"바운스",thG:"그라인드",thD:"예상 거리",
-  bn:{low:"로우 (4~8°)",mid:"미드 (10~12°)",high:"하이 (14°+)"},
+  bn:{low:"로우 (4~7°)",mid:"미드 (8~11°)",high:"하이 (12°+)"},
   gr:{full:"풀 솔",std:"표준",vers:"다용도 (힐 릴리프)",wide:"와이드 솔",lowg:"로우 바운스"},
-  nm:{GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지"},
+  nm:{GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지",SL:"샌드·로브 겸용"},
   whyT:"이렇게 추천한 이유",picksT:"추천 웨지",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"2nd Swing에서 가격 보기 →",grOpt:"그라인드 옵션",
   tg:{tour:"투어형",cav:"캐비티백",wide:"넓은 솔",spin:"고스핀",wet:"젖은 날 강함",forg:"관용성"},
   foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 예상 거리는 7번 아이언 거리를 바탕으로 한 대략적인 값입니다. 구매 전 시타나 피팅을 권장합니다.",
   r:{pw:p=>`PW가 ${p}°라서 이 로프트를 기준으로 웨지 간격을 잡았습니다.`,pwUnk:"PW 로프트를 몰라서 요즘 아이언 평균인 45°로 계산했습니다.",
    gap:(l,g)=>`추천 로프트 ${l}는 웨지 사이를 ${g}° 안팎으로 고르게 나눠 거리 공백을 줄입니다.`,
    top58:"페이스를 여는 샷이나 낮은 핸디캡을 고려해 가장 높은 웨지를 58° 이상으로 잡았습니다.",
+   top58std:"가장 높은 웨지는 벙커와 어프로치에 두루 쓰기 좋은 58°로 잡았습니다.",
    top56:"관리하기 쉬운 56° 전후를 가장 높은 웨지로 잡았습니다. 로브웨지는 실수가 커질 수 있습니다.",
+   hiH:"핸디캡이 높거나 시니어 골퍼라 실수를 줄이도록 바운스를 넉넉하게 잡았습니다.",
    hi:"디봇이 깊거나 코스가 부드러운 편이라 바운스를 높여 땅에 박히는 것을 줄였습니다.",
    lo:"잔디를 스치듯 치거나 코스가 단단한 편이라 바운스를 낮춰 공 밑으로 날이 잘 들어가게 했습니다.",
-   bunker:"벙커 샷이 어려우시다고 해서 샌드웨지에 넓은 솔과 높은 바운스를 추천합니다.",
+   bunker:(l,w)=>`벙커 샷이 어려우시다고 해서 벙커에서 쓰실 ${l}° 웨지는 바운스를 한 단계 높이고 ${w?"넓은 솔을":"페이스를 열어도 잘 미끄러지는 힐 릴리프 그라인드를"} 추천합니다.`,
    open:"페이스를 여는 샷이 많아 힐 쪽을 깎은 다용도 그라인드를 추천합니다.",
    square:"스퀘어로 치는 샷이 많아 솔 전체가 바닥을 받쳐 주는 풀·표준 그라인드를 추천합니다.",
    dist:"7번 아이언 거리를 바탕으로 웨지별 풀스윙 거리를 추정했습니다.",
@@ -271,19 +273,21 @@ const T={
   rulerT:"Loft gap analysis",gBusy:"Analyzing gaps",gDone:"Analysis complete",setLab:"Recommended wedge setup",
   gapWide:"The gap after your PW is wide. Consider adding one more wedge.",
   tblT:"Setup by wedge",thL:"Loft",thB:"Bounce",thG:"Grind",thD:"Est. carry",
-  bn:{low:"Low (4–8°)",mid:"Mid (10–12°)",high:"High (14°+)"},
+  bn:{low:"Low (4–7°)",mid:"Mid (8–11°)",high:"High (12°+)"},
   gr:{full:"Full sole",std:"Standard",vers:"Versatile (heel relief)",wide:"Wide sole",lowg:"Low bounce"},
-  nm:{GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge"},
+  nm:{GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge",SL:"Sand / lob wedge"},
   whyT:"Why we recommend this",picksT:"Recommended wedges",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"Check price at 2nd Swing →",grOpt:"Grind options",
   tg:{tour:"Tour shape",cav:"Cavity back",wide:"Wide sole",spin:"High spin",wet:"Wet-weather spin",forg:"Forgiving"},
   foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Carry estimates are rough, based on your 7-iron. Demo or get fitted before buying.",
   r:{pw:p=>`Your PW is ${p}°, so we built the gaps from there.`,pwUnk:"PW loft unknown, so we used 45°, a common modern loft.",
    gap:(l,g)=>`${l} splits your wedges about ${g}° apart to avoid distance holes.`,
    top58:"For open-face shots or a lower handicap, the top wedge is 58° or more.",
+   top58std:"Your top wedge is 58°, a common all-round choice for bunkers and pitches.",
    top56:"We capped the top wedge near 56°, which is easier to control than a lob wedge.",
+   hiH:"For a higher handicap or senior golfer, extra bounce helps forgive heavy contact.",
    hi:"Deep divots or soft turf, so we raised bounce to stop digging.",
    lo:"You sweep the turf or play firm courses, so lower bounce gets the edge under the ball.",
-   bunker:"Bunkers are tough for you, so the sand wedge gets a wide sole and high bounce.",
+   bunker:(l,w)=>`Bunkers are tough for you, so the ${l}° wedge you use in sand gets one step more bounce and ${w?"a wider sole":"a heel-relief grind that still glides with the face open"}.`,
    open:"You open the face a lot, so a versatile heel-relief grind fits.",
    square:"You mostly hit square, so a full or standard grind supports the club.",
    dist:"Carry estimates for each wedge are based on your 7-iron distance.",
@@ -345,6 +349,8 @@ function bestLofts(pw,top,n){
   return best&&best.sc<1e9?best.s:[top];
 }
 const nameOf=l=>l<=52?"GW":l<=56?"SW":"LW";
+// index of the wedge used in bunkers: the sand wedge, or the top wedge when the set has no 54-56°
+const sandIdx=lofts=>{const n=lofts.map(nameOf),i=n.indexOf("SW");return i>=0?i:(n[n.length-1]==="LW"?n.length-1:-1);};
 
 const RX={min:40,max:64,x0:18,x1:282};
 const rx=l=>RX.x0+(l-RX.min)/(RX.max-RX.min)*(RX.x1-RX.x0);
@@ -367,7 +373,7 @@ function ruler(pw,lofts,dists,show){
    <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3c06a" stop-opacity=".2"/><stop offset="1" stop-color="#3fb984"/></linearGradient>
    <filter id="gl" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
    <rect x="${RX.x0}" y="86" width="${RX.x1-RX.x0}" height="4" rx="2" fill="rgba(255,255,255,.1)"/>
-   ${tk}${gaps}${mk(pw,"PW",0,true)}${lofts.map((l,i)=>mk(l,nameOf(l),i+1,false)).join("")}</svg>`;
+   ${tk}${gaps}${mk(pw,"PW",0,true)}${lofts.map((l,i)=>mk(l,i===sandIdx(lofts)&&nameOf(l)==="LW"?"SW/LW":nameOf(l),i+1,false)).join("")}</svg>`;
 }
 let animId=0;
 function animateRuler(pw,lofts){
@@ -395,7 +401,7 @@ function run(silent){
   const why=[unk&&!num("pw")?R.pwUnk:R.pw(pw)];
   const low=hcp==="h0"||hcp==="h1";
   const top=(style==="open"||low)?(hcp==="h0"&&style==="open"?60:58):(hcp==="h3"||senior?56:58);
-  why.push(top>=58?R.top58:R.top56);
+  why.push(top>=58?((style==="open"||low)?R.top58:R.top58std):R.top56);
   let n=cnt?parseInt(cnt):(top-pw>=14?3:2);
   if(!cnt&&n===3)why.push(R.cnt3);
   const lofts=bestLofts(pw,top,n);
@@ -403,12 +409,20 @@ function run(silent){
   why.push(R.gap(lofts.map(l=>l+"°").join(" · "),Math.round(gaps.reduce((a,b)=>a+b)/gaps.length)));
   // bounce score
   let bs=(swing==="dig"?1:swing==="slide"?-1:0)+(turf==="soft"?1:turf==="firm"?-1:0)+(hcp==="h3"||senior?1:0);
-  if(bs>=1)why.push(R.hi);else if(bs<=-1)why.push(R.lo);
-  if(bunker==="hard")why.push(R.bunker);
+  const bsC=(swing==="dig"?1:swing==="slide"?-1:0)+(turf==="soft"?1:turf==="firm"?-1:0);
+  if(bs>=1)why.push(bsC>=1?R.hi:R.hiH);else if(bs<=-1)why.push(R.lo);
+  
   if(style==="open")why.push(R.open);else if(style==="square")why.push(R.square);
-  const rows=lofts.map((l,i)=>{const nm=nameOf(l);let b=bs+(nm==="SW"&&bunker==="hard"?1:0)+(nm==="GW"?-0.5:0)+(nm==="LW"&&style==="open"?-0.5:0);
+  // the wedge used in bunkers: the sand wedge, or the top wedge if the set has no 54-56°
+  const names=lofts.map(nameOf),sIdx=sandIdx(lofts);
+  if(bunker==="hard"&&sIdx>=0)why.push(R.bunker(lofts[sIdx],style!=="open"));
+  const rows=lofts.map((l,i)=>{let nm=names[i];const sand=i===sIdx;if(sand&&nm==="LW")nm="SL";
+    let b=bs+(nm==="GW"?-0.5:0)+(nm==="LW"&&style==="open"?-0.5:0);
+    if(sand&&bunker==="hard")b=Math.max(b+1.5,0);
     const bn=b>=1?"high":b<=-1?"low":"mid";
-    let g;if(nm==="GW")g=style==="open"?"std":"full";else if(bn==="high")g=style==="open"?"vers":"wide";else if(bn==="low")g=style==="open"?"lowg":"std";else g=style==="open"?"vers":"std";
+    let g;if(nm==="GW")g=bn==="low"||style==="open"?"std":"full";
+    else if(sand&&bunker==="hard")g=style==="open"?"vers":"wide";
+    else if(bn==="high")g=style==="open"?"vers":"wide";else if(bn==="low")g=style==="open"?"lowg":"std";else g=style==="open"?"vers":"std";
     return{l,nm,bn,g};});
   // distances
   let dists=null;
