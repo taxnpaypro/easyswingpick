@@ -242,8 +242,6 @@ for calc in ("driver", "iron", "wedge", "putter"):
     s = s.replace("buy links are not connected yet", "buy links go to 2nd Swing (affiliate)")
     s = s.replace("</head>", AFF_JS + "</head>", 1)
     assert "AFF(m.b" in s, calc
-    # "이 추천이 이상한가요?" feedback box under the result
-    i = s.rfind("</body>"); s = s[:i] + open(os.path.join(H, "calc-feedback.html")).read() + s[i:]
     open(p, "w").write(s)
 def _pc(m):
     blk = m.group(0); h = re.search(r"<h4>(.*?)</h4>", blk)

@@ -18,7 +18,7 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - `python3 build_deploy.py` ends by running `qa/run.py`: ~1,700 scenario runs (KO+EN, `qa/scenarios/*.json`), ~40 consistency rules (`qa/checks.py`) and owner-facing expected answers (`qa/golden.json`). **If it prints `BUILD FAILED`, do not commit or publish** — fix the calculator (or, if the rule itself is wrong, explain why to the owner before changing it).
 - Every calculator has a `guard()` step after scoring that removes combinations that must never be recommended (e.g. draw-biased drivers for a hook, irons more than one head class away, putters with the opposite toe hang). Keep it when editing pick logic.
 - Explanation lines must only describe adjustments that actually changed the result.
-- Users report odd results with the "이 추천이 이상한가요?" box under each result (`calc-feedback.html`, injected by `build_deploy.py`); it opens an email to hello@easyswingpick.com with the inputs and result. When the owner forwards one: reproduce it, add it to `qa/golden.json` (or a scenario + rule), fix, and ask for approval.
+- When the owner reports an odd calculator result: reproduce it, add it to `qa/golden.json` (or a scenario + rule), fix, and ask for approval. (The owner chose not to add a user feedback button, 2026-11-12.)
 
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
