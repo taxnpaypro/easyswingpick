@@ -10,6 +10,10 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - `driver-fit/ iron-fit/ wedge-fit/ putter-fit/` – calculators. `logo/` – logo SVGs (wordmark = header, c.svg = favicon). `site/img/` – licensed photos (Pixabay, no brand logos).
 - `build_deploy.py` – builds everything into `deploy/` (needs google-chrome for PNG icons/OG image). **`deploy/` is committed**; Cloudflare Workers deploys it as static assets (`wrangler.jsonc`) whenever `main` changes.
 
+## Affiliate links
+- Awin publisher ID 3153241; joined 2nd Swing Golf (awinmid 95935). `build_deploy.py` turns every calculator pick and every blog `B.picks()` card ("구매처 보기") into an Awin deep link to a 2nd Swing search for that model (rel="sponsored"). New posts get this automatically — just use `B.picks()` for product cards.
+- FlexOffers application submitted 2026-11-12 (pending). Do not add other merchants' links until the owner sends them.
+
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 

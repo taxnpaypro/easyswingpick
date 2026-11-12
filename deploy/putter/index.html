@@ -144,7 +144,7 @@ svg.hang{width:100%;max-width:340px;height:auto;display:block;margin:4px auto 0;
 .agn a{color:inherit}
 </style>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="canonical" href="https://easyswingpick.com/putter/">
-<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Putter Fit 퍼터 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/putter/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
+<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><script>window.AFF=function(q){return "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&ued="+encodeURIComponent("https://www.2ndswing.com/catalogsearch/result/?q="+encodeURIComponent(q).replace(/%20/g,"+"))};</script><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Putter Fit 퍼터 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/putter/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <div class="top"><div class="top-in">
@@ -218,7 +218,7 @@ const T={
   hangT:"추천 헤드 균형",hangLab:"추천 토우행",
   hang:{zt:"제로토크",fb:"페이스 밸런스",slight:"약한 토우행",strong:"강한 토우행"},
   setT:"추천 퍼터 세팅",hL:"헤드 균형",shL:"헤드 모양",lenL:"길이",gripL:"그립",alL:"정렬선",hs:{blade:"블레이드",mid:"미드 말렛",mallet:"말렛"},
-  whyT:"이렇게 추천한 이유",picksT:"추천 퍼터",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"구매처 보기 (링크 준비 중)",
+  whyT:"이렇게 추천한 이유",picksT:"추천 퍼터",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"2nd Swing에서 가격 보기 →",
   tg:{zt:"제로토크",lt:"로우토크",forg:"고관용성",milled:"밀링",jp:"일본 제작",align:"정렬 쉬움",pace:"거리감"},
   foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 적합도는 입력값 기준의 상대 점수입니다. 구매 전 시타나 피팅을 권장합니다.",
   r:{straight:"일자형 스트로크라 헤드가 비틀리지 않는 페이스 밸런스나 제로토크가 잘 맞습니다.",
@@ -258,7 +258,7 @@ const T={
   hangT:"Recommended head balance",hangLab:"Recommended toe hang",
   hang:{zt:"Zero torque",fb:"Face-balanced",slight:"Slight toe hang",strong:"Strong toe hang"},
   setT:"Recommended putter setup",hL:"Balance",shL:"Head shape",lenL:"Length",gripL:"Grip",alL:"Alignment",hs:{blade:"Blade",mid:"Mid-mallet",mallet:"Mallet"},
-  whyT:"Why we recommend this",picksT:"Recommended putters",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"See where to buy (link coming soon)",
+  whyT:"Why we recommend this",picksT:"Recommended putters",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"Check price at 2nd Swing →",
   tg:{zt:"Zero torque",lt:"Low torque",forg:"High MOI",milled:"Milled",jp:"Made in Japan",align:"Easy alignment",pace:"Pace control"},
   foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Fit score is relative to your inputs. Demo or get fitted before buying.",
   r:{straight:"A straight stroke suits face-balanced or zero-torque heads that resist twisting.",
@@ -443,7 +443,7 @@ function run(silent){
       <div class="tags">${tags.map(x=>`<span>${x}</span>`).join("")}</div>
       <p class="point">${m.p[lang]}</p>
       <ul class="why">${r.map(x=>`<li>${x}</li>`).join("")}</ul>
-      <a class="buy" href="#" onclick="return false">${t.buy}</a></div>`;}).join("");
+      <a class="buy" href="${AFF(m.b+' '+m.m)}" target="_blank" rel="sponsored noopener">${t.buy}</a></div>`;}).join("");
   const res=$("result");
   res.innerHTML=`<div class="disc">${t.disclose}</div>${!miss?`<div class="hint">${t.hintMiss}</div>`:""}
    <div class="card gcard"><div class="gtop"><span class="gsec">${t.pathT}</span><span class="gstat ${silent?'ok':''}" id="gs">${silent?t.gDone:t.gBusy}</span></div>

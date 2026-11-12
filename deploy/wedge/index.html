@@ -161,7 +161,7 @@ svg.ruler{width:100%;height:auto;display:block;margin:10px auto 0;position:relat
 .agn a{color:inherit}
 </style>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="canonical" href="https://easyswingpick.com/wedge/">
-<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Wedge Fit 웨지 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/wedge/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
+<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><script>window.AFF=function(q){return "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&ued="+encodeURIComponent("https://www.2ndswing.com/catalogsearch/result/?q="+encodeURIComponent(q).replace(/%20/g,"+"))};</script><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Wedge Fit 웨지 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/wedge/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <div class="top"><div class="top-in">
@@ -234,7 +234,7 @@ const T={
   bn:{low:"로우 (4~8°)",mid:"미드 (10~12°)",high:"하이 (14°+)"},
   gr:{full:"풀 솔",std:"표준",vers:"다용도 (힐 릴리프)",wide:"와이드 솔",lowg:"로우 바운스"},
   nm:{GW:"갭웨지",SW:"샌드웨지",LW:"로브웨지"},
-  whyT:"이렇게 추천한 이유",picksT:"추천 웨지",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"구매처 보기 (링크 준비 중)",grOpt:"그라인드 옵션",
+  whyT:"이렇게 추천한 이유",picksT:"추천 웨지",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"2nd Swing에서 가격 보기 →",grOpt:"그라인드 옵션",
   tg:{tour:"투어형",cav:"캐비티백",wide:"넓은 솔",spin:"고스핀",wet:"젖은 날 강함",forg:"관용성"},
   foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 예상 거리는 7번 아이언 거리를 바탕으로 한 대략적인 값입니다. 구매 전 시타나 피팅을 권장합니다.",
   r:{pw:p=>`PW가 ${p}°라서 이 로프트를 기준으로 웨지 간격을 잡았습니다.`,pwUnk:"PW 로프트를 몰라서 요즘 아이언 평균인 45°로 계산했습니다.",
@@ -274,7 +274,7 @@ const T={
   bn:{low:"Low (4–8°)",mid:"Mid (10–12°)",high:"High (14°+)"},
   gr:{full:"Full sole",std:"Standard",vers:"Versatile (heel relief)",wide:"Wide sole",lowg:"Low bounce"},
   nm:{GW:"Gap wedge",SW:"Sand wedge",LW:"Lob wedge"},
-  whyT:"Why we recommend this",picksT:"Recommended wedges",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"See where to buy (link coming soon)",grOpt:"Grind options",
+  whyT:"Why we recommend this",picksT:"Recommended wedges",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"Check price at 2nd Swing →",grOpt:"Grind options",
   tg:{tour:"Tour shape",cav:"Cavity back",wide:"Wide sole",spin:"High spin",wet:"Wet-weather spin",forg:"Forgiving"},
   foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Carry estimates are rough, based on your 7-iron. Demo or get fitted before buying.",
   r:{pw:p=>`Your PW is ${p}°, so we built the gaps from there.`,pwUnk:"PW loft unknown, so we used 45°, a common modern loft.",
@@ -437,7 +437,7 @@ function run(silent){
       <p class="point">${m.p[lang]}</p>
       ${m.gr?`<p class="grinds">${t.grOpt}: ${m.gr}</p>`:""}
       <ul class="why">${r.map(x=>`<li>${x}</li>`).join("")}</ul>
-      <a class="buy" href="#" onclick="return false">${t.buy}</a></div>`;}).join("");
+      <a class="buy" href="${AFF(m.b+' '+m.m)}" target="_blank" rel="sponsored noopener">${t.buy}</a></div>`;}).join("");
   const res=$("result");
   res.innerHTML=`<div class="disc">${t.disclose}</div>${!swing&&!turf?`<div class="hint">${t.hintPlay}</div>`:""}
    <div class="card lcard"><div class="gtop"><span class="gsec">${t.rulerT}</span><span class="gstat ${silent?'ok':''}" id="gs">${silent?t.gDone:t.gBusy}</span></div>

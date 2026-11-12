@@ -137,7 +137,7 @@ svg.g{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 0;pos
 .agn a{color:inherit}
 </style>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="canonical" href="https://easyswingpick.com/driver/">
-<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Driver Fit 드라이버 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/driver/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
+<style>@media(max-width:420px){img[src="/assets/wordmark.svg"]{height:30px!important}}</style><script>window.AFF=function(q){return "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&ued="+encodeURIComponent("https://www.2ndswing.com/catalogsearch/result/?q="+encodeURIComponent(q).replace(/%20/g,"+"))};</script><meta name="description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:type" content="website"><meta property="og:site_name" content="EasySwingPick"><meta property="og:title" content="Driver Fit 드라이버 추천 계산기"><meta property="og:description" content="드라이버·아이언·웨지·퍼터 추천 계산기와 한·영 골프채 가이드"><meta property="og:url" content="https://easyswingpick.com/driver/"><meta property="og:image" content="https://easyswingpick.com/assets/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ko_KR"><meta property="og:locale:alternate" content="en_US"><meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <div class="top"><div class="top-in">
@@ -221,7 +221,7 @@ const T={
   shaftT:"추천 샤프트 세팅",flexL:"강도",swL:"샤프트 무게",tqL:"토크",kpL:"킥포인트",loftL:"로프트",lenL:"길이",
   kp:{low:"낮음",mid:"중간",midhigh:"중~높음"},lenStd:"표준",lenShort:"−0.5인치",lenLong:"+0.5인치",
   whyT:"이렇게 추천한 이유",shEx:"추천 샤프트 예시",shNote:"샤프트 이름은 예시입니다. 같은 모델도 무게·강도 버전이 여러 개라 시타로 확인하세요.",
-  picksT:"추천 드라이버",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"구매처 보기 (링크 준비 중)",
+  picksT:"추천 드라이버",rank:n=>n===1?"BEST MATCH":`추천 ${n}`,fit:"적합도",buy:"2nd Swing에서 가격 보기 →",
   tg:{light:"경량",draw:"드로우",high:"고탄도",lowspin:"저스핀",forg:"관용성"},
   foot:"이 계산기는 일반적인 기준에 따른 추정치이며 실제 피팅을 대신하지 않습니다. 적합도는 입력값 기준의 상대 점수입니다. 구매 전 시타나 피팅을 권장합니다.",
   r:{flex:(s,f)=>`추정 헤드스피드 약 ${s}mph에는 ${f} 강도가 일반적으로 맞습니다.`,
@@ -258,7 +258,7 @@ const T={
   shaftT:"Recommended shaft setup",flexL:"Flex",swL:"Shaft weight",tqL:"Torque",kpL:"Kick point",loftL:"Loft",lenL:"Length",
   kp:{low:"Low",mid:"Mid",midhigh:"Mid–high"},lenStd:"Standard",lenShort:"−0.5 in",lenLong:"+0.5 in",
   whyT:"Why we recommend this",shEx:"Example shafts",shNote:"Shaft names are examples. Each comes in several weights and flexes, so confirm with a demo.",
-  picksT:"Recommended drivers",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"See where to buy (link coming soon)",
+  picksT:"Recommended drivers",rank:n=>n===1?"BEST MATCH":`Pick ${n}`,fit:"Fit score",buy:"Check price at 2nd Swing →",
   tg:{light:"Lightweight",draw:"Draw",high:"High launch",lowspin:"Low spin",forg:"Forgiving"},
   foot:"Estimates based on general guidelines; not a substitute for a professional fitting. Fit score is relative to your inputs. Demo or get fitted before buying.",
   r:{flex:(s,f)=>`At an estimated ${s} mph, ${f} flex is the usual fit.`,
@@ -484,7 +484,7 @@ function run(silent){
       <div class="tags">${tags.map(x=>`<span>${x}</span>`).join("")}</div>
       <p class="point">${m.p[lang]}</p>
       <ul class="why">${r.map(x=>`<li>${x}</li>`).join("")}</ul>
-      <a class="buy" href="#" onclick="return false">${t.buy}</a></div>`;
+      <a class="buy" href="${AFF(m.b+' '+m.m)}" target="_blank" rel="sponsored noopener">${t.buy}</a></div>`;
   }).join("");
 
   const res=$("result");

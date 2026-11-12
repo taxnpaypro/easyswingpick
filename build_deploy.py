@@ -226,6 +226,36 @@ for d, _, fs in os.walk(OUT):
         if s != o: open(p, "w").write(s)
         else: print("no header logo:", p)
 
+# ---------- affiliate links (Awin -> 2nd Swing, publisher 3153241) ----------
+AWIN = "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&ued="
+SEARCH = "https://www.2ndswing.com/catalogsearch/result/?q="
+import urllib.parse as _up
+def aff(q): return AWIN + _up.quote(SEARCH + _up.quote_plus(q), safe="")
+BUY_KO, BUY_EN = "2nd Swing에서 가격 보기", "Check price at 2nd Swing"
+AFF_JS = ('<script>window.AFF=function(q){return "' + AWIN + '"+encodeURIComponent("' + SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>')
+for calc in ("driver", "iron", "wedge", "putter"):
+    p = f"{OUT}/{calc}/index.html"; s = open(p).read()
+    s = s.replace('<a class="buy" href="#" onclick="return false">${t.buy}</a>',
+                  '<a class="buy" href="${AFF(m.b+\' \'+m.m)}" target="_blank" rel="sponsored noopener">${t.buy}</a>')
+    s = re.sub(r'buy:"구매처 보기[^"]*"', f'buy:"{BUY_KO} →"', s)
+    s = re.sub(r'buy:"See where to buy[^"]*"', f'buy:"{BUY_EN} →"', s)
+    s = s.replace("buy links are not connected yet", "buy links go to 2nd Swing (affiliate)")
+    s = s.replace("</head>", AFF_JS + "</head>", 1)
+    assert "AFF(m.b" in s, calc
+    open(p, "w").write(s)
+def _pc(m):
+    blk = m.group(0); h = re.search(r"<h4>(.*?)</h4>", blk)
+    if not h: return blk
+    name = re.sub(r"<[^>]+>", "", h.group(1)).split("(")[0].strip()
+    ko = "구매처 보기" in blk
+    return re.sub(r'<a class="buy" href="#" onclick="return false">[^<]*</a>',
+                  f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>', blk)
+import html as _html
+for f in os.listdir(f"{OUT}/blog"):
+    p = f"{OUT}/blog/{f}"; s = open(p).read()
+    s2 = re.sub(r'<div class="pc">.*?</div>(?=<div class="pc">|</div>)', _pc, s, flags=re.S)
+    if s2 != s: open(p, "w").write(s2)
+
 # ---------- default language: English first, remember the visitor's choice ----------
 LANG_HEAD = '<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>'
 LANG_END = ('<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}'
