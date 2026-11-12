@@ -242,6 +242,8 @@ for calc in ("driver", "iron", "wedge", "putter"):
     s = s.replace("buy links are not connected yet", "buy links go to 2nd Swing (affiliate)")
     s = s.replace("</head>", AFF_JS + "</head>", 1)
     assert "AFF(m.b" in s, calc
+    # "이 추천이 이상한가요?" feedback box under the result
+    i = s.rfind("</body>"); s = s[:i] + open(os.path.join(H, "calc-feedback.html")).read() + s[i:]
     open(p, "w").write(s)
 def _pc(m):
     blk = m.group(0); h = re.search(r"<h4>(.*?)</h4>", blk)
@@ -366,3 +368,12 @@ for d, _, fs in os.walk(OUT):
         if not dm: tags = f'<meta name="description" content="{DEF}">' + tags
         open(p, "w").write(s.replace("</head>", tags + "\n</head>", 1))
 print("og ok")
+
+# ---- Calculator QA: every build re-runs ~1,700 scenarios + golden cases (qa/run.py).
+# If anything looks wrong (reversed advice, text vs table mismatch, broken English page...) the build fails
+# and must not be committed or published. Set SKIP_QA=1 only for layout-only work on non-calculator pages.
+if os.environ.get("SKIP_QA") != "1":
+    import subprocess as _sp, sys as _sys
+    _r = _sp.run([_sys.executable, os.path.join(H, "qa", "run.py")])
+    if _r.returncode:
+        print("BUILD FAILED: calculator QA found problems (see above). Do not commit or publish."); _sys.exit(1)

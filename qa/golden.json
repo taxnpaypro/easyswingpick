@@ -1,0 +1,554 @@
+[
+ {
+  "calc": "driver",
+  "n": "GD1",
+  "desc": "70세·180야드·슬라이스",
+  "v": {
+   "flight": "slice",
+   "curFlex": ""
+  },
+  "i": {
+   "dist": 180,
+   "age": 70
+  },
+  "expect": {
+   "강도": "A",
+   "샤프트 무게": "35~45g",
+   "로프트": "12°+"
+  },
+  "contains": [
+   "드로우",
+   "60세 이상이셔서 한 단계 가벼운"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "driver",
+  "n": "GD2",
+  "desc": "35세·280야드·곧음",
+  "v": {
+   "flight": "straight",
+   "curFlex": ""
+  },
+  "i": {
+   "dist": 280,
+   "age": 35
+  },
+  "expect": {
+   "강도": "X",
+   "샤프트 무게": "65~75g",
+   "로프트": "9~10.5°"
+  },
+  "contains": [],
+  "absent": [
+   "60세 이상"
+  ]
+ },
+ {
+  "calc": "driver",
+  "n": "GD3",
+  "desc": "55세·230야드·훅",
+  "v": {
+   "flight": "hook",
+   "curFlex": ""
+  },
+  "i": {
+   "dist": 230,
+   "age": 55
+  },
+  "expect": {
+   "강도": "S",
+   "샤프트 무게": "60~70g"
+  },
+  "contains": [
+   "드로우 설계가 없는 중립 헤드"
+  ],
+  "absent": [
+   "Launcher XL 2 Draw",
+   "Quantum Max D"
+  ]
+ },
+ {
+  "calc": "driver",
+  "n": "GD4",
+  "desc": "80세·140야드",
+  "v": {
+   "flight": "",
+   "curFlex": ""
+  },
+  "i": {
+   "dist": 140,
+   "age": 80
+  },
+  "expect": {
+   "강도": "L",
+   "샤프트 무게": "35~45g",
+   "로프트": "12°+"
+  },
+  "contains": [
+   "경량"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "driver",
+  "n": "GD5",
+  "desc": "45세·250야드·높은 탄도",
+  "v": {
+   "flight": "high",
+   "curFlex": ""
+  },
+  "i": {
+   "dist": 250,
+   "age": 45
+  },
+  "expect": {
+   "강도": "S",
+   "킥포인트": "중~높음"
+  },
+  "contains": [
+   "저스핀"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "driver",
+  "n": "GD6",
+  "desc": "62세·260야드·210lb",
+  "v": {
+   "flight": "",
+   "curFlex": ""
+  },
+  "i": {
+   "dist": 260,
+   "age": 62,
+   "weight": 210
+  },
+  "expect": {
+   "강도": "X",
+   "샤프트 무게": "60~70g"
+  },
+  "contains": [],
+  "absent": [
+   "체격이 있으셔서"
+  ]
+ },
+ {
+  "calc": "driver",
+  "n": "GD7",
+  "desc": "30세·200야드·현재 X",
+  "v": {
+   "flight": "",
+   "curFlex": "X"
+  },
+  "i": {
+   "dist": 200,
+   "age": 30
+  },
+  "expect": {
+   "강도": "R"
+  },
+  "contains": [
+   "강할 수 있습니다"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "iron",
+  "n": "GI1",
+  "desc": "35세·7i 170·핸디 0~5",
+  "v": {
+   "hcp": "h0",
+   "miss": "",
+   "cshaft": ""
+  },
+  "i": {
+   "dist": 170,
+   "age": 35
+  },
+  "expect": {
+   "헤드 종류": "플레이어스",
+   "샤프트 소재": "스틸",
+   "강도": "S"
+  },
+  "contains": [],
+  "absent": []
+ },
+ {
+  "calc": "iron",
+  "n": "GI2",
+  "desc": "70세·7i 115·핸디 21+",
+  "v": {
+   "hcp": "h3",
+   "miss": "",
+   "cshaft": ""
+  },
+  "i": {
+   "dist": 115,
+   "age": 70
+  },
+  "expect": {
+   "헤드 종류": "슈퍼 게임 임프루브먼트",
+   "샤프트 소재": "그라파이트"
+  },
+  "contains": [
+   "60세 이상이셔서"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "iron",
+  "n": "GI3",
+  "desc": "79세·7i 114·핸디 6~12 → 속도 맞춰 조정",
+  "v": {
+   "hcp": "h1",
+   "miss": "",
+   "cshaft": ""
+  },
+  "i": {
+   "dist": 114,
+   "age": 79
+  },
+  "expect": {
+   "헤드 종류": "게임 임프루브먼트"
+  },
+  "contains": [
+   "조정했습니다"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "iron",
+  "n": "GI4",
+  "desc": "키 5'8\"·손목~바닥 35.5\" → 업라이트",
+  "v": {
+   "hcp": "h2",
+   "miss": "",
+   "cshaft": ""
+  },
+  "i": {
+   "dist": 145,
+   "age": 50,
+   "hft": 5,
+   "hin": 8,
+   "wtf": 35.5
+  },
+  "expect": {
+   "라이각": "1° 업라이트"
+  },
+  "contains": [],
+  "absent": []
+ },
+ {
+  "calc": "iron",
+  "n": "GI5",
+  "desc": "키 6'0\"·손목~바닥 33\" → 플랫",
+  "v": {
+   "hcp": "h2",
+   "miss": "",
+   "cshaft": ""
+  },
+  "i": {
+   "dist": 145,
+   "age": 50,
+   "hft": 6,
+   "hin": 0,
+   "wtf": 33
+  },
+  "expect": {
+   "라이각": "1° 플랫"
+  },
+  "contains": [],
+  "absent": []
+ },
+ {
+  "calc": "iron",
+  "n": "GI6",
+  "desc": "60세·7i 135·스틸 사용 중",
+  "v": {
+   "hcp": "h2",
+   "miss": "low",
+   "cshaft": "steel"
+  },
+  "i": {
+   "dist": 135,
+   "age": 60
+  },
+  "expect": {
+   "샤프트 소재": "그라파이트"
+  },
+  "contains": [
+   "그라파이트로 바꾸면"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "wedge",
+  "n": "GW1",
+  "desc": "PW46·쓸어치기·단단한 코스·벙커 어려움",
+  "v": {
+   "hcp": "h1",
+   "swing": "slide",
+   "turf": "firm",
+   "bunker": "hard",
+   "style": "",
+   "cnt": "",
+   "pwq": ""
+  },
+  "i": {
+   "pw": 46,
+   "i7": 150,
+   "age": 40
+  },
+  "expect": {},
+  "contains": [
+   "샌드·로브 겸용",
+   "미드 (8~11°)\t와이드 솔",
+   "58° 웨지는 바운스를 한 단계"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "wedge",
+  "n": "GW2",
+  "desc": "PW50·웨지 3개 요청 → 2개로",
+  "v": {
+   "hcp": "h2",
+   "swing": "",
+   "turf": "",
+   "bunker": "hard",
+   "style": "",
+   "cnt": "3",
+   "pwq": ""
+  },
+  "i": {
+   "pw": 50,
+   "i7": 140,
+   "age": 65
+  },
+  "expect": {},
+  "contains": [
+   "2개로 줄였습니다"
+  ],
+  "absent": [
+   "62°"
+  ]
+ },
+ {
+  "calc": "wedge",
+  "n": "GW3",
+  "desc": "PW44·웨지 3개 → AW 표시",
+  "v": {
+   "hcp": "h2",
+   "swing": "",
+   "turf": "",
+   "bunker": "hard",
+   "style": "",
+   "cnt": "3",
+   "pwq": ""
+  },
+  "i": {
+   "pw": 44,
+   "i7": 140,
+   "age": 65
+  },
+  "expect": {},
+  "contains": [
+   "어프로치 웨지",
+   "56° 웨지는 바운스를 한 단계"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "wedge",
+  "n": "GW4",
+  "desc": "75세·핸디 21+·PW45",
+  "v": {
+   "hcp": "h3",
+   "swing": "",
+   "turf": "",
+   "bunker": "",
+   "style": "",
+   "cnt": "",
+   "pwq": ""
+  },
+  "i": {
+   "pw": 45,
+   "age": 75
+  },
+  "expect": {},
+  "contains": [
+   "관리하기 쉬운 56°",
+   "56°\n샌드웨지"
+  ],
+  "absent": [
+   "샌드·로브 겸용",
+   "\nLW\n"
+  ]
+ },
+ {
+  "calc": "wedge",
+  "n": "GW5",
+  "desc": "웨지 1개·벙커 어려움",
+  "v": {
+   "hcp": "h2",
+   "swing": "",
+   "turf": "",
+   "bunker": "hard",
+   "style": "",
+   "cnt": "1",
+   "pwq": ""
+  },
+  "i": {
+   "pw": 43,
+   "age": 70
+  },
+  "expect": {},
+  "contains": [
+   "웨지를 1개만",
+   "56° 샌드웨지를 하나 더"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "putter",
+  "n": "GP1",
+  "desc": "일자형·짧은 퍼트 불안",
+  "v": {
+   "stroke": "straight",
+   "miss": "short",
+   "hcp": "",
+   "posture": "",
+   "headp": "",
+   "alignp": "",
+   "gripp": ""
+  },
+  "i": {
+   "hft": 5,
+   "hin": 9
+  },
+  "expect": {
+   "헤드 균형": "제로토크",
+   "길이": "34\""
+  },
+  "contains": [],
+  "absent": []
+ },
+ {
+  "calc": "putter",
+  "n": "GP2",
+  "desc": "강한 아크·짧은 퍼트 불안",
+  "v": {
+   "stroke": "strong",
+   "miss": "short",
+   "hcp": "",
+   "posture": "",
+   "headp": "",
+   "alignp": "",
+   "gripp": ""
+  },
+  "i": {},
+  "expect": {
+   "헤드 균형": "강한 토우행"
+  },
+  "contains": [
+   "제로토크가 오히려 어색"
+  ],
+  "absent": [
+   "제로토크를 우선"
+  ]
+ },
+ {
+  "calc": "putter",
+  "n": "GP3",
+  "desc": "약한 아크·키 6'2\"·꼿꼿",
+  "v": {
+   "stroke": "slight",
+   "miss": "",
+   "hcp": "",
+   "posture": "up",
+   "headp": "",
+   "alignp": "",
+   "gripp": ""
+  },
+  "i": {
+   "hft": 6,
+   "hin": 2
+  },
+  "expect": {
+   "헤드 균형": "약한 토우행",
+   "길이": "36\""
+  },
+  "contains": [],
+  "absent": []
+ },
+ {
+  "calc": "putter",
+  "n": "GP4",
+  "desc": "키 없음·많이 숙임",
+  "v": {
+   "stroke": "slight",
+   "miss": "",
+   "hcp": "",
+   "posture": "bent",
+   "headp": "",
+   "alignp": "",
+   "gripp": ""
+  },
+  "i": {},
+  "expect": {
+   "길이": "33\""
+  },
+  "contains": [
+   "34인치를 기준으로"
+  ],
+  "absent": []
+ },
+ {
+  "calc": "putter",
+  "n": "GP5",
+  "desc": "당김 미스·가는 그립 선택",
+  "v": {
+   "stroke": "straight",
+   "miss": "pull",
+   "hcp": "",
+   "posture": "",
+   "headp": "",
+   "alignp": "",
+   "gripp": "thin"
+  },
+  "i": {},
+  "expect": {
+   "그립": "가는"
+  },
+  "contains": [
+   "굵은 그립도 한번"
+  ],
+  "absent": [
+   "굵은 그립을 추천"
+  ]
+ },
+ {
+  "calc": "putter",
+  "n": "GP6",
+  "desc": "강한 아크·말렛 선호",
+  "v": {
+   "stroke": "strong",
+   "miss": "",
+   "hcp": "",
+   "posture": "",
+   "headp": "mallet",
+   "alignp": "",
+   "gripp": ""
+  },
+  "i": {},
+  "expect": {
+   "헤드 균형": "강한 토우행",
+   "헤드 모양": "말렛"
+  },
+  "contains": [
+   "다른 모양도 함께"
+  ],
+  "absent": []
+ }
+]

@@ -14,6 +14,12 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - Awin publisher ID 3153241; joined 2nd Swing Golf (awinmid 95935). `build_deploy.py` turns every calculator pick and every blog `B.picks()` card ("구매처 보기") into an Awin deep link to a 2nd Swing search for that model (rel="sponsored"). New posts get this automatically — just use `B.picks()` for product cards.
 - FlexOffers application submitted 2026-11-12 (pending). Do not add other merchants' links until the owner sends them.
 
+## Calculator quality (trust rules)
+- `python3 build_deploy.py` ends by running `qa/run.py`: ~1,700 scenario runs (KO+EN, `qa/scenarios/*.json`), ~40 consistency rules (`qa/checks.py`) and owner-facing expected answers (`qa/golden.json`). **If it prints `BUILD FAILED`, do not commit or publish** — fix the calculator (or, if the rule itself is wrong, explain why to the owner before changing it).
+- Every calculator has a `guard()` step after scoring that removes combinations that must never be recommended (e.g. draw-biased drivers for a hook, irons more than one head class away, putters with the opposite toe hang). Keep it when editing pick logic.
+- Explanation lines must only describe adjustments that actually changed the result.
+- Users report odd results with the "이 추천이 이상한가요?" box under each result (`calc-feedback.html`, injected by `build_deploy.py`); it opens an email to hello@easyswingpick.com with the inputs and result. When the owner forwards one: reproduce it, add it to `qa/golden.json` (or a scenario + rule), fix, and ask for approval.
+
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 
@@ -26,6 +32,6 @@ Never push to `main` without the owner's explicit approval ("승인") in chat. D
    - Photos: only from `site/img/` or none. Never images showing brand logos or identifiable people.
    - Run it to produce `site/blog-<slug>.html`.
 4. **Register it**: add an entry at the top of `POSTS` in `site/index.html` with `u:"/blog/<slug>"`, `cat` (gear/jp/senior/buy/putter/setup), `ko`, `en`, `dko`, `den`, `c` (card color).
-5. **Build & check**: `python3 build_deploy.py`, serve `deploy/` locally, screenshot the post at 1300px and 390px with headless chrome, fix layout issues.
-6. **Ask for approval**: commit to `publish/YYYY-MM-DD`, push the branch, then send the owner (in Korean): the 10 candidates with scores, why the winner was chosen, the post title/summary, and the screenshots. Ask "승인하시면 사이트에 올리겠습니다."
+5. **Build & check**: `python3 build_deploy.py` (must end with `QA OK`), serve `deploy/` locally, screenshot the post at 1300px and 390px with headless chrome, fix layout issues.
+6. **Ask for approval**: commit to `publish/YYYY-MM-DD`, push the branch, then send the owner (in Korean): the 10 candidates with scores, why the winner was chosen, the post title/summary, and the screenshots. Include the QA line (e.g. "계산기 자동 점검 1,714건 이상 없음"). Ask "승인하시면 사이트에 올리겠습니다."
 7. **On "승인"**: `git checkout main && git merge --ff-only publish/YYYY-MM-DD && git push origin main`. Cloudflare redeploys in a few minutes; then confirm https://easyswingpick.com/blog/<slug> returns the new post. On "보류"/edits: revise on the branch and ask again.

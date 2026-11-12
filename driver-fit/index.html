@@ -427,6 +427,8 @@ function animateGauge(s,flex){
   setTimeout(()=>{if(id!==animId)return;t0=performance.now();step();},wait);
 }
 
+// Guardrail: after scoring, drop combinations that should never be recommended (fallback only if fewer than 3 remain)
+const guard=(arr,ok)=>{const g=arr.filter(ok);if(g.length>=3)return g.slice(0,3);const lo=g.length?g[g.length-1].sc-1:Infinity;return[...g,...arr.filter(o=>!ok(o)).map(o=>({...o,sc:Math.min(o.sc,lo)}))].slice(0,3);};
 function run(silent){
   const t=T[lang],R=t.r,err=$("err");
   const yd=num("dist");
@@ -454,7 +456,7 @@ function run(silent){
   const shafts=SHAFTS.filter(x=>wi>=x.b[0]&&wi<=x.b[1]).map(x=>({x,sc:(x.l===want?2:x.l==="mid"?1:0)+(flight==="slice"&&x.n.includes("Red")?1:0)}))
     .sort((a,b)=>b.sc-a.sc).slice(0,3).map(o=>o.x);
 
-  const scored=MODELS.map(m=>{
+  const scored=guard(MODELS.map(m=>{
     let sc=0;const mid=(m.min+m.max)/2;
     if(s>=m.min&&s<=m.max)sc+=50-Math.abs(s-mid);else sc-=3*(s<m.min?m.min-s:s-m.max);
     if(m.light&&senior)sc+=15; if(m.light&&s<80)sc+=10; if(!m.light&&s<72)sc-=10;
@@ -464,7 +466,7 @@ function run(silent){
     if(flight==="high")sc+=(m.spin==="low"?10:0)+(m.launch==="high"?-5:0);
     if(flight===""||flight==="straight")sc+=m.forg*3;
     return{m,sc};
-  }).sort((a,b)=>b.sc-a.sc).slice(0,3);
+  }).sort((a,b)=>b.sc-a.sc),o=>!(flight==="hook"&&o.m.draw===2)&&!(senior&&s<80&&!o.m.light)&&Math.max(o.m.min-s,s-o.m.max)<=15);
   if(flight==="slice"&&!scored.some(o=>o.m.draw>0))why.push(R.sliceFast);
   const top=scored[0].sc;
   const pct=sc=>Math.max(55,Math.min(97,Math.round(92-(top-sc)*0.9+(top>40?4:0))));
