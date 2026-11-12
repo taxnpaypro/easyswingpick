@@ -57,6 +57,8 @@ for name, path in [("driver", "/driver/"), ("iron", "/iron/"), ("wedge", "/wedge
     s = s.replace(" (시연판)", "").replace("시연판입니다. ", "").replace("Demo version. ", "")
     s = s.replace(", 구매 링크는 아직 연결되지 않았습니다.", ", 결과는 추정치입니다. 일부 링크는 제휴 링크일 수 있습니다.")
     s = s.replace("; buy links are not connected yet.", "; results are estimates. Some links may be affiliate links.")
+    # no yellow notice above the form: nothing to buy before the analysis; the affiliate notice sits at the top of the result (next to the links) and the estimate note is in the footer
+    s = s.replace('<div class="demo" data-t="demo"></div>', "")
     s = re.sub(r'<div class="logo">(\s*<img[^>]*>\s*<div>.*?</div>\s*)</div>',
                r'<a class="logo" href="/" style="color:inherit;text-decoration:none" title="EasySwingPick">\1</a>', s, count=1, flags=re.S)
     os.makedirs(f"{OUT}{path}", exist_ok=True)
