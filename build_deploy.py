@@ -374,10 +374,18 @@ def _link_all(s):
         out.append(s[last:m.start()] + f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>')
         last = m.end()
     return "".join(out) + s[last:]
+DISC1_RE = re.compile(r'<p class="disc1">.*?</p>', re.S)
+DISC_FULL_RE = re.compile(r'<div class="disc" id="disclosure"[^>]*>.*?</div>', re.S)
+NO_AFF = []
 for f in os.listdir(f"{OUT}/blog"):
     p = f"{OUT}/blog/{f}"; s = open(p).read()
     s2 = _link_all(s)
+    # affiliate notice only where the post actually has an affiliate link
+    if 'rel="sponsored' not in s2 and "awin1.com" not in s2:
+        s3 = DISC_FULL_RE.sub("", DISC1_RE.sub("", s2))
+        if s3 != s2: NO_AFF.append(f); s2 = s3
     if s2 != s: open(p, "w").write(s2)
+if NO_AFF: print("no affiliate links -> disclosure removed:", ", ".join(sorted(NO_AFF)))
 
 # ---------- default language: English first, remember the visitor's choice ----------
 LANG_HEAD = '<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>'
