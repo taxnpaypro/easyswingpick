@@ -82,7 +82,7 @@ for slug in SLUGS:
         s = s.replace(m.group(0),
             '<p class="disc1"><span data-l="ko">이 글에는 제휴 링크가 있습니다. <a href="#disclosure">자세히 보기</a></span>'
             '<span data-l="en">This post contains affiliate links. <a href="#disclosure">Learn more</a></span></p>', 1)
-        AB = ('<div class="disc" id="disclosure" style="margin:28px 0 0"><span data-l="ko"><b>제휴 안내</b> · ' + m.group(1) + ' <a href="/disclosure">제휴 정책 전문</a></span>'
+        AB = ('<div class="disc" id="disclosure" style="margin:28px 0 0;background:none;padding:0;border-radius:0;color:var(--muted);font-size:.85rem"><span data-l="ko"><b>제휴 안내</b> · ' + m.group(1) + ' <a href="/disclosure">제휴 정책 전문</a></span>'
               '<span data-l="en"><b>Affiliate disclosure</b> · ' + m.group(2) + ' <a href="/disclosure">Full policy</a></span></div>') + AB
         s = s.replace("</style>", ".disc1{font-size:.8rem;color:var(--muted);margin:14px 0 0}.disc1 a{color:inherit;text-decoration:underline}</style>", 1)
     s = s.replace('<div class="src">', AB + '<div class="src">', 1)
