@@ -179,10 +179,11 @@ info("404", "페이지를 찾을 수 없습니다", "Page not found",
 import json as _json
 src = open(f"{H}/site/index.html").read()
 P = []
-for m in re.finditer(r'\{u:"https://claude.ai/artifact/([A-Za-z0-9]+)",cat:"(\w+)",ko:"([^"]*)",en:"([^"]*)",dko:"([^"]*)",den:"([^"]*)",c:"(#[0-9a-fA-F]+)"\}', src):
-    k, cat, ko, en, dko, den, c = m.groups()
-    P.append(dict(u=f"/blog/{POSTF[k]}", cat=cat, ko=ko, en=en, dko=dko, den=den, c=c))
-assert len(P) == len(POSTF), (len(P), len(POSTF))
+# registry entries use either an old artifact link or the final /blog/<slug> path (newer posts)
+for m in re.finditer(r'\{u:"(?:https://claude.ai/artifact/([A-Za-z0-9]+)|/blog/([a-z0-9-]+))",cat:"(\w+)",ko:"([^"]*)",en:"([^"]*)",dko:"([^"]*)",den:"([^"]*)",c:"(#[0-9a-fA-F]+)"\}', src):
+    k, slug, cat, ko, en, dko, den, c = m.groups()
+    P.append(dict(u=f"/blog/{POSTF[k] if k else slug}", cat=cat, ko=ko, en=en, dko=dko, den=den, c=c))
+assert sorted(p["u"][6:] for p in P) == sorted(SLUGS), ("POSTS registry and site/blog-*.html differ", sorted(p["u"][6:] for p in P), sorted(SLUGS))
 CN = {"ko": {"all": "전체", "gear": "장비 분석", "setup": "세팅 가이드", "jp": "일본채", "senior": "시니어", "buy": "구매 가이드", "putter": "퍼터"},
       "en": {"all": "All", "gear": "Gear", "setup": "Setup", "jp": "Japanese", "senior": "Seniors", "buy": "Buying", "putter": "Putters"}}
 cats = ["all"] + [c for c in CN["ko"] if c != "all" and any(p["cat"] == c for p in P)]
@@ -214,6 +215,106 @@ open(f"{OUT}/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<
     "".join(f"<url><loc>{DOMAIN}{u}</loc><lastmod>{today}</lastmod></url>\n" for u in urls) + "</urlset>\n")
 open(f"{OUT}/robots.txt", "w").write(f"User-agent: *\nAllow: /\nSitemap: {DOMAIN}/sitemap.xml\n")
 print("built", sum(len(f) for _, _, f in os.walk(OUT)), "files")
+
+
+# ---------- Pinterest: pin images + RSS feed (/feed.xml) ----------
+# Pinterest "Auto-publish" reads /feed.xml and turns each new post into a pin (image = pin A).
+# Pins B and C go into deploy/pins.csv for Pinterest "Bulk create Pins" (upload once a month).
+# Pin PNGs are cached in site/pins/ and only re-rendered when the post text or PIN_VER changes.
+import hashlib, subprocess as _sp2, glob as _glob, csv as _csv, html as _html
+from email.utils import format_datetime as _fmtdt
+PIN_VER = "2"
+PIN_PHOTO = {"gear": "hero", "setup": "c-driver", "senior": "g-senior", "buy": "g-buy", "jp": "g-jp", "putter": "g-putter"}
+PIN_BOARD = {"gear": "Golf Club Reviews", "setup": "Golf Fitting Tips", "senior": "Senior Golf Gear",
+             "buy": "Golf Gear Deals & Gifts", "jp": "Japanese Golf Clubs", "putter": "Putters & Putting"}
+PIN_TAG = {"gear": "CLUB REVIEW", "setup": "FITTING GUIDE", "senior": "FOR SENIOR GOLFERS", "buy": "BUYING GUIDE", "jp": "JAPANESE CLUBS", "putter": "PUTTER GUIDE"}
+PIN_CTA = {"gear": "Find your driver in 1 minute", "setup": "Free driver fitting calculator", "senior": "Free fitting calculator for slower swings",
+           "buy": "Free club fitting calculator", "jp": "Free club fitting calculator", "putter": "Free putter fitting calculator"}
+PD = f"{H}/site/pins"; os.makedirs(PD, exist_ok=True); os.makedirs(f"{OUT}/assets/pins", exist_ok=True)
+PIN_CSS = """*{box-sizing:border-box}body{margin:0;width:1000px;height:1500px;font-family:Inter,'Noto Sans',sans-serif;overflow:hidden}
+.wm{height:64px;width:auto;display:block;align-self:flex-start}.tag{display:inline-block;font-weight:800;letter-spacing:3px;font-size:26px;padding:10px 20px;border-radius:8px}
+h1{font-weight:800;letter-spacing:-1.5px;line-height:1.12;margin:0}.d{font-size:34px;line-height:1.4;margin:0}
+.cta{display:inline-block;font-weight:800;font-size:32px;padding:20px 32px;border-radius:999px}.url{font-weight:700;font-size:30px;letter-spacing:1px}"""
+PIN_FIT = """<script>(function(){var h=document.querySelector('h1'),box=document.querySelector('.fit'),s=parseInt(getComputedStyle(h).fontSize);
+while(box.scrollHeight>box.clientHeight&&s>40){s-=3;h.style.fontSize=s+'px';}})();</script>"""
+def _pin_html(style, p, photo):
+    t, d, tag, cta = _html.escape(p["en"]), _html.escape(p["den"]), PIN_TAG[p["cat"]], PIN_CTA[p["cat"]]
+    wm, wmd = f"file://{H}/logo/wordmark-og.svg", f"file://{H}/logo/wordmark.svg"
+    if style == "a":   # photo on top, navy panel with title
+        body = f"""<div style="height:640px;background:url('{photo}') center/cover"></div>
+<div style="height:860px;background:{p['c']};background:linear-gradient(160deg,{p['c']},#0a1c29 75%);color:#fff;padding:56px 64px;display:flex;flex-direction:column;gap:30px">
+<span class="tag" style="background:#e3c06a;color:#0a1c29;align-self:flex-start">{tag}</span>
+<div class="fit" style="flex:1;overflow:hidden;display:flex;flex-direction:column;gap:26px"><h1 style="font-size:78px">{t}</h1><p class="d" style="opacity:.85">{d}</p></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><img class="wm" src="{wm}"><span class="url" style="color:#e3c06a">easyswingpick.com</span></div></div>"""
+    elif style == "b":  # bold navy, big title, calculator CTA
+        body = f"""<div style="height:1500px;background:radial-gradient(120% 90% at 90% 0%,#21506d 0%,#0f2a3d 55%,#0a1c29 100%);color:#fff;padding:90px 72px;display:flex;flex-direction:column;gap:40px">
+<img class="wm" src="{wm}" style="height:72px"><span class="tag" style="border:3px solid #e3c06a;color:#e3c06a;align-self:flex-start">{tag}</span>
+<div class="fit" style="flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:34px"><h1 style="font-size:96px">{t}</h1>
+<div style="width:120px;height:10px;background:#5fd3a2;border-radius:5px"></div><p class="d" style="opacity:.85;font-size:38px">{d}</p></div>
+<span class="cta" style="background:#5fd3a2;color:#0a1c29;align-self:flex-start">{cta} →</span><span class="url" style="opacity:.7">easyswingpick.com</span></div>"""
+    else:               # light card, photo band at bottom
+        body = f"""<div style="height:1500px;background:#f6f3ea;color:#0f2a3d;display:flex;flex-direction:column">
+<div style="padding:80px 72px 40px;flex:1;display:flex;flex-direction:column;gap:34px;min-height:0">
+<span style="align-self:flex-start;background:#0f2a3d;border-radius:12px;padding:16px 22px;display:flex"><img class="wm" src="{wm}" style="height:56px"></span><span class="tag" style="background:#0f2a3d;color:#fff;align-self:flex-start">{tag}</span>
+<div class="fit" style="flex:1;overflow:hidden;display:flex;flex-direction:column;gap:28px"><h1 style="font-size:86px;color:#0f2a3d">{t}</h1><p class="d" style="color:#4b5b68">{d}</p></div>
+<span class="cta" style="background:#0f2a3d;color:#fff;align-self:flex-start">Read the guide →</span></div>
+<div style="height:470px;background:url('{photo}') center/cover;position:relative"><span class="url" style="position:absolute;right:40px;bottom:30px;background:#e3c06a;color:#0a1c29;padding:10px 20px;border-radius:8px">easyswingpick.com</span></div></div>"""
+    return f"<html><head><meta charset='utf-8'><style>{PIN_CSS}</style></head><body>{body}{PIN_FIT}</body></html>"
+def _pin_jpg(png, jpg):
+    from PIL import Image
+    Image.open(png).convert("RGB").save(jpg, "JPEG", quality=86, optimize=True, progressive=True); os.remove(png)
+def _added(slug):
+    r = _sp2.run(["git", "-C", H, "log", "--diff-filter=A", "--format=%aI", "--", f"site/blog-{slug}.html"], capture_output=True, text=True).stdout.split()
+    return datetime.datetime.fromisoformat(r[-1]) if r else datetime.datetime.now(datetime.timezone.utc)
+rendered = 0
+for p in P:
+    slug = p["u"][6:]
+    key = hashlib.sha1(("|".join([PIN_VER, p["en"], p["den"], p["cat"], p["c"]])).encode()).hexdigest()[:12]
+    stamp = f"{PD}/{slug}.key"
+    have = all(os.path.exists(f"{PD}/{slug}-{x}.jpg") for x in "abc")
+    if not (have and os.path.exists(stamp) and open(stamp).read().strip() == key):
+        photo = f"file://{H}/site/img/{PIN_PHOTO[p['cat']]}.webp"
+        for x in "abc":
+            tmp = f"{PD}/_t.html"; open(tmp, "w").write(_pin_html(x, p, photo))
+            _sp2.run(["google-chrome", "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars", "--window-size=1000,1500",
+                      "--virtual-time-budget=3000", f"--screenshot={PD}/_t.png", f"file://{tmp}"], capture_output=True)
+            _pin_jpg(f"{PD}/_t.png", f"{PD}/{slug}-{x}.jpg"); os.remove(tmp)
+        open(stamp, "w").write(key + "\n"); rendered += 1
+    for x in "abc": shutil.copy(f"{PD}/{slug}-{x}.jpg", f"{OUT}/assets/pins/{slug}-{x}.jpg")
+    p["_date"] = _added(slug)
+_keep = {f"{q['u'][6:]}{e}" for q in P for e in ("-a.jpg", "-b.jpg", "-c.jpg", ".key")}
+for f in _glob.glob(f"{PD}/*"):   # drop pins of removed posts
+    if os.path.basename(f) not in _keep: os.remove(f)
+x = lambda v: _html.escape(v, quote=True)
+items = []
+for p in sorted(P, key=lambda q: q["_date"], reverse=True):
+    slug = p["u"][6:]; img = f"{DOMAIN}/assets/pins/{slug}-a.jpg"; size = os.path.getsize(f"{OUT}/assets/pins/{slug}-a.jpg")
+    items.append(f"""<item><title>{x(p['en'])}</title><link>{DOMAIN}{p['u']}</link><guid isPermaLink="true">{DOMAIN}{p['u']}</guid>
+<pubDate>{_fmtdt(p['_date'])}</pubDate><category>{x(PIN_BOARD[p['cat']])}</category>
+<description>{x(p['den'] + ' ' + PIN_CTA[p['cat']] + ' at EasySwingPick.')}</description>
+<enclosure url="{img}" length="{size}" type="image/jpeg"/><media:content url="{img}" medium="image" type="image/jpeg" width="1000" height="1500"/></item>""")
+open(f"{OUT}/feed.xml", "w").write(f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
+<title>EasySwingPick — Golf Club Guides</title><link>{DOMAIN}/blog/</link><atom:link href="{DOMAIN}/feed.xml" rel="self" type="application/rss+xml"/>
+<description>Golf club comparisons, buying guides and fitting tips for senior and Korean-American golfers.</description><language>en-us</language>
+<lastBuildDate>{_fmtdt(datetime.datetime.now(datetime.timezone.utc))}</lastBuildDate>
+{chr(10).join(items)}
+</channel></rss>
+""")
+# extra pins (B, C) for Pinterest Bulk create: scheduled 7 and 14 days after the post, 10:00 Pacific (18:00 UTC)
+with open(f"{OUT}/pins.csv", "w", newline="", encoding="utf-8") as fh:
+    w = _csv.writer(fh); w.writerow(["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"])
+    # at most one extra pin per day: each pin goes on its target day (post +7 / +14 days) or the next free day after it
+    _last = datetime.datetime.now(datetime.timezone.utc).replace(hour=18, minute=0, second=0, microsecond=0)
+    want = list(((p["_date"] + datetime.timedelta(days=days)).astimezone(datetime.timezone.utc).replace(hour=18, minute=0, second=0, microsecond=0), p, k)
+                  for p in P for k, days in (("b", 7), ("c", 14)))
+    for when, p, k in sorted(want, key=lambda r: (r[0], r[1]["u"], r[2])):
+        when = max(when, _last + datetime.timedelta(days=1)); _last = when; slug = p["u"][6:]
+        w.writerow([p["en"][:100], f"{DOMAIN}/assets/pins/{slug}-{k}.jpg", PIN_BOARD[p["cat"]], "", (p["den"] + " " + PIN_CTA[p["cat"]] + ".")[:500],
+                    f"{DOMAIN}{p['u']}", when.strftime("%Y-%m-%dT%H:%M:%S"), "golf clubs, golf equipment, " + PIN_BOARD[p["cat"]].lower()])
+for f in (f"{OUT}/index.html", f"{OUT}/blog/index.html"):
+    s_ = open(f).read(); open(f, "w").write(s_.replace("</head>", f'<link rel="alternate" type="application/rss+xml" title="EasySwingPick" href="{DOMAIN}/feed.xml">\n</head>', 1))
+print(f"pins ok ({rendered} rendered, {len(P)} posts) · feed.xml · pins.csv")
 
 
 # ---------- header wordmark (A) ----------

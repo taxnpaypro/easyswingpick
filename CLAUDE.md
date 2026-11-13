@@ -10,6 +10,12 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - `driver-fit/ iron-fit/ wedge-fit/ putter-fit/` – calculators. `logo/` – logo SVGs (wordmark = header, c.svg = favicon). `site/img/` – licensed photos (Pixabay, no brand logos).
 - `build_deploy.py` – builds everything into `deploy/` (needs google-chrome for PNG icons/OG image). **`deploy/` is committed**; Cloudflare Workers deploys it as static assets (`wrangler.jsonc`) whenever `main` changes.
 
+## Pinterest (feed.xml + pins)
+- `build_deploy.py` makes 3 pin images (1000×1500 JPG) per post from its `POSTS` entry (`en`, `den`, `cat`, `c`): A = photo + title, B = navy + calculator button, C = light card. Cached in `site/pins/` (re-rendered only when the text or `PIN_VER` changes) and published at `/assets/pins/<slug>-a|b|c.jpg`.
+- `/feed.xml` (RSS, English) lists every post with pin A. The owner's Pinterest business account Auto-publishes from it, so a merged post becomes a pin automatically — no manual upload.
+- `/pins.csv` holds pins B and C in Pinterest "Bulk create Pins" format, one per day (post +7 / +14 days, 10am Pacific). The owner uploads it about once a month; mention it in the approval message when new rows were added.
+- Pin text comes from the English title/summary, so keep `en` ≤ 90 characters and `den` one short sentence.
+
 ## Affiliate links
 - Awin publisher ID 3153241; joined 2nd Swing Golf (awinmid 95935). `build_deploy.py` turns every calculator pick and every blog `B.picks()` card ("구매처 보기") into an Awin deep link to a 2nd Swing search for that model (rel="sponsored"). New posts get this automatically — just use `B.picks()` for product cards.
 - FlexOffers application submitted 2026-11-12 (pending). Do not add other merchants' links until the owner sends them.
@@ -34,6 +40,6 @@ Never push to `main` without the owner's explicit approval ("승인") in chat. D
    - Photos: only from `site/img/` or none. Never images showing brand logos or identifiable people.
    - Run it to produce `site/blog-<slug>.html`.
 4. **Register it**: add an entry at the top of `POSTS` in `site/index.html` with `u:"/blog/<slug>"`, `cat` (gear/jp/senior/buy/putter/setup), `ko`, `en`, `dko`, `den`, `c` (card color).
-5. **Build & check**: `python3 build_deploy.py` (must end with `QA OK`), serve `deploy/` locally, screenshot the post at 1300px and 390px with headless chrome, fix layout issues.
-6. **Ask for approval**: commit to `publish/YYYY-MM-DD`, push the branch, then send the owner (in Korean): the 10 candidates with scores, why the winner was chosen, the post title/summary, and the screenshots. Include the QA line (e.g. "계산기 자동 점검 1,714건 이상 없음"). Ask "승인하시면 사이트에 올리겠습니다."
+5. **Build & check**: `python3 build_deploy.py` (must end with `QA OK`), serve `deploy/` locally, screenshot the post at 1300px and 390px with headless chrome, fix layout issues. Also open the 3 new pins in `site/pins/<slug>-a|b|c.jpg` and check the title fits and nothing is cut off.
+6. **Ask for approval**: commit to `publish/YYYY-MM-DD`, push the branch, then send the owner (in Korean): the 10 candidates with scores, why the winner was chosen, the post title/summary, and the screenshots. Include the QA line (e.g. "계산기 자동 점검 1,714건 이상 없음") and the 3 pin images (Pinterest posts pin A automatically after merge). Ask "승인하시면 사이트에 올리겠습니다."
 7. **On "승인"**: `git checkout main && git merge --ff-only publish/YYYY-MM-DD && git push origin main`. Cloudflare redeploys in a few minutes; then confirm https://easyswingpick.com/blog/<slug> returns the new post. On "보류"/edits: revise on the branch and ask again.
