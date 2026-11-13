@@ -314,6 +314,10 @@ with open(f"{OUT}/pins.csv", "w", newline="", encoding="utf-8") as fh:
                     f"{DOMAIN}{p['u']}", when.strftime("%Y-%m-%dT%H:%M:%S"), "golf clubs, golf equipment, " + PIN_BOARD[p["cat"]].lower()])
 for f in (f"{OUT}/index.html", f"{OUT}/blog/index.html"):
     s_ = open(f).read(); open(f, "w").write(s_.replace("</head>", f'<link rel="alternate" type="application/rss+xml" title="EasySwingPick" href="{DOMAIN}/feed.xml">\n</head>', 1))
+# Pinterest website claim (Settings > Claimed accounts > Websites) — keep on the homepage
+PIN_VERIFY = "06fbd72d4027a8ccd471db19e4500c61"
+_h = open(f"{OUT}/index.html").read()
+open(f"{OUT}/index.html", "w").write(_h.replace("</head>", f'<meta name="p:domain_verify" content="{PIN_VERIFY}"/>\n</head>', 1))
 print(f"pins ok ({rendered} rendered, {len(P)} posts) · feed.xml · pins.csv")
 
 
