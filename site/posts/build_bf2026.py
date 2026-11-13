@@ -76,6 +76,11 @@ brand("Callaway Apex Ti Super Hybrid", "2H~5H (16·18·21·24°)", [
  T("이런 분께")+"Callaway는 페어웨이우드가 잘 안 맞거나 티샷이 불안한 골퍼를 위해 만들었다고 설명합니다. 3번 우드 대신 넣기 좋습니다.",
  T("참고")+"새 OptiFit4 호젤은 이전 버전 샤프트와 호환되지 않습니다."]) + \
 "<p>경량 드라이버를 더 알아보시려면 <a href='/blog/lightweight-drivers'>느린 스윙을 위한 경량 드라이버 Best 5</a>도 함께 보세요.</p>" + \
+"<h3>이 글에서 다룬 모델 가격 보기</h3><p>새 제품 할인가는 위 표를 참고하시고, 중고·트레이드인 가격은 아래에서 바로 확인할 수 있습니다.</p>" + B.picks([
+ ("할인 중 · 드라이버", "PING G440 MAX", "가장 관용성 높은 기본 모델. 슬라이스가 고민이면 같은 페이지에서 SFT를 고르세요."),
+ ("할인 중 · 드라이버", "Callaway Quantum Max", "MyGolfSpy 2026 테스트 거리 1위, 정가 대비 약 $200 인하."),
+ ("시니어 · 하이브리드", "Callaway Apex Ti Super Hybrid", "페어웨이우드가 어려운 분의 3번 우드 대용."),
+ ("관용성 · 아이언", "Srixon ZXiR", "관용성 중심 아이언. 느린 스윙이면 HL(고탄도) 버전도 있습니다.")], True) + \
 "<h2>5. 미니 드라이버: 사도 될까, 기다릴까</h2>" + \
 "<p>드라이버가 자꾸 휘는 분들 사이에서 '미니 드라이버'가 인기입니다. 드라이버보다 작은 헤드와 짧은 샤프트로 방향성을 얻는 클럽인데, 마침 PING도 G450 MiniMax로 처음 이 시장에 들어옵니다.</p>" + B.table(["모델", "헤드·로프트", "가격", "상태"], [
  ["Titleist GTS300", "305cc · 13°", "$549", "2026년 7월 출시"],
@@ -175,6 +180,11 @@ brand("Callaway Apex Ti Super Hybrid", "2H–5H (16/18/21/24°)", [
  T("Who it suits")+"Callaway built it for golfers who struggle off the tee or with fairway woods — a natural 3-wood replacement.",
  T("Note")+"The new OptiFit4 hosel isn't compatible with shafts fitted for the older version."]) + \
 "<p>For more on light drivers, see <a href='/blog/lightweight-drivers'>Best 5 lightweight drivers for slower swings</a>.</p>" + \
+"<h3>Check prices on the models in this guide</h3><p>See the tables above for new-club sale prices; used and trade-in prices are one tap away below.</p>" + B.picks([
+ ("On sale · Driver", "PING G440 MAX", "The most forgiving core model. Choose SFT on the same page if you fight a slice."),
+ ("On sale · Driver", "Callaway Quantum Max", "No. 1 for distance in MyGolfSpy's 2026 test, about $200 off list."),
+ ("Seniors · Hybrid", "Callaway Apex Ti Super Hybrid", "A 3-wood replacement for golfers who struggle with fairway woods."),
+ ("Forgiving · Irons", "Srixon ZXiR", "Forgiveness-focused irons, with an HL (high-launch) version for slower swings.")], False) + \
 "<h2>5. Mini drivers: buy or wait?</h2>" + \
 "<p>Mini drivers are popular with golfers whose driver keeps wandering: a smaller head and shorter shaft trade a little distance for direction. PING is entering the category for the first time with the G450 MiniMax.</p>" + B.table(["Model", "Head / loft", "Price", "Status"], [
  ["Titleist GTS300", "305cc / 13°", "$549", "Released July 2026"],

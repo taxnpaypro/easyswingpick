@@ -77,6 +77,10 @@ brand("Mizuno ST-Max 230", "Quick Switch 호젤", [
  "처음 위치를 사진으로 찍어 두기",
  "경기 중에는 조절 불가 (라운드 전에 끝내기)",
  "큰 변화가 필요하면 슬리브보다 샤프트·로프트 피팅이 먼저"]) + \
+"<h3>조절로 부족하다면: 이 글에서 다룬 모델 가격 보기</h3><p>슬리브와 무게추로도 구질이 안 잡히면 헤드 자체를 바꾸는 게 빠릅니다. 중고·트레이드인 가격을 아래에서 확인해 보세요.</p>" + B.picks([
+ ("슬라이스 교정", "PING G440 SFT", "드로우 성향 헤드. 23g 무게추를 드로우·드로우+ 두 위치로 조절."),
+ ("관용성 · 조절 폭", "TaylorMade Qi4D", "FCT 슬리브 ±2°와 TAS 무게추 조합으로 128가지 설정."),
+ ("느린 스윙", "XXIO 14", "XXIO 처음으로 드라이버에 1.5° 로프트 슬리브 탑재.")], True) + \
 "<div class='note'><b>내 스윙 스피드부터 확인하세요.</b> 드라이버 계산기에 거리만 넣으면 헤드스피드와 맞는 모델·샤프트를 추천합니다.</div>"
 
 EN = STY + B.tldr("QUICK TAKE", [
@@ -136,6 +140,10 @@ brand("Mizuno ST-Max 230", "Quick Switch hosel", [
  "Photograph the original setting first",
  "No adjusting during a round",
  "For big changes, shaft and loft fitting come before sleeve tweaks"]) + \
+"<h3>When adjusting isn't enough: check prices on models in this guide</h3><p>If the sleeve and weights can't fix your ball flight, a different head is the faster fix. Used and trade-in prices are below.</p>" + B.picks([
+ ("Slice fix", "PING G440 SFT", "Draw-biased head; the 23g weight has Draw and Draw+ positions."),
+ ("Forgiving · wide range", "TaylorMade Qi4D", "FCT sleeve (±2°) plus TAS weights for 128 settings."),
+ ("Slower swings", "XXIO 14", "The first XXIO driver with a 1.5° loft sleeve.")], False) + \
 "<div class='note'><b>Know your swing speed first.</b> Enter your drive distance in our driver calculator for speed, model and shaft picks.</div>"
 
 P = dict(file="blog-driver-adjust-guide.html", bg="adj", calc="driver",

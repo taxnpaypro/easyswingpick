@@ -126,13 +126,13 @@ info("about", "소개", "About",
 
 info("disclosure", "제휴 링크 고지", "Affiliate Disclosure",
  f"""<p class="meta" style="color:var(--muted)">{UPD_KO}</p>
-<p>EasySwingPick은 제휴(어필리에이트) 마케팅 프로그램에 참여할 수 있습니다. 이 사이트의 일부 링크를 통해 제품을 구매하시면, <b>구매자에게 추가 비용 없이</b> 저희가 소정의 수수료를 받을 수 있습니다.</p>
-<h2>참여할 수 있는 프로그램</h2><p>Amazon Associates, Awin, FlexOffers, 골프 소매점·제조사 제휴 프로그램 등. Amazon Associate로서 EasySwingPick은 조건을 충족하는 구매로부터 수익을 얻습니다.</p>
+<p>EasySwingPick은 제휴(어필리에이트) 마케팅 프로그램에 참여하고 있습니다. 이 사이트의 일부 링크를 통해 제품을 구매하시면, <b>구매자에게 추가 비용 없이</b> 저희가 소정의 수수료를 받을 수 있습니다.</p>
+<h2>현재 참여 중인 프로그램</h2><ul class="check"><li><b>2nd Swing Golf</b> — Awin 제휴 네트워크를 통해 참여합니다. 계산기 결과와 글의 "가격 보기" 버튼이 이 링크입니다.</li></ul><p>새 프로그램에 참여하면 이 목록에 추가하고 최종 업데이트 날짜를 고칩니다.</p>
 <h2>추천 원칙</h2><ul class="check"><li>수수료는 어떤 제품을 추천할지, 순위를 어떻게 매길지에 영향을 주지 않습니다.</li><li>제휴 프로그램이 없는 브랜드(예: L.A.B. Golf, Miura)도 똑같이 다룹니다.</li><li>제휴 링크가 있는 글에는 링크 근처에 고지를 표시합니다.</li></ul>
 <p>이 고지는 미국 연방거래위원회(FTC)의 추천·후기 가이드에 따라 작성했습니다. 질문은 {M}로 보내주세요.</p>""",
  f"""<p class="meta" style="color:var(--muted)">{UPD_EN}</p>
-<p>EasySwingPick may participate in affiliate marketing programs. When you buy through some links on this site, we may earn a small commission <b>at no extra cost to you</b>.</p>
-<h2>Programs we may join</h2><p>Amazon Associates, Awin, FlexOffers, and golf retailer and manufacturer affiliate programs. As an Amazon Associate, EasySwingPick earns from qualifying purchases.</p>
+<p>EasySwingPick participates in affiliate marketing programs. When you buy through some links on this site, we may earn a small commission <b>at no extra cost to you</b>.</p>
+<h2>Programs we currently participate in</h2><ul class="check"><li><b>2nd Swing Golf</b> — through the Awin affiliate network. The "Check price" buttons in calculator results and posts use these links.</li></ul><p>When we join a new program, we add it here and update the date above.</p>
 <h2>How we recommend</h2><ul class="check"><li>Commissions never decide which products we recommend or how we rank them.</li><li>Brands without affiliate programs (e.g., L.A.B. Golf, Miura) get the same coverage.</li><li>Posts with affiliate links show a disclosure near those links.</li></ul>
 <p>This disclosure follows the US Federal Trade Commission's Endorsement Guides. Questions: {M}</p>""")
 
@@ -141,7 +141,7 @@ info("privacy", "개인정보처리방침", "Privacy Policy",
 <h2>1. 수집하는 정보</h2><ul class="check"><li><b>계산기 입력값</b>(키, 몸무게, 거리 등)은 브라우저 안에서만 계산되며 서버로 전송되거나 저장되지 않습니다.</li>
 <li><b>방문 통계</b>: 사이트 개선을 위해 쿠키를 쓰지 않는 방문 통계(예: Cloudflare Web Analytics)를 사용할 수 있습니다. 개인을 식별하지 않는 페이지 조회 수 등만 집계됩니다.</li>
 <li><b>이메일 문의</b>: 이메일을 보내시면 답변을 위해 이메일 주소와 내용을 보관합니다.</li></ul>
-<h2>2. 제3자 서비스</h2><ul class="check"><li><b>제휴 링크</b>: 제휴 링크를 클릭하면 해당 판매처나 제휴 네트워크(Amazon, Awin, FlexOffers 등)가 구매 추적을 위해 자체 쿠키를 사용할 수 있습니다. 해당 회사의 개인정보처리방침이 적용됩니다.</li>
+<h2>2. 제3자 서비스</h2><ul class="check"><li><b>제휴 링크</b>: 제휴 링크를 클릭하면 해당 판매처나 제휴 네트워크(현재 Awin과 2nd Swing Golf)가 구매 추적을 위해 자체 쿠키를 사용할 수 있습니다. 해당 회사의 개인정보처리방침이 적용됩니다.</li>
 <li><b>글꼴</b>: Google Fonts를 사용하며, 글꼴을 불러올 때 IP 주소 등이 Google에 전달될 수 있습니다.</li>
 <li><b>호스팅</b>: 사이트는 Cloudflare에서 호스팅되며, 보안과 운영을 위해 기본 접속 기록이 처리될 수 있습니다.</li></ul>
 <h2>3. 판매하지 않습니다</h2><p>EasySwingPick은 개인정보를 판매하거나 공유하지 않습니다.</p>
@@ -153,7 +153,7 @@ info("privacy", "개인정보처리방침", "Privacy Policy",
 <h2>1. Information we collect</h2><ul class="check"><li><b>Calculator inputs</b> (height, weight, distances) are processed in your browser only and are never sent to or stored on a server.</li>
 <li><b>Analytics</b>: We may use cookieless analytics (e.g., Cloudflare Web Analytics) that count page views without identifying you.</li>
 <li><b>Email</b>: If you email us, we keep your address and message to reply.</li></ul>
-<h2>2. Third-party services</h2><ul class="check"><li><b>Affiliate links</b>: Retailers and affiliate networks (Amazon, Awin, FlexOffers, etc.) may set their own cookies to track purchases. Their privacy policies apply.</li>
+<h2>2. Third-party services</h2><ul class="check"><li><b>Affiliate links</b>: Retailers and affiliate networks (currently Awin and 2nd Swing Golf) may set their own cookies to track purchases. Their privacy policies apply.</li>
 <li><b>Fonts</b>: We use Google Fonts; loading them may send your IP address to Google.</li>
 <li><b>Hosting</b>: The site is hosted on Cloudflare, which may process basic access logs for security and operations.</li></ul>
 <h2>3. We don't sell your data</h2><p>EasySwingPick does not sell or share personal information.</p>
@@ -354,12 +354,14 @@ for d, _, fs in os.walk(OUT):
         else: print("no header logo:", p)
 
 # ---------- affiliate links (Awin -> 2nd Swing, publisher 3153241) ----------
-AWIN = "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&ued="
+# clickref tells us in Awin reports which page earned the click: "calc-driver", "blog-honma-miura", ...
+AWIN_BASE = "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241"
+AWIN = AWIN_BASE + "&ued="
 SEARCH = "https://www.2ndswing.com/catalogsearch/result/?q="
 import urllib.parse as _up
-def aff(q): return AWIN + _up.quote(SEARCH + _up.quote_plus(q), safe="")
+def aff(q, ref=""): return AWIN_BASE + (f"&clickref={ref}" if ref else "") + "&ued=" + _up.quote(SEARCH + _up.quote_plus(q), safe="")
 BUY_KO, BUY_EN = "2nd Swing에서 가격 보기", "Check price at 2nd Swing"
-AFF_JS = ('<script>window.AFF=function(q){return "' + AWIN + '"+encodeURIComponent("' + SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>')
+def AFF_JS(ref): return ('<script>window.AFF=function(q){return "' + AWIN_BASE + '&clickref=' + ref + '&ued="+encodeURIComponent("' + SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>')
 for calc in ("driver", "iron", "wedge", "putter"):
     p = f"{OUT}/{calc}/index.html"; s = open(p).read()
     s = s.replace('<a class="buy" href="#" onclick="return false">${t.buy}</a>',
@@ -367,7 +369,7 @@ for calc in ("driver", "iron", "wedge", "putter"):
     s = re.sub(r'buy:"구매처 보기[^"]*"', f'buy:"{BUY_KO} →"', s)
     s = re.sub(r'buy:"See where to buy[^"]*"', f'buy:"{BUY_EN} →"', s)
     s = s.replace("buy links are not connected yet", "buy links go to 2nd Swing (affiliate)")
-    s = s.replace("</head>", AFF_JS + "</head>", 1)
+    s = s.replace("</head>", AFF_JS("calc-" + calc) + "</head>", 1)
     assert "AFF(m.b" in s, calc
     open(p, "w").write(s)
 def _pc(m):
@@ -379,7 +381,7 @@ def _pc(m):
                   f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>', blk)
 import html as _html
 PH = re.compile(r'<a class="buy" href="#" onclick="return false">([^<]*)</a>')
-def _link_all(s):
+def _link_all(s, ref=""):
     out, last = [], 0
     for m in PH.finditer(s):
         before = s[max(0, m.start() - 4000):m.start()]
@@ -391,7 +393,7 @@ def _link_all(s):
         br = re.findall(r'class="br">([^<]+)<', before[-1500:])
         if br and br[-1].lower() not in name.lower(): name = br[-1] + " " + name
         ko = "구매처" in m.group(1)
-        out.append(s[last:m.start()] + f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>')
+        out.append(s[last:m.start()] + f'<a class="buy" href="{_html.escape(aff(name, ref))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>')
         last = m.end()
     return "".join(out) + s[last:]
 DISC1_RE = re.compile(r'<p class="disc1">.*?</p>', re.S)
@@ -399,7 +401,7 @@ DISC_FULL_RE = re.compile(r'<div class="disc" id="disclosure"[^>]*>.*?</div>', r
 NO_AFF = []
 for f in os.listdir(f"{OUT}/blog"):
     p = f"{OUT}/blog/{f}"; s = open(p).read()
-    s2 = _link_all(s)
+    s2 = _link_all(s, "blog-" + f[:-5])
     # affiliate notice only where the post actually has an affiliate link
     if 'rel="sponsored' not in s2 and "awin1.com" not in s2:
         s3 = DISC_FULL_RE.sub("", DISC1_RE.sub("", s2))
@@ -501,6 +503,45 @@ for d, _, fs in os.walk(OUT):
         if not dm: tags = f'<meta name="description" content="{DEF}">' + tags
         open(p, "w").write(s.replace("</head>", tags + "\n</head>", 1))
 print("og ok")
+
+# ---------- structured data (JSON-LD) for search results: Article + breadcrumbs, calculators, organization ----------
+import subprocess as _sp2
+def _gitdate(path, first):
+    try:
+        out = _sp2.run(["git", "log", "--follow", "--format=%cI", "--", path], cwd=H, capture_output=True, text=True).stdout.split()
+        return (out[-1] if first else out[0]) if out else None
+    except Exception:
+        return None
+_NOW = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat()
+ORG = {"@type": "Organization", "@id": DOMAIN + "/#org", "name": "EasySwingPick", "url": DOMAIN + "/",
+       "logo": {"@type": "ImageObject", "url": DOMAIN + "/assets/logo-512.png", "width": 512, "height": 512}}
+def _ld(objs):
+    return '<script type="application/ld+json">' + _json.dumps({"@context": "https://schema.org", "@graph": objs}, ensure_ascii=False).replace("</", "<\\/") + "</script>"
+def _crumbs(items):
+    return {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": u} for i, (n, u) in enumerate(items)]}
+def _put(path, objs):
+    f = f"{OUT}/{path}"; x = open(f).read()
+    if "application/ld+json" in x: return
+    open(f, "w").write(x.replace("</head>", _ld(objs) + "\n</head>", 1))
+_put("index.html", [ORG, {"@type": "WebSite", "@id": DOMAIN + "/#site", "name": "EasySwingPick", "url": DOMAIN + "/",
+                          "inLanguage": ["en", "ko"], "publisher": {"@id": DOMAIN + "/#org"}}])
+for slug, name in [("driver", "Driver Fitting Calculator"), ("iron", "Iron Fitting Calculator"),
+                   ("wedge", "Wedge Fitting Calculator"), ("putter", "Putter Fitting Calculator")]:
+    u = f"{DOMAIN}/{slug}/"
+    _put(f"{slug}/index.html", [{"@type": "WebApplication", "name": name, "url": u, "applicationCategory": "SportsApplication",
+                                  "operatingSystem": "Any", "inLanguage": ["en", "ko"], "isAccessibleForFree": True,
+                                  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@id": DOMAIN + "/#org"}},
+                                 _crumbs([("Home", DOMAIN + "/"), (name, u)]), ORG])
+for p in P:
+    slug = p["u"].split("/")[-1]; u = DOMAIN + p["u"]; src_f = f"site/blog-{slug}.html"
+    pub = _gitdate(src_f, True) or _NOW; mod = _gitdate(src_f, False) or pub
+    art = {"@type": "Article", "headline": p["en"][:110], "alternativeHeadline": p["ko"], "description": p["den"],
+           "mainEntityOfPage": u, "url": u, "inLanguage": ["en", "ko"], "datePublished": pub, "dateModified": mod,
+           "image": [f"{DOMAIN}/assets/pins/{slug}-a.jpg", DOMAIN + "/assets/og.png"],
+           "author": {"@type": "Organization", "name": "EasySwingPick Editors", "url": DOMAIN + "/about"},
+           "publisher": {"@id": DOMAIN + "/#org"}}
+    _put(f"blog/{slug}.html", [art, _crumbs([("Home", DOMAIN + "/"), ("Blog", DOMAIN + "/blog/"), (p["en"][:110], u)]), ORG])
+print("json-ld ok")
 
 # ---- Calculator QA: every build re-runs ~1,700 scenarios + golden cases (qa/run.py).
 # If anything looks wrong (reversed advice, text vs table mismatch, broken English page...) the build fails

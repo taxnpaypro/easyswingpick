@@ -19,7 +19,10 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 ## Affiliate links
 - Awin publisher ID 3153241; joined 2nd Swing Golf (awinmid 95935). `build_deploy.py` turns every calculator pick and every blog `B.picks()` card ("구매처 보기") into an Awin deep link to a 2nd Swing search for that model (rel="sponsored"). New posts get this automatically — just use `B.picks()` for product cards.
 - Affiliate disclosure (short line under the title + full box at the end) is added only to posts that actually contain an affiliate link after linking; posts with only source links get none (owner request 2026-11-12). If a post gains a `B.picks()` card, the notice appears automatically.
-- FlexOffers application submitted 2026-11-12 (pending). Do not add other merchants' links until the owner sends them.
+- Every Awin link carries `clickref` = `calc-<driver|iron|wedge|putter>` or `blog-<slug>` so Awin reports show which page earned the click.
+- `/disclosure` lists only programs we actually participate in (now: 2nd Swing Golf via Awin). Add a program there only after it is approved. Never mention Amazon until the owner joins Amazon Associates.
+- FlexOffers declined (2026-11-12). Applied, waiting: GlobalGolf (Impact), Dunlop Sports US, Bombtech, SkyTrak, Sunday Golf (Awin). Dunlop requires links only on English pages. Do not add other merchants' links until the owner sends them.
+- Every page gets JSON-LD from `build_deploy.py` (Article + BreadcrumbList on posts, WebApplication on calculators, Organization + WebSite on home).
 
 ## Calculator quality (trust rules)
 - `python3 build_deploy.py` ends by running `qa/run.py`: ~1,700 fixed scenario runs (KO+EN, `qa/scenarios/*.json`) plus 600 fresh random cases ×2 languages, ~40 consistency rules (`qa/checks.py`) and owner-facing expected answers (`qa/golden.json`). **If it prints `BUILD FAILED`, do not commit or publish** — fix the calculator (or, if the rule itself is wrong, explain why to the owner before changing it).
