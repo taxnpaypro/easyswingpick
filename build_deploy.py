@@ -177,6 +177,7 @@ info("404", "페이지를 찾을 수 없습니다", "Page not found",
 
 # ---------- blog index (/blog/) ----------
 import json as _json
+import html as _html_mod
 src = open(f"{H}/site/index.html").read()
 P = []
 # registry entries use either an old artifact link or the final /blog/<slug> path (newer posts)
@@ -206,7 +207,26 @@ info("blog/index", "전체 글", "All posts",
      BCSS + '<p>골프채 비교·추천·세팅 가이드를 한 곳에 모았습니다.</p><div class="chips chipsbox"></div><div class="bl blbox"></div>',
      '<p>All our club comparisons, picks and setup guides in one place.</p><div class="chips chipsbox"></div><div class="bl blbox"></div>')
 b = open(f"{OUT}/blog/index.html").read().replace(f'{DOMAIN}/blog/index"', f'{DOMAIN}/blog/"').replace("</body>", BJS + "\n</body>", 1)
+# Pre-render the post cards into the HTML so search engines see real <a href> links (the script still redraws them
+# for filters and language switching; visitors see no difference).
+_e = _html_mod.escape
+def _card(p):
+    return (f'<a class="bp" href="{p["u"]}"><div class="th" style="background:linear-gradient(140deg,{p["c"]},#0a1c29)">'
+            f'<span><span data-l="ko">{_e(CN["ko"][p["cat"]])}</span><span data-l="en">{_e(CN["en"][p["cat"]])}</span></span></div>'
+            f'<div class="bd"><h3><span data-l="ko">{_e(p["ko"])}</span><span data-l="en">{_e(p["en"])}</span></h3>'
+            f'<p><span data-l="ko">{_e(p["dko"])}</span><span data-l="en">{_e(p["den"])}</span></p></div></a>')
+_chips = "".join(f'<a href="?c={x}" class="{"on" if x=="all" else ""}" data-c="{x}"><span data-l="ko">{CN["ko"][x]}</span><span data-l="en">{CN["en"][x]}</span></a>' for x in cats)
+assert b.count('<div class="bl blbox"></div>') == 2 and b.count('<div class="chips chipsbox"></div>') == 2
+b = b.replace('<div class="bl blbox"></div>', '<div class="bl blbox">' + "".join(_card(p) for p in P) + '</div>')
+b = b.replace('<div class="chips chipsbox"></div>', '<div class="chips chipsbox">' + _chips + '</div>')
 open(f"{OUT}/blog/index.html", "w").write(b)
+# Homepage "latest guides": same idea, newest 6 in English (the default language); the script redraws in the visitor's language
+_home = open(f"{OUT}/index.html").read()
+_HCAT = {"deal": "Deals", "jp": "Japanese", "senior": "Seniors", "buy": "Buying", "putter": "Putters", "gear": "Gear", "setup": "Setup"}
+_hc = "".join(f'<a class="post" href="{p["u"]}"><div class="th" style="background:linear-gradient(140deg,{p["c"]},#0a1c29)"><span>{_HCAT.get(p["cat"], p["cat"])}</span></div>'
+              f'<div class="bd"><h4>{_e(p["en"])}</h4><p>{_e(p["den"])}</p><div class="meta"><span>EasySwingPick</span><span class="soon">Read →</span></div></div></a>' for p in P[:6])
+assert _home.count('<div class="posts" id="postGrid"></div>') == 1
+open(f"{OUT}/index.html", "w").write(_home.replace('<div class="posts" id="postGrid"></div>', '<div class="posts" id="postGrid">' + _hc + '</div>'))
 
 # ---------- robots / sitemap ----------
 today = datetime.date.today().isoformat()
