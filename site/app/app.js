@@ -7,7 +7,7 @@
   "use strict";
   var LS = {
     get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return localStorage.getItem(k) === JSON.stringify(v); } catch (e) { return false; } }
   };
   var SS = {
     get: function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
@@ -44,7 +44,7 @@
     ".esp-set .in{background:rgba(255,255,255,.12);color:#fff;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;font-size:.92rem}" +
     ".esp-set .dots{display:flex;gap:5px;margin-left:auto}.esp-set .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.3)}.esp-set .dots i.on{background:#c89b3c}" +
     ".esp-set a{color:#c89b3c;font-weight:600;text-decoration:none}" +
-    ".esp-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#15212b;color:#fff;padding:10px 16px;border-radius:999px;font:500 .9rem Inter,'Noto Sans KR',sans-serif;z-index:99;opacity:0;transition:opacity .2s}.esp-toast.on{opacity:1}";
+    ".esp-toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%);width:max-content;max-width:calc(100% - 32px);background:#178a5b;color:#fff;padding:14px 20px;border-radius:14px;font:600 1rem Inter,'Noto Sans KR',sans-serif;z-index:99;opacity:0;pointer-events:none;transition:opacity .2s;box-shadow:0 8px 24px rgba(0,0,0,.2);text-align:center}.esp-toast.on{opacity:1;pointer-events:auto}.esp-toast.bad{background:#b3412e}.esp-toast a{color:#fff;display:block;margin-top:4px;font-weight:700}";
   document.head.appendChild(st);
 
   var CALCS = ["driver", "iron", "wedge", "putter"];
@@ -52,30 +52,31 @@
     ko: {
       club: { driver: "드라이버", iron: "아이언", wedge: "웨지", putter: "퍼터" },
       barT: "이 결과로 무엇을 할까요?", barS: "저장한 결과는 이 휴대폰(브라우저)에만 보관됩니다.",
-      save: "내 골프백에 저장", saved: "골프백에 저장됨 ✓", share: "결과 카드 공유", bag: "내 골프백 보기",
+      save: "내 골프백에 저장", saved: "✓ 저장됨 · 내 골프백 보기 →", share: "결과 카드 공유", bag: "내 골프백 보기",
       guide: { driver: "관련 가이드: 2026 인기 드라이버 비교 →", iron: "관련 가이드: 2026 인기 아이언 비교 →", wedge: "관련 가이드: 2026 인기 웨지 비교 →", putter: "관련 가이드: 2026 인기 퍼터 비교 →" },
       setT: function (i) { return "전체 세트 추천 " + (i + 1) + "/4 · "; }, setQuit: "그만하기",
       next: function (c) { return "저장하고 다음: " + c + " →"; }, finish: "저장하고 내 골프백 보기 →",
-      toastSaved: "내 골프백에 저장했습니다", cardT: "나의 골프백", cardS: "무료 클럽 피팅 계산기 추천 결과", cardFoot: "easyswingpick.com · 내 스윙에 맞는 골프채 찾기",
+      toastSaved: "✓ 내 골프백에 저장했습니다", toastSee: "내 골프백 보기 →", noStore: "이 브라우저에서는 저장할 수 없습니다. 개인정보 보호(시크릿) 모드를 끄고 다시 해 주세요.", cardT: "나의 골프백", cardS: "무료 클럽 피팅 계산기 추천 결과", cardFoot: "easyswingpick.com · 내 스윙에 맞는 골프채 찾기",
       shareText: "EasySwingPick 계산기로 받은 내 클럽 추천입니다.", dl: "이미지를 저장했습니다"
     },
     en: {
       club: { driver: "Driver", iron: "Irons", wedge: "Wedges", putter: "Putter" },
       barT: "What would you like to do with this result?", barS: "Saved results stay only on this phone (browser).",
-      save: "Save to my bag", saved: "Saved to my bag ✓", share: "Share result card", bag: "View my bag",
+      save: "Save to my bag", saved: "✓ Saved · View my bag →", share: "Share result card", bag: "View my bag",
       guide: { driver: "Related guide: 2026's hot drivers compared →", iron: "Related guide: 2026's hot irons compared →", wedge: "Related guide: 2026's hot wedges compared →", putter: "Related guide: 2026's hot putters compared →" },
       setT: function (i) { return "Full-set fitting " + (i + 1) + "/4 · "; }, setQuit: "Stop",
       next: function (c) { return "Save & next: " + c + " →"; }, finish: "Save & view my bag →",
-      toastSaved: "Saved to your bag", cardT: "My Golf Bag", cardS: "Picks from free club-fitting calculators", cardFoot: "easyswingpick.com · Find clubs that fit your swing",
+      toastSaved: "✓ Saved to your bag", toastSee: "View my bag →", noStore: "This browser can't save. Turn off private browsing and try again.", cardT: "My Golf Bag", cardS: "Picks from free club-fitting calculators", cardFoot: "easyswingpick.com · Find clubs that fit your swing",
       shareText: "My club picks from the EasySwingPick calculators.", dl: "Image saved"
     }
   };
   var GUIDE = { driver: "/blog/hot-drivers-2026", iron: "/blog/hot-irons-2026", wedge: "/blog/hot-wedges-2026", putter: "/blog/hot-putters-2026" };
 
-  function toast(msg) {
+  function toast(msg, link, bad) {
     var el = document.querySelector(".esp-toast");
     if (!el) { el = document.createElement("div"); el.className = "esp-toast"; document.body.appendChild(el); }
-    el.textContent = msg; el.classList.add("on"); clearTimeout(el._t); el._t = setTimeout(function () { el.classList.remove("on"); }, 2200);
+    el.innerHTML = esc(msg) + (link ? '<a href="' + link[1] + '">' + esc(link[0]) + "</a>" : "");
+    el.classList.toggle("bad", !!bad); el.classList.add("on"); clearTimeout(el._t); el._t = setTimeout(function () { el.classList.remove("on"); }, link ? 4000 : 2500);
   }
 
   /* ---------- share card (canvas image) — used here and on /app/ ---------- */
@@ -185,7 +186,7 @@
   }
   function save() {
     var s = summary(); if (!s) return false;
-    var bag = LS.get("esp_bag", {}); bag[calc] = s; LS.set("esp_bag", bag); return true;
+    var bag = LS.get("esp_bag", {}); bag[calc] = s; return LS.set("esp_bag", bag);
   }
   function isSaved() {
     var s = summary(), b = LS.get("esp_bag", {})[calc];
@@ -216,7 +217,11 @@
       (setMode ? "" : '<a class="esp-b" href="/app/#bag">' + esc(t.bag) + "</a>") +
       '</div><a class="esp-guide" href="' + GUIDE[calc] + '">' + esc(t.guide[calc]) + "</a></div>";
     if (!old) r.parentNode.insertBefore(d, r.nextSibling);
-    d.querySelector("[data-save]").onclick = function () { if (save()) { toast(t.toastSaved); bar(); } };
+    /* once saved, the same button opens the bag */
+    d.querySelector("[data-save]").onclick = function () {
+      if (isSaved()) { location.href = "/app/#bag"; return; }
+      if (save()) { toast(t.toastSaved, [t.toastSee, "/app/#bag"]); bar(); } else toast(t.noStore, null, true);
+    };
     d.querySelector("[data-share]").onclick = function () { var s = summary(); if (s) shareCard([s]); };
     var n = d.querySelector("[data-next]");
     if (n) n.onclick = function (e) {
