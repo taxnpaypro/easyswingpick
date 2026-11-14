@@ -427,7 +427,7 @@ for d, _, fs in os.walk(OUT):
 # ---------- PNG icons ----------
 import subprocess
 A = f"{OUT}/assets"
-for n, name in [(32, "favicon-32.png"), (180, "apple-touch-icon.png"), (512, "logo-512.png")]:
+for n, name in [(32, "favicon-32.png"), (180, "apple-touch-icon.png"), (192, "icon-192.png"), (512, "logo-512.png")]:
     open(f"{A}/t.html", "w").write(f"<html><body style='margin:0'><img src='logo.svg' width={n} height={n} style='display:block'></body></html>")
     subprocess.run(["google-chrome", "--headless=new", "--no-sandbox", "--disable-gpu", "--default-background-color=00000000",
                     "--hide-scrollbars", f"--window-size={n},{n}", f"--screenshot={A}/{name}", f"file://{A}/t.html"], capture_output=True)
@@ -542,6 +542,49 @@ for p in P:
            "publisher": {"@id": DOMAIN + "/#org"}}
     _put(f"blog/{slug}.html", [art, _crumbs([("Home", DOMAIN + "/"), ("Blog", DOMAIN + "/blog/"), (p["en"][:110], u)]), ORG])
 print("json-ld ok")
+
+# ---------- web app (PWA): /app/, manifest, service worker, app layer on every page ----------
+# site/app/app.js = save-to-bag, share card, full-set flow, offline registration. It never changes calculator results
+# (it only reads the finished result and adds a box *below* #result, so QA text is unaffected).
+import json as _j2
+os.makedirs(f"{OUT}/app", exist_ok=True)
+shutil.copy(f"{H}/site/app/app.js", f"{OUT}/assets/app.js")
+_vh = hashlib.sha1()
+for d, _, fs in sorted(os.walk(OUT)):
+    for f in sorted(fs):
+        if f.endswith((".html", ".js")): _vh.update(open(os.path.join(d, f), "rb").read())
+_vh.update(open(f"{H}/site/app/app.js", "rb").read() + open(f"{H}/site/app/index.html", "rb").read()); _ver = _vh.hexdigest()[:10]
+open(f"{OUT}/sw.js", "w").write(open(f"{H}/site/app/sw.js").read().replace("__VER__", _ver))
+_posts = [{k: p[k] for k in ("u", "ko", "en", "dko", "den", "c")} for p in sorted(P, key=lambda q: q["_date"], reverse=True)][:12]
+open(f"{OUT}/app/index.html", "w").write(open(f"{H}/site/app/index.html").read().replace("/*POSTS*/[]", _j2.dumps(_posts, ensure_ascii=False).replace("</", "<\\/")))
+open(f"{OUT}/manifest.webmanifest", "w").write(_j2.dumps({
+    "name": "EasySwingPick — Golf Club Fitting", "short_name": "SwingPick", "id": "/app/", "start_url": "/app/", "scope": "/",
+    "display": "standalone", "background_color": "#f3f5f7", "theme_color": "#0f2a3d",
+    "description": "Free driver, iron, wedge and putter fitting calculators. Save your bag, share a result card, works offline.",
+    "lang": "en", "categories": ["sports", "lifestyle"],
+    "icons": [{"src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png"},
+              {"src": "/assets/logo-512.png", "sizes": "512x512", "type": "image/png"},
+              {"src": "/assets/logo.svg", "sizes": "any", "type": "image/svg+xml"}],
+    "shortcuts": [{"name": "Driver", "url": "/driver/"}, {"name": "Irons", "url": "/iron/"}, {"name": "Wedges", "url": "/wedge/"},
+                  {"name": "Putter", "url": "/putter/"}, {"name": "My bag", "url": "/app/#bag"}]}, ensure_ascii=False, indent=1))
+APP_HEAD = ('<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0f2a3d">'
+            '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">'
+            '<meta name="apple-mobile-web-app-title" content="SwingPick"><meta name="apple-mobile-web-app-status-bar-style" content="default">')
+for d, _, fs in os.walk(OUT):
+    for f in fs:
+        if not f.endswith(".html"): continue
+        p = os.path.join(d, f); s = open(p).read()
+        if 'rel="manifest"' in s: continue
+        if "/app/index.html" in p.replace(os.sep, "/"):
+            s = s.replace("</head>", HEAD + APP_HEAD + "</head>", 1)
+        else:
+            s = s.replace("</head>", APP_HEAD + "</head>", 1)
+            i = s.rfind("</body>"); s = s[:i] + '<script src="/assets/app.js" defer></script>' + s[i:]
+        open(p, "w").write(s)
+_sm = open(f"{OUT}/sitemap.xml").read()
+if f"{DOMAIN}/app/" not in _sm:
+    open(f"{OUT}/sitemap.xml", "w").write(_sm.replace("</urlset>", f"<url><loc>{DOMAIN}/app/</loc></url>\n</urlset>"))
+print("web app ok (/app/, manifest, sw.js", _ver + ")")
 
 # ---- Calculator QA: every build re-runs ~1,700 scenarios + golden cases (qa/run.py).
 # If anything looks wrong (reversed advice, text vs table mismatch, broken English page...) the build fails

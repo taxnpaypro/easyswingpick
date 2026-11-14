@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EasySwingPick App — Club Fitting Calculators | 골프채 피팅 계산기 앱</title>
+<meta name="description" content="Free golf club fitting app: driver, iron, wedge and putter picks in one flow, save your bag, share a result card. Works offline. 드라이버·아이언·웨지·퍼터 추천을 한 번에, 내 골프백 저장, 결과 카드 공유.">
+<link rel="canonical" href="https://easyswingpick.com/app/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){}</script>
+<style>
+:root{--navy:#0f2a3d;--navy-2:#173b55;--ink:#15212b;--muted:#64727d;--line:#e3e8ec;--bg:#f3f5f7;--card:#fff;--green:#178a5b;--green-l:#e6f4ee;--gold:#c89b3c;--gold-l:#fbf4e4;--r:16px;--shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:Inter,"Noto Sans KR",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+a{color:inherit}
+header{background:var(--navy);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 18px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}
+header a.home{display:block}header img{height:32px;width:auto;display:block}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;color:rgba(255,255,255,.75);font:600 .85rem Inter,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer;min-height:34px}
+.lang button.on{background:#fff;color:var(--navy)}
+main{max-width:640px;margin:0 auto;padding:16px}
+section{display:none}section.on{display:block}
+h1{font-size:1.45rem;line-height:1.25;margin:6px 4px 4px;color:var(--navy)}h2{font-size:1.1rem;margin:22px 4px 10px;color:var(--navy)}
+.sub{color:var(--muted);margin:0 4px 16px;font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border:0}
+.hero h2{color:#fff;margin:0 0 6px;font-size:1.2rem}.hero p{margin:0 0 14px;color:rgba(255,255,255,.75);font-size:.95rem}
+.steps{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}.steps span{background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px;font-size:.82rem}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font:700 1rem Inter,"Noto Sans KR",sans-serif;text-decoration:none;cursor:pointer;padding:10px 14px}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#fff}.btn.pri{background:var(--navy);color:#fff}
+.btn.ghost{border-color:var(--line);color:var(--muted);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 14px;text-decoration:none;display:block;min-height:108px}
+.tile b{display:block;font-size:1.05rem;color:var(--navy)}.tile span{display:block;color:var(--muted);font-size:.85rem;margin-top:4px}
+.tile i{display:inline-block;width:34px;height:34px;border-radius:10px;margin-bottom:8px;background:var(--gold-l);color:var(--gold);font-style:normal;font-weight:800;text-align:center;line-height:34px}
+.slot{display:flex;gap:12px;align-items:flex-start}
+.slot .lab{flex:none;width:70px;font-size:.8rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;padding-top:3px}
+.slot .bd{flex:1;min-width:0}.slot .nm{font-weight:700;font-size:1.05rem;color:var(--navy)}
+.slot .sp{color:var(--muted);font-size:.88rem;margin-top:2px}.slot .alt{color:var(--muted);font-size:.8rem;margin-top:6px}
+.slot .act{display:flex;gap:14px;margin-top:8px;font-size:.88rem;font-weight:600}.slot .act a{color:var(--navy-2)}
+.slot.empty .nm{color:var(--muted);font-weight:500;font-size:.95rem}
+.fit{display:inline-block;background:var(--green-l);color:var(--green);font-weight:700;font-size:.78rem;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.note{color:var(--muted);font-size:.85rem;margin:10px 4px}
+.post{display:flex;gap:12px;text-decoration:none;align-items:center}
+.post .dot{flex:none;width:10px;height:44px;border-radius:6px}
+.post b{display:block;color:var(--navy);font-size:.98rem;line-height:1.35}.post span{display:block;color:var(--muted);font-size:.85rem;margin-top:3px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px}
+.row b{display:block}.row span{color:var(--muted);font-size:.85rem}
+.sw{position:relative;width:52px;height:30px;flex:none}.sw input{opacity:0;width:0;height:0}
+.sw i{position:absolute;inset:0;background:#cfd6dc;border-radius:999px;transition:.2s;cursor:pointer}
+.sw i:before{content:"";position:absolute;width:24px;height:24px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+i{background:var(--green)}.sw input:checked+i:before{transform:translateX(22px)}
+.ios{background:var(--gold-l);border-radius:12px;padding:12px;font-size:.9rem;margin-top:10px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:6}
+nav.tabs a{flex:1;text-align:center;text-decoration:none;color:var(--muted);font-size:.75rem;font-weight:600;padding:8px 0 9px;min-height:60px}
+nav.tabs a svg{display:block;margin:2px auto 3px;width:24px;height:24px}
+nav.tabs a.on{color:var(--navy)}nav.tabs a.on svg{stroke:var(--gold)}
+html.esp-big body{zoom:1.12}
+html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=ko]{display:none!important}
+</style>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0f2a3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SwingPick"><meta name="apple-mobile-web-app-status-bar-style" content="default"></head>
+<body>
+<header>
+  <a class="home" href="/" title="EasySwingPick"><img src="/assets/wordmark.svg" alt="EasySwingPick"></a>
+  <div class="lang" id="langT"><button data-lang="ko">한국어</button><button data-lang="en">EN</button></div>
+</header>
+
+<main>
+<!-- HOME -->
+<section id="s-home">
+  <h1><span data-l="ko">내 스윙에 맞는 골프채, 한 번에</span><span data-l="en">Clubs that fit your swing, in one go</span></h1>
+  <p class="sub"><span data-l="ko">무료 · 회원가입 없음 · 인터넷이 없어도 작동</span><span data-l="en">Free · No sign-up · Works offline</span></p>
+  <div class="card hero">
+    <h2><span data-l="ko">전체 세트 추천</span><span data-l="en">Full-set fitting</span></h2>
+    <p><span data-l="ko">드라이버부터 퍼터까지 4단계로 이어서 추천받고, 결과를 내 골프백에 저장합니다. 나이·키·핸디캡은 한 번만 입력하면 됩니다.</span>
+       <span data-l="en">Get driver, iron, wedge and putter picks in 4 quick steps and save them to your bag. Enter age, height and handicap only once.</span></p>
+    <div class="steps"><span data-l="ko">① 드라이버</span><span data-l="ko">② 아이언</span><span data-l="ko">③ 웨지</span><span data-l="ko">④ 퍼터</span>
+      <span data-l="en">① Driver</span><span data-l="en">② Irons</span><span data-l="en">③ Wedges</span><span data-l="en">④ Putter</span></div>
+    <a class="btn gold" href="/driver/?set=1" id="startSet"><span data-l="ko">전체 세트 추천 시작 (약 3분)</span><span data-l="en">Start full-set fitting (~3 min)</span></a>
+  </div>
+  <h2><span data-l="ko">하나만 계산하기</span><span data-l="en">Just one club</span></h2>
+  <div class="grid">
+    <a class="tile" href="/driver/"><i>1</i><b data-l="ko">드라이버</b><b data-l="en">Driver</b><span data-l="ko">샤프트 강도·무게·로프트</span><span data-l="en">Shaft flex, weight, loft</span></a>
+    <a class="tile" href="/iron/"><i>2</i><b data-l="ko">아이언</b><b data-l="en">Irons</b><span data-l="ko">헤드 종류·샤프트·라이각</span><span data-l="en">Head type, shaft, lie</span></a>
+    <a class="tile" href="/wedge/"><i>3</i><b data-l="ko">웨지</b><b data-l="en">Wedges</b><span data-l="ko">로프트 구성·바운스</span><span data-l="en">Loft gaps, bounce</span></a>
+    <a class="tile" href="/putter/"><i>4</i><b data-l="ko">퍼터</b><b data-l="en">Putter</b><span data-l="ko">토 행·헤드 모양·길이</span><span data-l="en">Toe hang, head, length</span></a>
+  </div>
+  <div class="card" id="installCard" style="margin-top:14px">
+    <div class="row"><div><b data-l="ko">휴대폰 홈 화면에 추가</b><b data-l="en">Add to your home screen</b>
+      <span data-l="ko">앱처럼 바로 열리고, 인터넷이 없어도 계산기가 작동합니다.</span><span data-l="en">Opens like an app, and the calculators work offline.</span></div></div>
+    <button class="btn pri" id="installBtn" style="margin-top:12px;display:none"><span data-l="ko">설치하기</span><span data-l="en">Install</span></button>
+    <div class="ios" id="iosHow" style="display:none"><span data-l="ko">iPhone: Safari 아래쪽 <b>공유 버튼(□↑)</b> → <b>홈 화면에 추가</b>를 누르세요.</span>
+      <span data-l="en">iPhone: tap Safari's <b>Share button (□↑)</b> → <b>Add to Home Screen</b>.</span></div>
+    <div class="ios" id="andHow" style="display:none"><span data-l="ko">Android: Chrome 오른쪽 위 <b>⋮</b> → <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 누르세요.</span>
+      <span data-l="en">Android: tap Chrome's <b>⋮</b> menu → <b>Add to Home screen</b> or <b>Install app</b>.</span></div>
+  </div>
+</section>
+
+<!-- BAG -->
+<section id="s-bag">
+  <h1><span data-l="ko">내 골프백</span><span data-l="en">My bag</span></h1>
+  <p class="sub"><span data-l="ko">계산기에서 저장한 추천 결과입니다. 이 휴대폰(브라우저)에만 저장됩니다.</span><span data-l="en">Picks you saved from the calculators. Stored only on this phone (browser).</span></p>
+  <div id="bagList"></div>
+  <button class="btn pri" id="shareBag" style="margin-top:6px"><span data-l="ko">골프백 카드 공유</span><span data-l="en">Share my bag card</span></button>
+  <a class="btn" href="/driver/?set=1" style="margin-top:10px"><span data-l="ko">전체 세트 다시 추천받기</span><span data-l="en">Redo full-set fitting</span></a>
+  <button class="btn ghost" id="clearBag" style="margin-top:10px"><span data-l="ko">골프백 비우기</span><span data-l="en">Clear my bag</span></button>
+  <p class="note"><span data-l="ko">추천은 입력값을 바탕으로 한 추정치입니다. 실제 구매 전에는 시타나 피팅을 권합니다.</span><span data-l="en">Picks are estimates based on your inputs. We recommend a demo or fitting before you buy.</span></p>
+</section>
+
+<!-- GUIDES -->
+<section id="s-guides">
+  <h1><span data-l="ko">가이드</span><span data-l="en">Guides</span></h1>
+  <p class="sub"><span data-l="ko">출처를 밝힌 클럽 비교·구매 가이드 (홈페이지 블로그)</span><span data-l="en">Sourced club comparisons and buying guides (from our blog)</span></p>
+  <div id="postList"></div>
+  <a class="btn" href="/blog/"><span data-l="ko">블로그 전체 보기</span><span data-l="en">See all posts</span></a>
+</section>
+
+<!-- SETTINGS -->
+<section id="s-settings">
+  <h1><span data-l="ko">설정</span><span data-l="en">Settings</span></h1>
+  <div class="card">
+    <div class="row"><div><b data-l="ko">큰 글씨</b><b data-l="en">Large text</b><span data-l="ko">계산기와 앱 화면의 글씨를 크게</span><span data-l="en">Bigger text in the app and calculators</span></div>
+      <label class="sw"><input type="checkbox" id="bigT"><i></i></label></div>
+  </div>
+  <div class="card">
+    <div class="row"><div><b data-l="ko">저장된 입력값 지우기</b><b data-l="en">Clear saved inputs</b><span data-l="ko">나이·키·핸디캡 자동 입력 정보</span><span data-l="en">Age, height, handicap used to pre-fill</span></div>
+      <button class="btn ghost" id="clearProf" style="width:auto;min-height:40px"><span data-l="ko">지우기</span><span data-l="en">Clear</span></button></div>
+  </div>
+  <div class="card">
+    <a class="row" href="/" style="text-decoration:none"><div><b data-l="ko">홈페이지</b><b data-l="en">Website</b><span>easyswingpick.com</span></div><span>›</span></a>
+    <a class="row" href="/about" style="text-decoration:none"><div><b data-l="ko">소개 · 추천 방법</b><b data-l="en">About · how we pick</b></div><span>›</span></a>
+    <a class="row" href="/disclosure" style="text-decoration:none"><div><b data-l="ko">제휴 링크 안내</b><b data-l="en">Affiliate disclosure</b></div><span>›</span></a>
+    <a class="row" href="/privacy" style="text-decoration:none"><div><b data-l="ko">개인정보 처리방침</b><b data-l="en">Privacy policy</b></div><span>›</span></a>
+    <a class="row" href="/contact" style="text-decoration:none"><div><b data-l="ko">문의하기</b><b data-l="en">Contact</b></div><span>›</span></a>
+  </div>
+  <p class="note"><span data-l="ko">이 앱은 회원가입이 없고, 입력값과 골프백은 서버로 보내지 않고 휴대폰에만 저장합니다.</span><span data-l="en">No sign-up. Your inputs and bag are kept on your phone, never sent to our server.</span></p>
+</section>
+</main>
+
+<nav class="tabs">
+  <a href="#home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-l="ko">계산기</span><span data-l="en">Fit</span></a>
+  <a href="#bag" data-tab="bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M9 7V4h6v3M6 12h12"/></svg><span data-l="ko">내 골프백</span><span data-l="en">My bag</span></a>
+  <a href="#guides" data-tab="guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7z"/></svg><span data-l="ko">가이드</span><span data-l="en">Guides</span></a>
+  <a href="#settings" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span data-l="ko">설정</span><span data-l="en">Settings</span></a>
+</nav>
+
+<script src="/assets/app.js"></script>
+<script>
+(function(){
+var POSTS=[{"u": "/blog/senior-hybrids-2026", "ko": "시니어 롱아이언 대신 하이브리드: 2026 테스트 1위 Mizuno JPX One 외 비교", "en": "Hybrids to replace long irons for seniors: 2026 test winners compared", "dko": "MyGolfSpy 1위 JPX One, Titleist GT1, PING G440 등 느린 스윙용 하이브리드.", "den": "Mizuno JPX One, Titleist GT1, PING G440 and more for slower swings.", "c": "#2f5a3a"}, {"u": "/blog/black-friday-2026-clubs", "ko": "2026 블랙프라이데이 골프채, 지금 살까 기다릴까?", "en": "Black Friday 2026 golf clubs: buy now or wait?", "dko": "PING G450 공개, TaylorMade 2027 신제품 중단, G440·Quantum Max 할인 정리.", "den": "PING G450, TaylorMade skipping 2027, and G440 and Quantum Max deals.", "c": "#5a1a24"}, {"u": "/blog/driver-adjust-guide", "ko": "드라이버 슬리브·무게추 조절법: 제조사별 총정리", "en": "Driver sleeve & weight settings: every brand", "dko": "TaylorMade, Callaway, PING, Titleist 등 브랜드별 설정법.", "den": "Settings for TaylorMade, Callaway, PING, Titleist, Srixon and more.", "c": "#2b4a5e"}, {"u": "/blog/hot-drivers-2026", "ko": "2026 핫한 드라이버 장단점: Qi4D vs Quantum vs ZXi RKT", "en": "2026 hottest drivers: Qi4D vs Quantum vs ZXi RKT", "dko": "균형·슬라이스·직진성별 추천 드라이버.", "den": "Picks for balance, slice fixes and straight hitting.", "c": "#1d4a66"}, {"u": "/blog/hot-irons-2026", "ko": "2026 핫한 아이언 장단점: ZXiR vs Qi Max vs JPX 925", "en": "2026 hottest irons: ZXiR vs Qi Max vs JPX 925", "dko": "쉬운 아이언부터 거리형 상급자용까지.", "den": "From easy irons to distance-focused better-player sets.", "c": "#2a5a3e"}, {"u": "/blog/hot-wedges-2026", "ko": "2026 핫한 웨지 장단점: SM11 vs MG5 vs RTZ", "en": "2026 hottest wedges: SM11 vs MG5 vs RTZ", "dko": "스핀·그라인드·벙커 성능 비교.", "den": "Spin, grinds and bunker play compared.", "c": "#6b4a12"}, {"u": "/blog/hot-putters-2026", "ko": "2026 핫한 퍼터 장단점: S2S #7 vs DF3 vs Fastback OC", "en": "2026 hottest putters: S2S #7 vs DF3 vs Fastback OC", "dko": "제로토크·로우토크 퍼터 3종 비교.", "den": "Three zero- and low-torque putters compared.", "c": "#5a1a24"}, {"u": "/blog/hot-clubs-2026", "ko": "2026 핫한 드라이버·아이언·웨지·퍼터 장단점 분석", "en": "2026's hottest drivers, irons, wedges and putters: pros & cons", "dko": "Qi4D, Quantum, ZXiR, SM11, S2S 등 12개 모델 정리.", "den": "Qi4D, Quantum, ZXiR, SM11, S2S and more, summarized.", "c": "#1d4a66"}, {"u": "/blog/mizuno-jpx-vs-pro", "ko": "Mizuno JPX vs Mizuno Pro 아이언, 내 핸디에 맞는 라인은?", "en": "Mizuno JPX vs Mizuno Pro irons: which fits your handicap?", "dko": "2026 Pro M-13·M-15와 JPX 925를 비교합니다.", "den": "Comparing 2026 Pro M-13, M-15 and JPX 925.", "c": "#173b55"}, {"u": "/blog/miura-vs-mizuno", "ko": "Miura vs Mizuno: 단조 아이언 타감·가격 비교", "en": "Miura vs Mizuno: forged iron feel and price", "dko": "일본 단조 아이언 두 강자를 한국어로 정리했습니다.", "den": "Two Japanese forged-iron leaders, side by side.", "c": "#1f6b4d"}, {"u": "/blog/lightweight-drivers", "ko": "느린 스윙 속도를 위한 경량 드라이버 Best 5", "en": "Best 5 lightweight drivers for slower swings", "dko": "XXIO 14, PXG Lightning Max Lite 등 2026 모델 비교.", "den": "XXIO 14, PXG Lightning Max Lite and more, compared.", "c": "#8a6416"}, {"u": "/blog/honma-miura", "ko": "한국에서 쓰던 Honma, 미국에서 정품 사는 법", "en": "How to buy genuine Honma clubs in the US", "dko": "공인 판매처, 위조품 구별법, 가격 비교까지.", "den": "Authorized dealers, spotting fakes, price checks.", "c": "#0f2a3d"}];
+var E=window.ESP, LS=E.LS;
+function L(){return document.documentElement.lang==="ko"?"ko":"en";}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+/* language */
+function setLang(l){document.documentElement.lang=l;try{localStorage.setItem("esp_lang",l)}catch(e){}
+  document.querySelectorAll("#langT button").forEach(function(b){b.classList.toggle("on",b.dataset.lang===l);});drawBag();drawPosts();}
+document.getElementById("langT").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setLang(b.dataset.lang);});
+
+/* tabs (hash) */
+function show(){var h=(location.hash||"#home").slice(1);if(!document.getElementById("s-"+h))h="home";
+  document.querySelectorAll("main section").forEach(function(s){s.classList.toggle("on",s.id==="s-"+h);});
+  document.querySelectorAll("nav.tabs a").forEach(function(a){a.classList.toggle("on",a.dataset.tab===h);});
+  if(h==="bag")drawBag();window.scrollTo(0,0);}
+window.addEventListener("hashchange",show);
+
+/* my bag */
+var LINK={driver:"/driver/",iron:"/iron/",wedge:"/wedge/",putter:"/putter/"};
+function drawBag(){
+  var bag=LS.get("esp_bag",{}),t=E.T[L()],have=0;
+  document.getElementById("bagList").innerHTML=E.CALCS.map(function(c){var it=bag[c];
+    if(!it)return '<div class="card slot empty"><div class="lab">'+esc(t.club[c])+'</div><div class="bd"><div class="nm">'+(L()==="ko"?"아직 저장된 추천이 없습니다":"No pick saved yet")+
+      '</div><div class="act"><a href="'+LINK[c]+'">'+(L()==="ko"?"추천받기 →":"Get a pick →")+'</a></div></div></div>';
+    have++;
+    return '<div class="card slot"><div class="lab">'+esc(t.club[c])+'</div><div class="bd"><div class="nm">'+esc(it.name||(it.brand+" "+it.model))+(it.fit?'<span class="fit">'+esc(it.fit)+'</span>':"")+'</div>'+
+      '<div class="sp">'+esc((it.specs||[]).map(function(s){return (s[0]+" "+s[1]).trim();}).join(" · "))+'</div>'+
+      (it.alts&&it.alts.length?'<div class="alt">'+(L()==="ko"?"다른 후보: ":"Also: ")+esc(it.alts.join(", "))+'</div>':"")+
+      '<div class="act"><a href="'+LINK[c]+'">'+(L()==="ko"?"다시 계산":"Recalculate")+'</a><a href="#" data-del="'+c+'">'+(L()==="ko"?"삭제":"Remove")+'</a></div></div></div>';
+  }).join("");
+  document.getElementById("shareBag").style.display=have?"flex":"none";
+  document.getElementById("clearBag").style.display=have?"flex":"none";
+  document.querySelectorAll("[data-del]").forEach(function(a){a.onclick=function(e){e.preventDefault();var b=LS.get("esp_bag",{});delete b[a.dataset.del];LS.set("esp_bag",b);drawBag();};});
+}
+document.getElementById("shareBag").onclick=function(){var bag=LS.get("esp_bag",{});E.shareCard(E.CALCS.filter(function(c){return bag[c];}).map(function(c){return bag[c];}));};
+var clr=document.getElementById("clearBag");
+clr.onclick=function(){if(!clr.dataset.sure){clr.dataset.sure=1;clr.innerHTML=L()==="ko"?"한 번 더 누르면 모두 지워집니다":"Tap again to clear everything";setTimeout(function(){delete clr.dataset.sure;clr.innerHTML='<span data-l="ko">골프백 비우기</span><span data-l="en">Clear my bag</span>';},3000);return;}
+  LS.set("esp_bag",{});delete clr.dataset.sure;clr.innerHTML='<span data-l="ko">골프백 비우기</span><span data-l="en">Clear my bag</span>';drawBag();};
+
+/* guides */
+function drawPosts(){var l=L();document.getElementById("postList").innerHTML=POSTS.map(function(p){
+  return '<a class="card post" href="'+p.u+'"><span class="dot" style="background:'+p.c+'"></span><div><b>'+esc(l==="ko"?p.ko:p.en)+'</b><span>'+esc(l==="ko"?p.dko:p.den)+'</span></div></a>';}).join("");}
+
+/* settings */
+var big=document.getElementById("bigT");big.checked=!!LS.get("esp_big",false);
+big.onchange=function(){LS.set("esp_big",big.checked);document.documentElement.classList.toggle("esp-big",big.checked);};
+document.getElementById("clearProf").onclick=function(){LS.set("esp_profile",{});E.toast(L()==="ko"?"지웠습니다":"Cleared");};
+
+/* full set: start fresh */
+document.getElementById("startSet").addEventListener("click",function(){E.SS.set("esp_set","1");});
+
+/* install */
+var standalone=window.matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+var ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua),and=/android/i.test(ua);
+function inst(){var b=document.getElementById("installBtn");if(window.__espInstall){b.style.display="flex";document.getElementById("andHow").style.display="none";}
+  b.onclick=function(){var p=window.__espInstall;if(!p)return;p.prompt();p.userChoice.then(function(){window.__espInstall=null;b.style.display="none";});};}
+if(standalone)document.getElementById("installCard").style.display="none";
+else{if(ios)document.getElementById("iosHow").style.display="block";else if(and)document.getElementById("andHow").style.display="block";else document.getElementById("andHow").style.display="block";
+  document.addEventListener("esp-install-ready",inst);inst();}
+
+setLang(L());show();
+})();
+</script>
+</body>
+</html>

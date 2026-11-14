@@ -32,6 +32,11 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - Explanation lines must only describe adjustments that actually changed the result.
 - When the owner reports an odd calculator result: reproduce it, add it to `qa/golden.json` (or a scenario + rule), fix, and ask for approval. (The owner chose not to add a user feedback button, 2026-11-12.)
 
+## Web app (PWA) — /app/
+- `site/app/index.html` (app home: full-set flow, my bag, guides, settings), `site/app/app.js` (loaded on every page as `/assets/app.js`), `site/app/sw.js` (offline; version auto-bumps each build). `build_deploy.py` adds manifest + app.js to every page.
+- app.js only *reads* a finished calculator result and adds its box **below** `#result` — never inside it (QA reads `#result`). Keep it that way. Bag/profile live in the visitor's localStorage only.
+- Plan: PWA first; wrap for Google Play / App Store later only with app-only features (Apple rejects plain website wrappers).
+
 ## Publishing rule (important)
 Never push to `main` without the owner's explicit approval ("승인") in chat. Drafts go to a branch `publish/YYYY-MM-DD`.
 
