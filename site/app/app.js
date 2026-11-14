@@ -137,13 +137,22 @@
   function prefill() {
     var p = LS.get("esp_profile", {});
     SHARED.forEach(function (k) {
-      var e = $(k); if (!e || e.value !== "" || p[k] === undefined || p[k] === "") return;
-      e.value = p[k]; e.dispatchEvent(new Event("input", { bubbles: true }));
+      var e = $(k); if (!e || p[k] === undefined || p[k] === "") return;
+      if (e.tagName === "INPUT") {
+        if (e.value !== "") return;
+        e.value = p[k]; e.dispatchEvent(new Event("input", { bubbles: true }));
+      } else if (!e.querySelector("button.on")) {          /* chip group (handicap) */
+        var b = e.querySelector('button[data-k="' + p[k] + '"]'); if (b) b.click();
+      }
     });
   }
   function remember() {
     var p = LS.get("esp_profile", {});
-    SHARED.forEach(function (k) { var e = $(k); if (e && e.value !== "") p[k] = e.value; });
+    SHARED.forEach(function (k) {
+      var e = $(k); if (!e) return;
+      if (e.tagName === "INPUT") { if (e.value !== "") p[k] = e.value; }
+      else { var on = e.querySelector("button.on"); if (on) p[k] = on.dataset.k; }
+    });
     LS.set("esp_profile", p);
   }
   var form = $("f");
