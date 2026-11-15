@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head><script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>
+<head><script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>
 <meta charset="UTF-8">
 <meta name="fo-verify" content="ac3c3498-3bec-4532-abee-510d301104bb" />
 <meta name='impact-site-verification' value='43f1ea2a-b766-421a-a49c-85a7079b1534'>
@@ -379,5 +379,5 @@ function loop(){
 }
 render();setG(0);setTimeout(loop,600);
 </script>
-<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script><script src="/assets/app.js" defer></script></body>
+<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script><script src="/assets/app.js" defer></script></body>
 </html>

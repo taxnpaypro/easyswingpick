@@ -407,7 +407,8 @@ function pendulum(id,hang,finish){
 const guard=(arr,ok)=>{const g=arr.filter(ok);if(g.length>=3)return g.slice(0,3);const lo=g.length?g[g.length-1].sc-1:Infinity;return[...g,...arr.filter(o=>!ok(o)).map(o=>({...o,sc:Math.min(o.sc,lo)}))].slice(0,3);};
 function run(silent){
   const t=T[lang],R=t.r,err=$("err");
-  if(!stroke){if(!silent){err.textContent=t.errStroke;err.style.display="block";}return;}
+  // no stroke picked: treat as "Don't know" instead of blocking the visitor (silent re-renders still wait for a real choice)
+  if(!stroke){if(silent)return;stroke="unk";const u=$("stroke").querySelector('[data-k="unk"]');if(u)u.classList.add("on");}
   err.style.display="none";
   const sk=stroke==="unk"?"slight":stroke,age=num("age"),senior=age&&age>=60;
   const ft=num("hft"),inch=Math.min(11,Math.max(0,parseFloat($("hin").value)||0)),hTot=ft?ft*12+inch:null,brand=$("brand").value;

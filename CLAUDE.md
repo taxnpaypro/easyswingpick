@@ -35,6 +35,9 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 ## Web app (PWA) — /app/
 - `site/app/index.html` (app home: full-set flow, my bag, guides, settings), `site/app/app.js` (loaded on every page as `/assets/app.js`), `site/app/sw.js` (offline; version auto-bumps each build). `build_deploy.py` adds manifest + app.js to every page.
 - app.js only *reads* a finished calculator result and adds its box **below** `#result` — never inside it (QA reads `#result`). Keep it that way. Bag/profile live in the visitor's localStorage only.
+- Bag items are saved in both languages (`ko`/`en`), plus inputs (`inp`) and date. Backup/move = `/app/#import=<base64 bag>` (no server). Bag "See prices" links use clickref `app-bag`; in the installed app calculator links use `app-<calc>`.
+- QA also checks that the app can read every result (top pick brand/model + specs); `[app]` lines in QA = the save feature would break.
+- Owner decision 2026-11-14: no more big app features for now — watch /app/ usage for ~6 weeks (to late Dec), then decide to grow, hide or remove it.
 - Plan: PWA first; wrap for Google Play / App Store later only with app-only features (Apple rejects plain website wrappers).
 
 ## Publishing rule (important)

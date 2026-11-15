@@ -22,7 +22,9 @@ for(const [k,v] of Object.entries(sc.v||{}))eval(k+"="+JSON.stringify(v));
 for(const [k,v] of Object.entries(sc.i||{}))document.getElementById(k).value=v;
 try{run(true);}catch(e){out.push({n:sc.n,err:String(e)});continue;}
 await new Promise(r=>setTimeout(r,250));
-out.push({n:sc.n,t:document.getElementById("result").innerText,err:""});}
+const R=document.getElementById("result"),tp=R.querySelector(".pick.top1")||R.querySelector(".pick");
+const app=!!(tp&&tp.querySelector(".brand")&&tp.querySelector(".model")&&tp.querySelector(".model").textContent.trim()&&(R.querySelectorAll(".spec span+b").length>=3||R.querySelectorAll("#sp b").length>=1));
+out.push({n:sc.n,t:R.innerText,err:"",app:app});}
 const p=document.createElement("textarea");p.id="QA";p.textContent=JSON.stringify(out);document.body.appendChild(p);},500);});</script>""" % (json.dumps(scen), json.dumps(CLEAR))
     name = f"qa_{lang}.html"; path = f"{DEP}/{calc}/{name}"
     open(path, "w").write(src.replace("<head>", "<head>" + head, 1).replace("</body>", js + "</body>"))
@@ -68,7 +70,11 @@ def main():
                 scen = fresh[calc] if st == "fresh" else json.load(open(f"{Q}/scenarios/{calc}.{st}.json")); n += len(scen) * 2
                 json.dump(scen, open(f"{OUT}/{calc}.{st}.in", "w"), ensure_ascii=False)
                 for lang in ("ko", "en"):
-                    json.dump(run_page(port, calc, scen, lang), open(f"{OUT}/{calc}.{lang}.out.json", "w"), ensure_ascii=False)
+                    res = run_page(port, calc, scen, lang)
+                    # the web app's "save to my bag" reads the top pick (brand/model) and specs from the result; make sure it still can
+                    badapp = [r["n"] for r in res if r.get("t") and not r.get("err") and r.get("app") is False]
+                    if badapp: problems.append(f"[app] {calc}/{lang}: 'save to my bag' can't read the result in {len(badapp)} cases, e.g. {badapp[:3]}")
+                    json.dump(res, open(f"{OUT}/{calc}.{lang}.out.json", "w"), ensure_ascii=False)
                 if calc == CALCS[-1]: pass
             r = subprocess.run([sys.executable, os.path.join(Q, "checks.py")], cwd=OUT, env={**os.environ, "SET": st}, capture_output=True, text=True)
             if r.returncode or "total 0" not in r.stdout:

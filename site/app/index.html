@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://easyswingpick.com/app/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){}</script>
+<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>
 <style>
 :root{--navy:#0f2a3d;--navy-2:#173b55;--ink:#15212b;--muted:#64727d;--line:#e3e8ec;--bg:#f3f5f7;--card:#fff;--green:#178a5b;--green-l:#e6f4ee;--gold:#c89b3c;--gold-l:#fbf4e4;--r:16px;--shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06)}
 *{box-sizing:border-box}html,body{margin:0}
@@ -57,6 +57,11 @@ nav.tabs a{flex:1;text-align:center;text-decoration:none;color:var(--muted);font
 nav.tabs a svg{display:block;margin:2px auto 3px;width:24px;height:24px}
 nav.tabs a.on{color:var(--navy)}nav.tabs a.on svg{stroke:var(--gold)}
 html.esp-big body{zoom:1.12}
+@media(min-width:700px){nav.tabs{left:50%;right:auto;width:640px;transform:translateX(-50%);border:1px solid var(--line);border-radius:16px 16px 0 0}}
+.buy{display:inline-block;margin-top:8px;font-size:.88rem;font-weight:700;color:#fff;background:var(--navy);border-radius:10px;padding:7px 12px;text-decoration:none}
+.inp{color:var(--muted);font-size:.8rem;margin-top:4px}.resume{background:var(--gold-l);border:1px solid #ecd9a8}
+.trust{display:flex;gap:6px;flex-wrap:wrap;margin:0 4px 14px}.trust span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.8rem;color:var(--navy-2);font-weight:600}
+.imp{background:var(--green-l);border:1px solid #b9e0cd}
 html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=ko]{display:none!important}
 </style>
 </head>
@@ -71,13 +76,15 @@ html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=
 <section id="s-home">
   <h1><span data-l="ko">내 스윙에 맞는 골프채, 한 번에</span><span data-l="en">Clubs that fit your swing, in one go</span></h1>
   <p class="sub"><span data-l="ko">무료 · 회원가입 없음 · 인터넷이 없어도 작동</span><span data-l="en">Free · No sign-up · Works offline</span></p>
+  <div class="trust"><span data-l="ko">브랜드 중립</span><span data-l="ko">출처 공개</span><span data-l="ko" class="dd"></span><span data-l="en">Brand-neutral</span><span data-l="en">Sources cited</span><span data-l="en" class="dd"></span></div>
+  <div class="card resume" id="resumeCard" style="display:none"></div>
   <div class="card hero">
     <h2><span data-l="ko">전체 세트 추천</span><span data-l="en">Full-set fitting</span></h2>
     <p><span data-l="ko">드라이버부터 퍼터까지 4단계로 이어서 추천받고, 결과를 내 골프백에 저장합니다. 나이·키·핸디캡은 한 번만 입력하면 됩니다.</span>
        <span data-l="en">Get driver, iron, wedge and putter picks in 4 quick steps and save them to your bag. Enter age, height and handicap only once.</span></p>
     <div class="steps"><span data-l="ko">① 드라이버</span><span data-l="ko">② 아이언</span><span data-l="ko">③ 웨지</span><span data-l="ko">④ 퍼터</span>
       <span data-l="en">① Driver</span><span data-l="en">② Irons</span><span data-l="en">③ Wedges</span><span data-l="en">④ Putter</span></div>
-    <a class="btn gold" href="/driver/?set=1" id="startSet"><span data-l="ko">전체 세트 추천 시작 (약 3분)</span><span data-l="en">Start full-set fitting (~3 min)</span></a>
+    <a class="btn gold" href="/driver/?set=1" id="startSet"><span data-l="ko">전체 세트 추천 시작 (약 5분)</span><span data-l="en">Start full-set fitting (~5 min)</span></a>
   </div>
   <h2><span data-l="ko">하나만 계산하기</span><span data-l="en">Just one club</span></h2>
   <div class="grid">
@@ -101,11 +108,15 @@ html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=
 <section id="s-bag">
   <h1><span data-l="ko">내 골프백</span><span data-l="en">My bag</span></h1>
   <p class="sub"><span data-l="ko">계산기에서 저장한 추천 결과입니다. 이 휴대폰(브라우저)에만 저장됩니다.</span><span data-l="en">Picks you saved from the calculators. Stored only on this phone (browser).</span></p>
+  <div class="card imp" id="importCard" style="display:none"></div>
+  <div class="card" id="iosKeep" style="display:none;background:var(--gold-l);border-color:#ecd9a8;font-size:.9rem"><span data-l="ko">iPhone에서는 7일 이상 사이트를 열지 않으면 저장 내용이 지워질 수 있습니다. <b>홈 화면에 추가</b>하거나 아래 <b>백업 링크</b>를 저장해 두세요.</span><span data-l="en">On iPhone, saved data can be erased if you don't open the site for 7 days. <b>Add to Home Screen</b> or keep the <b>backup link</b> below.</span></div>
   <div id="bagList"></div>
+  <p class="note" id="affNote" style="display:none"><span data-l="ko">"가격 보기"는 제휴 링크입니다. 구매하시면 EasySwingPick이 수수료를 받을 수 있으며, 가격은 같습니다.</span><span data-l="en">"See prices" links are affiliate links. We may earn a commission at no extra cost to you.</span></p>
   <button class="btn pri" id="shareBag" style="margin-top:6px"><span data-l="ko">골프백 카드 공유</span><span data-l="en">Share my bag card</span></button>
+  <button class="btn" id="backupBag" style="margin-top:10px"><span data-l="ko">다른 기기로 옮기기 · 백업 링크</span><span data-l="en">Move to another device · Backup link</span></button>
   <a class="btn" href="/driver/?set=1" style="margin-top:10px"><span data-l="ko">전체 세트 다시 추천받기</span><span data-l="en">Redo full-set fitting</span></a>
   <button class="btn ghost" id="clearBag" style="margin-top:10px"><span data-l="ko">골프백 비우기</span><span data-l="en">Clear my bag</span></button>
-  <p class="note"><span data-l="ko">추천은 입력값을 바탕으로 한 추정치입니다. 실제 구매 전에는 시타나 피팅을 권합니다.</span><span data-l="en">Picks are estimates based on your inputs. We recommend a demo or fitting before you buy.</span></p>
+  <p class="note"><span data-l="ko">추천은 입력값을 바탕으로 한 추정치입니다. 적합도(%)는 추천 후보끼리 비교한 점수이며, 실제 구매 전에는 시타나 피팅을 권합니다. 모델 자료 기준: 2026년 11월.</span><span data-l="en">Picks are estimates based on your inputs. The fit score (%) compares the candidates with each other; we recommend a demo or fitting before you buy. Model data as of November 2026.</span></p>
 </section>
 
 <!-- GUIDES -->
@@ -154,12 +165,12 @@ function L(){return document.documentElement.lang==="ko"?"ko":"en";}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
 /* language */
-function setLang(l){document.documentElement.lang=l;try{localStorage.setItem("esp_lang",l)}catch(e){}
+function setLang(l){setTimeout(drawResume,0);document.documentElement.lang=l;try{localStorage.setItem("esp_lang",l)}catch(e){}
   document.querySelectorAll("#langT button").forEach(function(b){b.classList.toggle("on",b.dataset.lang===l);});drawBag();drawPosts();}
 document.getElementById("langT").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setLang(b.dataset.lang);});
 
 /* tabs (hash) */
-function show(){var h=(location.hash||"#home").slice(1);if(!document.getElementById("s-"+h))h="home";
+function show(){var h=(location.hash||"#home").slice(1);if(h.indexOf("import=")===0){checkImport();h="bag";}if(!document.getElementById("s-"+h))h="home";
   document.querySelectorAll("main section").forEach(function(s){s.classList.toggle("on",s.id==="s-"+h);});
   document.querySelectorAll("nav.tabs a").forEach(function(a){a.classList.toggle("on",a.dataset.tab===h);});
   if(h==="bag")drawBag();window.scrollTo(0,0);}
@@ -168,19 +179,51 @@ window.addEventListener("hashchange",show);
 /* my bag */
 var LINK={driver:"/driver/",iron:"/iron/",wedge:"/wedge/",putter:"/putter/"};
 function drawBag(){
-  var bag=LS.get("esp_bag",{}),t=E.T[L()],have=0;
+  var bag=LS.get("esp_bag",{}),l=L(),t=E.T[l],have=0,ko=l==="ko";
   document.getElementById("bagList").innerHTML=E.CALCS.map(function(c){var it=bag[c];
-    if(!it)return '<div class="card slot empty"><div class="lab">'+esc(t.club[c])+'</div><div class="bd"><div class="nm">'+(L()==="ko"?"아직 저장된 추천이 없습니다":"No pick saved yet")+
-      '</div><div class="act"><a href="'+LINK[c]+'">'+(L()==="ko"?"추천받기 →":"Get a pick →")+'</a></div></div></div>';
-    have++;
-    return '<div class="card slot"><div class="lab">'+esc(t.club[c])+'</div><div class="bd"><div class="nm">'+esc(it.name||(it.brand+" "+it.model))+(it.fit?'<span class="fit">'+esc(it.fit)+'</span>':"")+'</div>'+
-      '<div class="sp">'+esc((it.specs||[]).map(function(s){return (s[0]+" "+s[1]).trim();}).join(" · "))+'</div>'+
-      (it.alts&&it.alts.length?'<div class="alt">'+(L()==="ko"?"다른 후보: ":"Also: ")+esc(it.alts.join(", "))+'</div>':"")+
-      '<div class="act"><a href="'+LINK[c]+'">'+(L()==="ko"?"다시 계산":"Recalculate")+'</a><a href="#" data-del="'+c+'">'+(L()==="ko"?"삭제":"Remove")+'</a></div></div></div>';
+    if(!it)return '<div class="card slot empty"><div class="lab">'+esc(t.club[c])+'</div><div class="bd"><div class="nm">'+(ko?"아직 저장된 추천이 없습니다":"No pick saved yet")+
+      '</div><div class="act"><a href="'+LINK[c]+'">'+(ko?"추천받기 →":"Get a pick →")+'</a></div></div></div>';
+    have++;var v=E.view(it,l),q=((v.brand||"")+" "+(v.model||"")).trim(),il=E.inpLine(it,l);
+    return '<div class="card slot"><div class="lab">'+esc(t.club[c])+'</div><div class="bd"><div class="nm">'+esc(E.itemName(v))+(it.fit||v.fit?'<span class="fit">'+(ko?"적합도 ":"Fit ")+esc(it.fit||v.fit)+'</span>':"")+'</div>'+
+      '<div class="sp">'+esc(E.specLine(v,true).join(" · "))+'</div>'+
+      (il?'<div class="inp">'+(ko?"입력: ":"Based on: ")+esc(il)+(it.date?" · "+esc(it.date):"")+'</div>':"")+
+      (v.alts&&v.alts.length?'<div class="alt">'+(ko?"다른 후보: ":"Also: ")+esc(v.alts.join(", "))+'</div>':"")+
+      (window.AFF&&q?'<a class="buy" href="'+window.AFF(q)+'" target="_blank" rel="sponsored noopener">'+(ko?"2nd Swing에서 가격 보기 →":"See prices at 2nd Swing →")+'</a>':"")+
+      '<div class="act"><a href="'+LINK[c]+'">'+(ko?"다시 계산":"Recalculate")+'</a><a href="#" data-del="'+c+'">'+(ko?"삭제":"Remove")+'</a></div></div></div>';
   }).join("");
-  document.getElementById("shareBag").style.display=have?"flex":"none";
-  document.getElementById("clearBag").style.display=have?"flex":"none";
+  ["shareBag","clearBag","backupBag"].forEach(function(id){document.getElementById(id).style.display=have?"flex":"none";});
+  document.getElementById("affNote").style.display=have&&window.AFF?"block":"none";
+  document.getElementById("iosKeep").style.display=have&&E.IOS&&!E.STANDALONE?"block":"none";
   document.querySelectorAll("[data-del]").forEach(function(a){a.onclick=function(e){e.preventDefault();var b=LS.get("esp_bag",{});delete b[a.dataset.del];LS.set("esp_bag",b);drawBag();};});
+}
+/* backup / move: the bag travels inside the link (#import=…), nothing is uploaded */
+document.getElementById("backupBag").onclick=function(){
+  var ko=L()==="ko",url=location.origin+"/app/#import="+E.b64e(JSON.stringify(LS.get("esp_bag",{})));
+  if(navigator.share){navigator.share({title:ko?"내 골프백 백업":"My bag backup",text:ko?"이 링크를 열면 골프백이 옮겨집니다.":"Open this link to restore my bag.",url:url}).catch(function(){});return;}
+  var done=function(){E.toast(ko?"백업 링크를 복사했습니다. 메모나 카톡 '나에게'에 붙여 넣어 두세요.":"Backup link copied. Paste it into a note or a message to yourself.");};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(done,function(){E.overlay('<p>'+esc(url)+'</p><button class="esp-b" data-close>OK</button>');});
+  else E.overlay('<p style="word-break:break-all">'+esc(url)+'</p><button class="esp-b" data-close>OK</button>');
+};
+function checkImport(){
+  var mm=location.hash.match(/^#import=([A-Za-z0-9_-]+)/),box=document.getElementById("importCard");if(!mm){box.style.display="none";return false;}
+  var data=null;try{data=JSON.parse(E.b64d(mm[1]));}catch(e){}
+  var ko=L()==="ko",keys=data?E.CALCS.filter(function(c){return data[c];}):[];
+  if(!keys.length){box.style.display="block";box.innerHTML=ko?"백업 링크를 읽을 수 없습니다.":"This backup link can't be read.";return true;}
+  box.style.display="block";
+  box.innerHTML='<b>'+(ko?"골프백 가져오기":"Restore bag")+'</b><p style="margin:6px 0 10px">'+esc(keys.map(function(c){return E.itemName(E.view(data[c],L()));}).join(", "))+'</p>'+
+    '<button class="btn pri" id="doImport">'+(ko?"이 골프백 가져오기 ("+keys.length+"개)":"Restore these "+keys.length)+'</button>'+
+    '<p class="note">'+(ko?"같은 클럽에 저장된 추천은 백업 내용으로 바뀝니다.":"Picks for the same club are replaced.")+'</p>';
+  document.getElementById("doImport").onclick=function(){var b=LS.get("esp_bag",{});keys.forEach(function(c){b[c]=data[c];});
+    if(LS.set("esp_bag",b)){E.persist();history.replaceState(null,"","#bag");box.style.display="none";drawBag();E.toast(ko?"✓ 골프백을 가져왔습니다":"✓ Bag restored");}
+    else E.toast(E.T[L()].noStore,null,true);};
+  return true;
+}
+function drawResume(){
+  var r=LS.get("esp_resume",null),box=document.getElementById("resumeCard"),ko=L()==="ko";
+  if(!r||Date.now()-r.ts>14*864e5||r.step<1){box.style.display="none";return;}
+  var c=E.CALCS[r.step];box.style.display="block";
+  box.innerHTML='<b>'+(ko?"전체 세트 추천을 이어서 할까요?":"Continue your full-set fitting?")+'</b><p class="note" style="margin:4px 0 10px">'+(ko?E.T.ko.club[c]+"부터 이어서 합니다 ("+(r.step+1)+"/4)":"Pick up at "+E.T.en.club[c]+" ("+(r.step+1)+"/4)")+'</p>'+
+    '<a class="btn pri" href="/'+c+'/?set=1">'+(ko?"이어서 하기 →":"Continue →")+'</a>';
 }
 document.getElementById("shareBag").onclick=function(){var bag=LS.get("esp_bag",{});E.shareCard(E.CALCS.filter(function(c){return bag[c];}).map(function(c){return bag[c];}));};
 var clr=document.getElementById("clearBag");
@@ -197,7 +240,7 @@ big.onchange=function(){LS.set("esp_big",big.checked);document.documentElement.c
 document.getElementById("clearProf").onclick=function(){LS.set("esp_profile",{});E.toast(L()==="ko"?"지웠습니다":"Cleared");};
 
 /* full set: start fresh */
-document.getElementById("startSet").addEventListener("click",function(){E.SS.set("esp_set","1");});
+document.getElementById("startSet").addEventListener("click",function(){E.SS.set("esp_set","1");LS.del("esp_resume");});
 
 /* install */
 var standalone=window.matchMedia("(display-mode: standalone)").matches||navigator.standalone;
@@ -208,7 +251,8 @@ if(standalone)document.getElementById("installCard").style.display="none";
 else{if(ios)document.getElementById("iosHow").style.display="block";else if(and)document.getElementById("andHow").style.display="block";else document.getElementById("andHow").style.display="block";
   document.addEventListener("esp-install-ready",inst);inst();}
 
-setLang(L());show();
+document.querySelectorAll(".dd").forEach(function(x){x.textContent=(x.dataset.l==="ko"?"모델 자료 ":"Data: ")+E.DATA_DATE[x.dataset.l];});
+setLang(L());if(location.hash.indexOf("#import=")===0){checkImport();document.querySelectorAll("main section").forEach(function(x){x.classList.toggle("on",x.id==="s-bag");});document.querySelectorAll("nav.tabs a").forEach(function(a){a.classList.toggle("on",a.dataset.tab==="bag");});drawBag();}else show();drawResume();
 })();
 </script>
 </body>

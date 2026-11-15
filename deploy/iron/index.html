@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head><script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>
+<head><script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Iron Fitting Calculator — Head Type, Shaft, Length | 아이언 추천 계산기 | EasySwingPick</title><meta name="description" content="Use your 7-iron carry to find iron head type, steel vs graphite, length and lie. 7번 아이언 거리로 헤드 종류, 샤프트, 길이·라이각을 추천합니다.">
@@ -549,5 +549,5 @@ draw();
 // keep number fields inside sensible ranges (stepper arrows can't go below min, typed values are clamped on leaving the field)
 document.querySelectorAll('input[type=number][min]').forEach(e=>e.addEventListener("change",()=>{if(e.value==="")return;let v=parseFloat(e.value);if(isNaN(v)){e.value="";return;}v=Math.min(+e.max,Math.max(+e.min,v));if(String(v)!==e.value){e.value=v;e.dispatchEvent(new Event("input",{bubbles:true}));}}));
 </script>
-<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script><script src="/assets/app.js" defer></script></body>
+<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){}var t=document.getElementById("langT");if(!t)return;var b=t.querySelector('button[data-lang="'+l+'"]');if(b&&!b.classList.contains("on"))b.click();t.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script><script src="/assets/app.js" defer></script></body>
 </html>

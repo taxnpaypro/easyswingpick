@@ -139,6 +139,7 @@ info("disclosure", "제휴 링크 고지", "Affiliate Disclosure",
 info("privacy", "개인정보처리방침", "Privacy Policy",
  f"""<p class="meta" style="color:var(--muted)">{UPD_KO}</p>
 <h2>1. 수집하는 정보</h2><ul class="check"><li><b>계산기 입력값</b>(키, 몸무게, 거리 등)은 브라우저 안에서만 계산되며 서버로 전송되거나 저장되지 않습니다.</li>
+<li><b>앱(내 골프백·자동 입력)</b>: 앱에서 저장한 골프백, 나이·키·핸디캡 자동 입력값, 언어·큰 글씨 설정은 <b>사용자의 휴대폰(브라우저 저장소)에만</b> 보관되며 서버로 보내지 않습니다. 오프라인 사용을 위해 사이트 파일 일부를 휴대폰에 저장합니다. 앱 설정 화면이나 브라우저의 사이트 데이터 삭제로 언제든 지울 수 있습니다.</li>
 <li><b>방문 통계</b>: 사이트 개선을 위해 쿠키를 쓰지 않는 방문 통계(예: Cloudflare Web Analytics)를 사용할 수 있습니다. 개인을 식별하지 않는 페이지 조회 수 등만 집계됩니다.</li>
 <li><b>이메일 문의</b>: 이메일을 보내시면 답변을 위해 이메일 주소와 내용을 보관합니다.</li></ul>
 <h2>2. 제3자 서비스</h2><ul class="check"><li><b>제휴 링크</b>: 제휴 링크를 클릭하면 해당 판매처나 제휴 네트워크(현재 Awin과 2nd Swing Golf)가 구매 추적을 위해 자체 쿠키를 사용할 수 있습니다. 해당 회사의 개인정보처리방침이 적용됩니다.</li>
@@ -151,6 +152,7 @@ info("privacy", "개인정보처리방침", "Privacy Policy",
 <h2>7. 문의</h2><p>{M}</p>""",
  f"""<p class="meta" style="color:var(--muted)">{UPD_EN}</p>
 <h2>1. Information we collect</h2><ul class="check"><li><b>Calculator inputs</b> (height, weight, distances) are processed in your browser only and are never sent to or stored on a server.</li>
+<li><b>App (My bag, auto-fill)</b>: Your saved bag, the age/height/handicap used for auto-fill, and language/large-text settings are kept <b>only on your phone (browser storage)</b> and never sent to our server. Some site files are stored on your phone so the app works offline. You can erase them anytime in the app settings or by clearing site data in your browser.</li>
 <li><b>Analytics</b>: We may use cookieless analytics (e.g., Cloudflare Web Analytics) that count page views without identifying you.</li>
 <li><b>Email</b>: If you email us, we keep your address and message to reply.</li></ul>
 <h2>2. Third-party services</h2><ul class="check"><li><b>Affiliate links</b>: Retailers and affiliate networks (currently Awin and 2nd Swing Golf) may set their own cookies to track purchases. Their privacy policies apply.</li>
@@ -410,8 +412,9 @@ for f in os.listdir(f"{OUT}/blog"):
 if NO_AFF: print("no affiliate links -> disclosure removed:", ", ".join(sorted(NO_AFF)))
 
 # ---------- default language: English first, remember the visitor's choice ----------
-LANG_HEAD = '<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||"en"}catch(e){document.documentElement.lang="en"}</script>'
-LANG_END = ('<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||"en"}catch(e){}'
+# no saved choice yet: Korean phones start in Korean, everyone else (and search engines) in English
+LANG_HEAD = '<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>'
+LANG_END = ('<script>(function(){var l="en";try{l=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){}'
             'var t=document.getElementById("langT");if(!t)return;'
             'var b=t.querySelector(\'button[data-lang="\'+l+\'"]\');if(b&&!b.classList.contains("on"))b.click();'
             't.addEventListener("click",function(e){var x=e.target.closest("button");if(x)try{localStorage.setItem("esp_lang",x.dataset.lang)}catch(_){}});})();</script>')
@@ -556,7 +559,10 @@ for d, _, fs in sorted(os.walk(OUT)):
 _vh.update(open(f"{H}/site/app/app.js", "rb").read() + open(f"{H}/site/app/index.html", "rb").read()); _ver = _vh.hexdigest()[:10]
 open(f"{OUT}/sw.js", "w").write(open(f"{H}/site/app/sw.js").read().replace("__VER__", _ver))
 _posts = [{k: p[k] for k in ("u", "ko", "en", "dko", "den", "c")} for p in sorted(P, key=lambda q: q["_date"], reverse=True)][:12]
-open(f"{OUT}/app/index.html", "w").write(open(f"{H}/site/app/index.html").read().replace("/*POSTS*/[]", _j2.dumps(_posts, ensure_ascii=False).replace("</", "<\\/")))
+_app = open(f"{H}/site/app/index.html").read().replace("/*POSTS*/[]", _j2.dumps(_posts, ensure_ascii=False).replace("</", "<\\/"))
+# "See prices" in My bag = Awin deep link tagged clickref=app-bag (the bag shows the affiliate note next to it)
+_app = _app.replace('<script src="/assets/app.js"></script>', AFF_JS("app-bag") + '<script src="/assets/app.js"></script>', 1)
+open(f"{OUT}/app/index.html", "w").write(_app)
 open(f"{OUT}/manifest.webmanifest", "w").write(_j2.dumps({
     "name": "EasySwingPick — Golf Club Fitting", "short_name": "SwingPick", "id": "/app/", "start_url": "/app/", "scope": "/",
     "display": "standalone", "background_color": "#f3f5f7", "theme_color": "#0f2a3d",
