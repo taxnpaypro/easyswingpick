@@ -17,20 +17,30 @@ Hh = lambda s: f'<span class="rk h">{s}</span>'
 
 # ------------------------------------------------------------------ KOREAN
 KO = STY + B.tldr("핵심 요약", [
- b("골프채는 위험한 선물:")+"강도·로프트·길이가 안 맞으면 쓰지 못합니다. 사이즈를 모르면 거리측정기·기프트카드·스탠드백부터 보세요.",
+ b("골프채는 위험한 선물:")+"강도·로프트·길이가 안 맞으면 쓰지 못합니다. 사이즈를 모르면 골프공 선물 세트·거리측정기·기프트카드부터 보세요.",
  b("30초면 위험이 줄어요:")+"부모님 골프백 속 드라이버 샤프트의 글자(L·A·R·S)만 확인하면 하이브리드 같은 골프채도 안전해집니다.",
  b("사용법은 한국어로:")+"선물과 함께 한국어 설명 카드를 넣으면 서랍에 들어가지 않고 실제로 쓰입니다."]) + \
 "<p>미국에서 자란 자녀가 한국어가 더 편한 부모님께 골프 선물을 할 때 가장 흔한 실수는 <b>'좋은 골프채'를 사는 것</b>입니다. 골프채는 같은 모델이라도 샤프트 강도, 로프트, 길이가 맞아야 제 성능이 나옵니다. 아무리 비싼 드라이버라도 스윙에 맞지 않으면 오히려 거리가 줄어듭니다. 그래서 골퍼들은 원래 장비에 까다롭고, 그래서 기프트카드가 인기 있는 골프 선물이기도 합니다.</p>" + \
-"<p>이 글은 골프를 잘 모르는 분도 <b>실패하지 않는 순서</b>로 선물을 고를 수 있게 정리했습니다. 가격은 2026년 11월 14일 2nd Swing Golf 웹사이트에 표시된 가격이며(중고는 가장 싼 상태 기준 '~부터'), 바뀔 수 있습니다. 답을 몇 개 고르면 3가지를 골라 주는 <a href='/gift/'>골프 선물 도우미</a>도 만들었습니다.</p>" + \
+"<p>이 글은 골프를 잘 모르는 분도 <b>실패하지 않는 순서</b>로 선물을 고를 수 있게 정리했습니다. 가격은 2026년 11월 14일 미국 골프 매장 웹사이트에 표시된 가격이며(중고는 가장 싼 상태 기준 '~부터'), 바뀔 수 있습니다. 판매처는 글 아래 출처에 적었습니다. 답을 몇 개 고르면 3가지를 골라 주는 <a href='/gift/'>골프 선물 도우미</a>도 만들었습니다.</p>" + \
 "<div class='toolbox'><h3>🎁 1분 만에 고르기</h3><p style='margin:0'>누구에게, 나이대, 카트·걷기, 요즘 하시는 말씀, 예산만 고르면 '실패 없는 선택 · 가장 추천 · 특별한 선물' 3가지와 부모님용 한국어 설명 카드를 만들어 드립니다.</p><a href='/gift/'>골프 선물 도우미 열기 →</a></div>" + \
 "<h2>1. 선물마다 '맞을 위험도'가 다릅니다</h2>" + B.table(["위험도", "뜻", "예"], [
- [S("사이즈 몰라도 OK"), "누구에게나 맞음", "거리측정기, 기프트카드, 스탠드백, 골프공"],
+ [S("사이즈 몰라도 OK"), "누구에게나 맞음", "골프공 선물 세트, 이름 새긴 골프공, 거리측정기, 기프트카드, 스탠드백"],
  [M("한 가지만 확인"), "길이나 로프트 하나만 알면 됨", "웨지(56°면 대부분 무난), 퍼터(길이)"],
  [Hh("정보 확인 필요"), "강도·로프트가 안 맞으면 못 씀", "하이브리드, 드라이버, 아이언 세트"]]) + \
 "<p>모르는 정보가 많을수록 위쪽 선물이 안전합니다. 반대로 부모님이 '거리가 줄었다'고 자주 말씀하신다면 실제로 도움이 되는 건 아래쪽(하이브리드·드라이버)입니다. 이때는 아래 4번의 '몰래 확인하는 법'으로 위험을 줄이면 됩니다.</p>" + \
 "<h2>2. 사이즈 몰라도 되는 선물</h2>" + \
+"<h3>골프공 선물 세트 — 가장 많이 주고받는 골프 선물</h3>" + \
+"<p>골프공은 매 라운드 쓰고 잃어버리는 소모품이라, 받아서 싫어하는 골퍼가 거의 없습니다. 고르는 기준은 하나입니다. <b>스윙이 빠르지 않은 분(대부분의 시니어)은 부드러운 공</b>, 핸디캡이 낮고 잘 치는 분은 투어용 공이 맞습니다.</p>" + \
+B.table(["공", "이런 분께", "가격 (11/14, 12개)"], [
+ ["Callaway Supersoft", "스윙이 느린 분, 시니어 · 부드러운 타구감", "$27.99"],
+ ["Titleist Pro V1", "잘 치는 분 · 가장 많이 쓰이는 투어용 공", "$57.99"],
+ ["Titleist Pro V1 Holiday 2-Dozen", "연말 선물 상자 (24개)", "$99.99"]]) + \
+B.picks([("시니어·느린 스윙", "Callaway 2025 Supersoft Golf Balls", "12개 $27.99. 부드러운 저압축 공이라 힘을 덜 들여도 잘 날아갑니다."),
+         ("연말 선물 상자", "Titleist 2025 Pro V1 Holiday 2-Dozen Golf Balls", "24개 $99.99. 잘 치는 분께 드리기 좋은 투어용 공 선물 세트입니다.")], ko=True) + \
+"<h3>이름 새긴 골프공 — 특별한 한 가지</h3>" + \
+"<p>공마다 이름이나 짧은 문구를 넣어 주는 주문 제작 공도 인기 있는 선물입니다. 11월 14일 한 대형 골프 매장 기준 12개에 Callaway Supersoft $26.99~27.99, Callaway Chrome Soft $61.99, Titleist Pro V1 $62.99였습니다(제휴 링크 없음). 제작 기간이 있으니 연말 선물이라면 일찍 주문하세요.</p>" + \
 "<h3>거리측정기 — 가장 무난한 '실패 없는 선물'</h3>" + \
-"<p>깃발에 대고 버튼을 누르면 남은 거리가 나옵니다. 남은 거리를 알면 클럽 고르기가 쉬워져서, 골프를 즐기는 분이라면 누구나 씁니다. 2nd Swing에서는 새 제품과 중고를 함께 팝니다.</p>" + \
+"<p>깃발에 대고 버튼을 누르면 남은 거리가 나옵니다. 남은 거리를 알면 클럽 고르기가 쉬워져서, 골프를 즐기는 분이라면 누구나 씁니다. 새 제품과 중고가 함께 팔립니다.</p>" + \
 B.table(["모델", "상태", "가격 (11/14)"], [
  ["Callaway 300 Pro", "중고", "$62.99부터"],
  ["Shot Scope Pro L2", "새 제품", "$129.99"],
@@ -40,11 +50,9 @@ B.table(["모델", "상태", "가격 (11/14)"], [
 B.picks([("예산 $75 이하", "Callaway 300 Pro Rangefinder (중고)", "중고 $62.99부터. 처음 써 보시는 분께 부담 없는 가격입니다."),
          ("$75~150", "Shot Scope Pro L2 Rangefinder", "새 제품 $129.99. 새 제품을 드리고 싶을 때 가장 가벼운 예산입니다.")], ko=True) + \
 "<h3>기프트카드 — 배송이 늦어도 확실한 선택</h3>" + \
-"<p>2nd Swing은 기프트카드를 팝니다. 회사 설명대로 받는 분이 새 제품과 중고 클럽 중에서 직접 고를 수 있어, 사이즈 걱정이 없습니다. 크리스마스 배송 마감이 걱정될 때 가장 확실한 대안입니다. 아래 6번의 한국어 설명 카드와 함께 드리면 '무엇을 사시면 좋을지'까지 전할 수 있습니다.</p>" + \
+"<p>새 제품과 중고 클럽을 함께 파는 골프 매장의 기프트카드라면, 받는 분이 직접 고를 수 있어 사이즈 걱정이 없습니다. 크리스마스 배송 마감이 걱정될 때 가장 확실한 대안입니다. 아래 6번의 한국어 설명 카드와 함께 드리면 '무엇을 사시면 좋을지'까지 전할 수 있습니다.</p>" + \
 "<h3>가벼운 스탠드백 — 걸어서 라운드하는 분께</h3>" + \
 "<p>카트를 타는 분에게는 큰 의미가 없지만, 걸어 다니는 분에게는 어깨·허리 부담을 줄여 줍니다. 11월 14일 기준 Titleist Players 4 Carbon(2022) 새 제품이 $99.99(정가 표시 $269.99), PING Hoofer Lite가 $119.99였습니다.</p>" + \
-"<h3>부드러운 골프공 — 작은 예산의 추가 선물</h3>" + \
-"<p>스윙이 빠르지 않은 분에게는 부드러운(저압축) 공이 잘 맞습니다. 2nd Swing의 선물 페이지에서는 공을 찾지 못해 제휴 링크는 넣지 않았습니다. 참고로 Golf Galaxy에서 Callaway Supersoft 12개가 $26.99~27.99였습니다.</p>" + \
 "<h2>3. 한 가지만 확인하면 되는 선물</h2>" + \
 "<h3>쉬운 웨지 — '어프로치·벙커가 어렵다'는 분께</h3>" + \
 "<p>바닥이 넓고 관용성이 높은 웨지는 뒤땅을 줄여 줍니다. 로프트를 모르면 56°(샌드웨지)가 가장 무난합니다. 중고 Cleveland CBX ZipCore가 $40.99부터, TaylorMade Qi 웨지가 $39.99부터, 새 PING S159가 $159.99였습니다.</p>" + \
@@ -57,7 +65,7 @@ B.picks([("관용성 높은 웨지", "Cleveland CBX Zipcore Wedge (중고)", "�
  "샤프트(막대) 위쪽 스티커에서 글자를 찾습니다: L, A(또는 SR), R, S, X",
  "사진을 찍어 두고, 같은 글자의 하이브리드를 고릅니다.",
  "로프트는 모르면 4·5번 아이언 자리를 대신하는 22~25° 정도가 무난합니다(제조사마다 번호가 다르니 각도로 보세요)."]) + \
-"<p>11월 14일 2nd Swing 선물 페이지 기준 중고 하이브리드는 Callaway Rogue $36.99부터, Mizuno ST-Z 230 $53.99부터, Cobra DS-Adapt $69.99부터였습니다. 드라이버는 Cobra DS-Adapt X 중고가 $114.99부터였지만, 강도와 로프트를 모두 맞춰야 하니 <a href='/driver/'>드라이버 계산기</a>로 먼저 확인하시길 권합니다.</p>" + \
+"<p>11월 14일 기준 중고 하이브리드는 Callaway Rogue $36.99부터, Mizuno ST-Z 230 $53.99부터, Cobra DS-Adapt $69.99부터였습니다. 드라이버는 Cobra DS-Adapt X 중고가 $114.99부터였지만, 강도와 로프트를 모두 맞춰야 하니 <a href='/driver/'>드라이버 계산기</a>로 먼저 확인하시길 권합니다.</p>" + \
 B.picks([("거리가 줄어든 분께", "Callaway Rogue Hybrid (중고)", "중고 $36.99부터. 강도 글자를 확인한 뒤 같은 강도로 고르세요.")], ko=True) + \
 "<h2>5. 부모님 말씀별로 고르기</h2>" + B.table(["이런 말씀을 하시면", "추천", "위험도"], [
  ["\"남은 거리를 모르겠어\"", "거리측정기", S("없음")],
@@ -65,9 +73,9 @@ B.picks([("거리가 줄어든 분께", "Callaway Rogue Hybrid (중고)", "중�
  ["\"어프로치·벙커가 어려워\"", "56° 관용성 웨지", M("낮음")],
  ["\"퍼팅이 안 돼\"", "말렛 퍼터 (길이 확인)", M("낮음")],
  ["\"허리가 아파\" (걸어서 라운드)", "가벼운 스탠드백", S("없음")],
- ["잘 모르겠음", "거리측정기 또는 기프트카드", S("없음")]]) + \
+ ["잘 모르겠음", "골프공 선물 세트 · 거리측정기 · 기프트카드", S("없음")]]) + \
 "<h2>6. 반품·배송, 그리고 한국어 설명 카드</h2>" + B.check([
- "2nd Swing 온라인 구매 중고 제품은 60일 안에 같은 상태로 반품할 수 있습니다(크레딧 또는 환불, 분야별 연 1회). 매장 구매는 30일 '플레이 보장'입니다.",
+ "중고 골프용품은 반품 규정을 꼭 확인하세요. 예를 들어 출처의 한 매장은 온라인 구매 중고 제품을 60일 안에 같은 상태로 반품받습니다(크레딧 또는 환불, 분야별 연 1회). 매장 구매는 30일입니다.",
  "배송 마감은 해마다 다르니 주문 전에 판매처의 연말 배송 공지를 꼭 확인하세요.",
  "늦을 것 같으면 기프트카드 + 설명 카드가 가장 확실합니다.",
  "선물 도우미에서 호칭과 이름을 넣으면 사용법이 한국어로 적힌 카드 이미지를 만들어 줍니다. 출력해 넣거나 카톡으로 보내세요."]) + \
@@ -75,20 +83,30 @@ B.picks([("거리가 줄어든 분께", "Callaway Rogue Hybrid (중고)", "중�
 
 # ------------------------------------------------------------------ ENGLISH
 EN = STY + B.tldr("Key takeaways", [
- b("Clubs are risky gifts:")+"flex, loft and length must fit. If you don't know their specs, start with a rangefinder, a gift card or a stand bag.",
+ b("Clubs are risky gifts:")+"flex, loft and length must fit. If you don't know their specs, start with a golf ball gift set, a rangefinder or a gift card.",
  b("A 30-second check fixes that:")+"read the letter on their driver shaft (L, A, R, S) and a hybrid becomes a safe gift.",
  b("Explain it in their language:")+"tuck a how-to card in the box (we make one in Korean or English) so the gift actually gets used."]) + \
 "<p>The most common golf-gift mistake is buying a 'good club'. The same model only performs when the shaft flex, loft and length fit the player — the wrong spec can even cost distance. Golfers are picky about gear for exactly this reason, which is also why gift cards are such a popular golf gift.</p>" + \
-"<p>This guide puts gifts in the order that <b>can't go wrong</b>, even if you don't play. Prices are what 2nd Swing Golf's website showed on November 14, 2026 (used items start at the cheapest condition) and may change. We also built a free <a href='/gift/'>Golf Gift Helper</a> that picks three gifts from a few taps.</p>" + \
+"<p>This guide puts gifts in the order that <b>can't go wrong</b>, even if you don't play. Prices are what US golf retailers showed on November 14, 2026 (used items start at the cheapest condition) and may change; the stores are listed under Sources. We also built a free <a href='/gift/'>Golf Gift Helper</a> that picks three gifts from a few taps.</p>" + \
 "<div class='toolbox'><h3>🎁 Pick in one minute</h3><p style='margin:0'>Choose who it's for, their age, cart or walking, what they complain about and your budget. You get a can't-miss pick, a top pick and a special gift, plus a how-to card for the recipient.</p><a href='/gift/'>Open the Golf Gift Helper →</a></div>" + \
 "<h2>1. Every gift has a 'fit risk'</h2>" + B.table(["Risk", "Meaning", "Examples"], [
- [S("No sizes needed"), "Fits anyone", "Rangefinder, gift card, stand bag, golf balls"],
+ [S("No sizes needed"), "Fits anyone", "Golf ball gift sets, personalized balls, rangefinder, gift card, stand bag"],
  [M("Check one thing"), "Just one spec to know", "Wedge (a 56° suits most), putter (length)"],
  [Hh("Needs their specs"), "Useless if flex or loft is wrong", "Hybrid, driver, iron set"]]) + \
 "<p>The less you know, the safer the top row. But if they keep saying they've lost distance, the gifts that truly help are in the bottom row — use the secret check in section 4 to take the risk out.</p>" + \
 "<h2>2. Gifts that need no sizes</h2>" + \
+"<h3>Golf ball gift sets — the most common golf gift</h3>" + \
+"<p>Balls get used and lost every round, so almost no golfer minds getting more. One rule: <b>soft balls for slower swings (most seniors)</b>, tour balls for low-handicap players.</p>" + \
+B.table(["Ball", "Best for", "Price (11/14, dozen)"], [
+ ["Callaway Supersoft", "Slower swings, seniors · soft feel", "$27.99"],
+ ["Titleist Pro V1", "Better players · the most-played tour ball", "$57.99"],
+ ["Titleist Pro V1 Holiday 2-Dozen", "Holiday gift box (24 balls)", "$99.99"]]) + \
+B.picks([("Seniors · slower swings", "Callaway 2025 Supersoft Golf Balls", "$27.99 a dozen. Soft, low-compression balls that fly well without a fast swing."),
+         ("Holiday gift box", "Titleist 2025 Pro V1 Holiday 2-Dozen Golf Balls", "$99.99 for 24. A tour-ball gift set for better players.")], ko=False) + \
+"<h3>Personalized golf balls — the special touch</h3>" + \
+"<p>Balls printed with a name or short message are a popular gift too. On Nov 14, a major golf retailer listed a personalized dozen at $26.99–27.99 (Callaway Supersoft), $61.99 (Callaway Chrome Soft) and $62.99 (Titleist Pro V1); no affiliate link. They take time to make, so order early for the holidays.</p>" + \
 "<h3>Laser rangefinder — the classic can't-miss gift</h3>" + \
-"<p>Point it at the flag, press the button, and it shows the yardage. Knowing the number makes club choice easy, so almost every golfer uses one. 2nd Swing sells new and used units.</p>" + \
+"<p>Point it at the flag, press the button, and it shows the yardage. Knowing the number makes club choice easy, so almost every golfer uses one. You can buy new or used.</p>" + \
 B.table(["Model", "Condition", "Price (11/14)"], [
  ["Callaway 300 Pro", "Used", "from $62.99"],
  ["Shot Scope Pro L2", "New", "$129.99"],
@@ -98,11 +116,9 @@ B.table(["Model", "Condition", "Price (11/14)"], [
 B.picks([("Under $75", "Callaway 300 Pro Rangefinder (used)", "Used from $62.99 — an easy first rangefinder."),
          ("$75–150", "Shot Scope Pro L2 Rangefinder", "New at $129.99 — the lowest budget for a brand-new unit here.")], ko=False) + \
 "<h3>Gift card — the sure thing when shipping is tight</h3>" + \
-"<p>2nd Swing sells gift cards; as the company puts it, the recipient can choose from its new and used clubs, so sizes don't matter. It's the safest option when holiday shipping cut-offs are close, and pairs well with the how-to card in section 6.</p>" + \
+"<p>A gift card from a store that sells both new and used clubs lets the recipient choose, so sizes don't matter. It's the safest option when holiday shipping cut-offs are close, and pairs well with the how-to card in section 6.</p>" + \
 "<h3>Lightweight stand bag — for walkers</h3>" + \
 "<p>Little use for cart riders, but it eases the shoulders and back for golfers who walk. On November 14, a new Titleist Players 4 Carbon (2022) was $99.99 (listed was $269.99) and the PING Hoofer Lite was $119.99.</p>" + \
-"<h3>Soft golf balls — a small add-on</h3>" + \
-"<p>Soft, low-compression balls suit slower swings. We didn't find balls on 2nd Swing's gift pages, so there's no affiliate link here; for reference, Golf Galaxy listed a dozen Callaway Supersoft at $26.99–27.99.</p>" + \
 "<h2>3. Gifts that need one check</h2>" + \
 "<h3>Forgiving wedge — for 'chipping and bunkers are hard'</h3>" + \
 "<p>A wide-sole, forgiving wedge reduces fat shots. If you don't know the loft, a 56° sand wedge suits most golfers. Used Cleveland CBX ZipCore wedges started at $40.99, TaylorMade Qi wedges at $39.99, and a new PING S159 was $159.99.</p>" + \
@@ -115,7 +131,7 @@ B.picks([("Forgiving wedge", "Cleveland CBX Zipcore Wedge (used)", "Used from $4
  "Find the letter on the shaft sticker: L, A (or SR), R, S, X.",
  "Snap a photo and buy a hybrid with the same letter.",
  "If you don't know the loft, about 22–25° (the 4- or 5-iron slot) is a safe choice — brands number them differently, so go by degrees."]) + \
-"<p>On 2nd Swing's gift page (Nov 14), used hybrids started at $36.99 (Callaway Rogue), $53.99 (Mizuno ST-Z 230) and $69.99 (Cobra DS-Adapt). A used Cobra DS-Adapt X driver started at $114.99, but a driver needs both flex and loft, so check with our <a href='/driver/'>driver calculator</a> first.</p>" + \
+"<p>On Nov 14, used hybrids started at $36.99 (Callaway Rogue), $53.99 (Mizuno ST-Z 230) and $69.99 (Cobra DS-Adapt). A used Cobra DS-Adapt X driver started at $114.99, but a driver needs both flex and loft, so check with our <a href='/driver/'>driver calculator</a> first.</p>" + \
 B.picks([("For lost distance", "Callaway Rogue Hybrid (used)", "Used from $36.99 — buy the same flex letter you found.")], ko=False) + \
 "<h2>5. Pick by what they say</h2>" + B.table(["If they say…", "Gift", "Risk"], [
  ["\"I never know the yardage\"", "Rangefinder", S("None")],
@@ -123,9 +139,9 @@ B.picks([("For lost distance", "Callaway Rogue Hybrid (used)", "Used from $36.99
  ["\"Chipping and bunkers are hard\"", "Forgiving 56° wedge", M("Low")],
  ["\"My putting is off\"", "Mallet putter (check length)", M("Low")],
  ["\"My back hurts\" (walks)", "Lightweight stand bag", S("None")],
- ["Not sure", "Rangefinder or gift card", S("None")]]) + \
+ ["Not sure", "Golf ball gift set · rangefinder · gift card", S("None")]]) + \
 "<h2>6. Returns, shipping and the how-to card</h2>" + B.check([
- "Used items bought online from 2nd Swing can be returned within 60 days in the same condition (credit or money back, one return per category per year). In-store purchases have a 30-day Play Guarantee.",
+ "Always check the return policy for used gear. For example, one store in our sources takes back used items bought online within 60 days in the same condition (credit or money back, one return per category per year); in-store purchases get 30 days.",
  "Holiday shipping cut-offs change every year — check the seller's notice before you order.",
  "If it's tight, a gift card plus a how-to card is the sure thing.",
  "In the Gift Helper, add a name and we draw a card explaining how to use the gift, in Korean or English. Print it or send it by text."]) + \
@@ -135,7 +151,7 @@ P = dict(file="blog-golf-gifts-parents-2026.html", bg="gift", calc="gift",
  cat_ko="선물 가이드", cat_en="Gift guide",
  title_ko="골프 좋아하는 부모님 선물 2026: 골프 몰라도 실패 없는 고르는 법",
  title_en="Golf gifts for parents 2026: how to pick one that won't miss",
- desc_ko="골프채 사이즈를 몰라도 실패 없는 부모님 골프 선물. 거리측정기·기프트카드·웨지·퍼터·하이브리드를 위험도별로, 2nd Swing 가격(11/14)과 몰래 강도 확인하는 법, 한국어 설명 카드까지.",
+ desc_ko="골프채 사이즈를 몰라도 실패 없는 부모님 골프 선물. 거리측정기·기프트카드·웨지·퍼터·하이브리드를 위험도별로, 골프공 선물 세트와 가격(11/14), 몰래 강도 확인하는 법, 한국어 설명 카드까지.",
  sub_ko="사이즈를 몰라도 되는 선물부터, 30초 만에 몰래 강도 확인하는 법, 부모님용 한국어 설명 카드까지 정리했습니다.",
  sub_en="Gifts that need no sizes first, a 30-second secret spec check, and a how-to card in Korean or English.",
  cta_ko=("1분 만에 선물 고르기", "버튼 5번이면 실패 없는 선물 3가지와 한국어 설명 카드를 만들어 드립니다.", "골프 선물 도우미 열기"),
@@ -145,7 +161,9 @@ P = dict(file="blog-golf-gifts-parents-2026.html", bg="gift", calc="gift",
   ("2nd Swing — Holiday 2026 gift guide (gifts, prices, gift card)", "https://www.2ndswing.com/shop-best-golf-gifts-under-50"),
   ("2nd Swing — Rangefinders (prices)", "https://www.2ndswing.com/accessories/rangefinders"),
   ("2nd Swing — Return policy", "https://2ndSwing.com/return-policy"),
-  ("Golf Galaxy — Golf balls (Callaway Supersoft price)", "https://www.golfgalaxy.com/f/course-essentials"),
+  ("2nd Swing — Golf balls (Supersoft, Pro V1 prices)", "https://www.2ndswing.com/shop-all-golf-balls?p=5"),
+  ("2nd Swing — Titleist Pro V1 Holiday 2-Dozen", "https://www.2ndswing.com/accessories/golf-balls/titleist-2025-pro-v1-holiday-2-dozen-golf-balls"),
+  ("Golf Galaxy — Personalized golf balls (prices)", "https://www.golfgalaxy.com/f/12-pack-golf-balls-3645-1489572"),
   ("GolfLink — Golf gift cards (why golfers prefer choosing specs)", "https://golflink.com/equipment/golf-gift-cards-2898431")])
 html = B.page(P).replace(' href="/gift/" target="_blank" rel="noopener"', ' href="/gift/"')
 open(ROOT + '/site/' + P["file"], 'w').write(html)

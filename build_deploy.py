@@ -363,7 +363,8 @@ AWIN = AWIN_BASE + "&ued="
 SEARCH = "https://www.2ndswing.com/catalogsearch/result/?q="
 import urllib.parse as _up
 def aff(q, ref=""): return AWIN_BASE + (f"&clickref={ref}" if ref else "") + "&ued=" + _up.quote(SEARCH + _up.quote_plus(q), safe="")
-BUY_KO, BUY_EN = "2nd Swing에서 가격 보기", "Check price at 2nd Swing"
+# owner 2026-11-14: no store name on buttons (reads like an ad); the store is named in the disclosure and sources
+BUY_KO, BUY_EN = "가격 보기", "Check price"
 def AFF_JS(ref): return ('<script>window.AFF=function(q){return "' + AWIN_BASE + '&clickref=' + ref + '&ued="+encodeURIComponent("' + SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>')
 for calc in ("driver", "iron", "wedge", "putter"):
     p = f"{OUT}/{calc}/index.html"; s = open(p).read()
