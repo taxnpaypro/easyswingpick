@@ -139,7 +139,7 @@
 
   /* ---------- share card (canvas image) ---------- */
   function drawCard(items) {
-    var l = L(), t = T[l], W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
+    var l = L(), t = T[l], W = 1080, H = Math.min(1350, 340 + Math.max(items.length, 1) * 230 + 150), c = document.createElement("canvas"); c.width = W; c.height = H;
     var x = c.getContext("2d"), FF = "Inter, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif";
     x.fillStyle = "#0f2a3d"; x.fillRect(0, 0, W, H);
     x.fillStyle = "#c89b3c"; x.fillRect(80, 110, 90, 10);
