@@ -324,24 +324,33 @@ open(f"{OUT}/feed.xml", "w").write(f"""<?xml version="1.0" encoding="UTF-8"?>
 {chr(10).join(items)}
 </channel></rss>
 """)
-# extra pins (B, C) for Pinterest Bulk create: scheduled 7 and 14 days after the post, 10:00 Pacific (18:00 UTC)
+# extra pins (B, C) for Pinterest Bulk create: scheduled 7 and 14 days after the post, 10:00 Pacific (18:00 UTC).
+# Pinterest rules: every Title must be unique and every Publish date within the next 14 days.
+# The schedule is fixed (anchored at PIN_START, one pin per day) so rebuilding never moves a pin;
+# pins.csv only holds the pins due in the next 13 days, so upload it about every 2 weeks.
+PIN_START = datetime.datetime(2026, 11, 15, 18, tzinfo=datetime.timezone.utc)
+_now = datetime.datetime.now(datetime.timezone.utc)
 with open(f"{OUT}/pins.csv", "w", newline="", encoding="utf-8") as fh:
     w = _csv.writer(fh); w.writerow(["Title", "Media URL", "Pinterest board", "Thumbnail", "Description", "Link", "Publish date", "Keywords"])
-    # at most one extra pin per day: each pin goes on its target day (post +7 / +14 days) or the next free day after it
-    _last = datetime.datetime.now(datetime.timezone.utc).replace(hour=18, minute=0, second=0, microsecond=0)
+    _last = PIN_START - datetime.timedelta(days=1)
     want = list(((p["_date"] + datetime.timedelta(days=days)).astimezone(datetime.timezone.utc).replace(hour=18, minute=0, second=0, microsecond=0), p, k)
                   for p in P for k, days in (("b", 7), ("c", 14)))
+    _rows = 0
     for when, p, k in sorted(want, key=lambda r: (r[0], r[1]["u"], r[2])):
         when = max(when, _last + datetime.timedelta(days=1)); _last = when; slug = p["u"][6:]
-        w.writerow([p["en"][:100], f"{DOMAIN}/assets/pins/{slug}-{k}.jpg", PIN_BOARD[p["cat"]], "", (p["den"] + " " + PIN_CTA[p["cat"]] + ".")[:500],
+        if not (_now < when <= _now + datetime.timedelta(days=13)): continue
+        title = p["en"] if k == "b" else p["den"].rstrip(".")   # pin C uses the summary as its title (titles must differ)
+        desc = (p["den"] if k == "b" else p["en"] + ".") + " " + PIN_CTA[p["cat"]] + "."
+        w.writerow([title[:100], f"{DOMAIN}/assets/pins/{slug}-{k}.jpg", PIN_BOARD[p["cat"]], "", desc[:500],
                     f"{DOMAIN}{p['u']}", when.strftime("%Y-%m-%dT%H:%M:%S"), "golf clubs, golf equipment, " + PIN_BOARD[p["cat"]].lower()])
+        _rows += 1
 for f in (f"{OUT}/index.html", f"{OUT}/blog/index.html"):
     s_ = open(f).read(); open(f, "w").write(s_.replace("</head>", f'<link rel="alternate" type="application/rss+xml" title="EasySwingPick" href="{DOMAIN}/feed.xml">\n</head>', 1))
 # Pinterest website claim (Settings > Claimed accounts > Websites) — keep on the homepage
 PIN_VERIFY = "06fbd72d4027a8ccd471db19e4500c61"
 _h = open(f"{OUT}/index.html").read()
 open(f"{OUT}/index.html", "w").write(_h.replace("</head>", f'<meta name="p:domain_verify" content="{PIN_VERIFY}"/>\n</head>', 1))
-print(f"pins ok ({rendered} rendered, {len(P)} posts) · feed.xml · pins.csv")
+print(f"pins ok ({rendered} rendered, {len(P)} posts) · feed.xml · pins.csv ({_rows} pins, next 13 days)")
 
 
 # ---------- header wordmark (A) ----------

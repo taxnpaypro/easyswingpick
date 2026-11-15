@@ -13,7 +13,7 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 ## Pinterest (feed.xml + pins)
 - `build_deploy.py` makes 3 pin images (1000×1500 JPG) per post from its `POSTS` entry (`en`, `den`, `cat`, `c`): A = photo + title, B = navy + calculator button, C = light card. Cached in `site/pins/` (re-rendered only when the text or `PIN_VER` changes) and published at `/assets/pins/<slug>-a|b|c.jpg`.
 - `/feed.xml` (RSS, English) lists every post with pin A. The owner's Pinterest business account Auto-publishes from it, so a merged post becomes a pin automatically — no manual upload.
-- `/pins.csv` holds pins B and C in Pinterest "Bulk create Pins" format, one per day (post +7 / +14 days, 10am Pacific). The owner uploads it about once a month; mention it in the approval message when new rows were added.
+- `/pins.csv` holds pins B and C in Pinterest "Bulk create Pins" format, one per day (post +7 / +14 days, 10am Pacific). Pinterest only accepts unique titles (pin C uses the summary as title) and publish dates within 14 days, so the schedule is fixed (anchored 2026-11-15) and pins.csv holds only the next 13 days: the owner uploads it about every 2 weeks (send the file in chat). Boards must already exist on the owner's account.
 - Pin text comes from the English title/summary, so keep `en` ≤ 90 characters and `den` one short sentence.
 
 ## Affiliate links
