@@ -27,7 +27,7 @@ KO = STY + B.tldr("핵심 요약", [
  [S("사이즈 몰라도 OK"), "누구에게나 맞음", "골프공 선물 세트, 이름 새긴 골프공, 거리측정기, 기프트카드, 스탠드백"],
  [M("한 가지만 확인"), "길이나 로프트 하나만 알면 됨", "웨지(56°면 대부분 무난), 퍼터(길이)"],
  [Hh("정보 확인 필요"), "강도·로프트가 안 맞으면 못 씀", "하이브리드, 드라이버, 아이언 세트"]]) + \
-"<p>모르는 정보가 많을수록 위쪽 선물이 안전합니다. 반대로 부모님이 '거리가 줄었다'고 자주 말씀하신다면 실제로 도움이 되는 건 아래쪽(하이브리드·드라이버)입니다. 이때는 아래 4번의 '몰래 확인하는 법'으로 위험을 줄이면 됩니다.</p>" + \
+"<p>모르는 정보가 많을수록 위쪽 선물이 안전합니다. 반대로 부모님이 '거리가 줄었다'고 자주 말씀하신다면 실제로 도움이 되는 건 아래쪽(하이브리드·드라이버)입니다. 이때는 아래 5번의 '몰래 확인하는 법'으로 위험을 줄이면 됩니다.</p>" + \
 "<h2>2. 사이즈 몰라도 되는 선물</h2>" + \
 "<h3>골프공 선물 세트 — 가장 많이 주고받는 골프 선물</h3>" + \
 "<p>골프공은 매 라운드 쓰고 잃어버리는 소모품이라, 받아서 싫어하는 골퍼가 거의 없습니다. 고르는 기준은 하나입니다. <b>스윙이 빠르지 않은 분(대부분의 시니어)은 부드러운 공</b>, 핸디캡이 낮고 잘 치는 분은 투어용 공이 맞습니다.</p>" + \
@@ -50,16 +50,28 @@ B.table(["모델", "상태", "가격 (11/14)"], [
 B.picks([("예산 $75 이하", "Callaway 300 Pro Rangefinder (중고)", "중고 $62.99부터. 처음 써 보시는 분께 부담 없는 가격입니다."),
          ("$75~150", "Shot Scope Pro L2 Rangefinder", "새 제품 $129.99. 새 제품을 드리고 싶을 때 가장 가벼운 예산입니다.")], ko=True) + \
 "<h3>기프트카드 — 배송이 늦어도 확실한 선택</h3>" + \
-"<p>새 제품과 중고 클럽을 함께 파는 골프 매장의 기프트카드라면, 받는 분이 직접 고를 수 있어 사이즈 걱정이 없습니다. 크리스마스 배송 마감이 걱정될 때 가장 확실한 대안입니다. 아래 6번의 한국어 설명 카드와 함께 드리면 '무엇을 사시면 좋을지'까지 전할 수 있습니다.</p>" + \
+"<p>새 제품과 중고 클럽을 함께 파는 골프 매장의 기프트카드라면, 받는 분이 직접 고를 수 있어 사이즈 걱정이 없습니다. 크리스마스 배송 마감이 걱정될 때 가장 확실한 대안입니다. 아래 7번의 한국어 설명 카드와 함께 드리면 '무엇을 사시면 좋을지'까지 전할 수 있습니다.</p>" + \
 "<h3>가벼운 스탠드백 — 걸어서 라운드하는 분께</h3>" + \
 "<p>카트를 타는 분에게는 큰 의미가 없지만, 걸어 다니는 분에게는 어깨·허리 부담을 줄여 줍니다. 11월 14일 기준 Titleist Players 4 Carbon(2022) 새 제품이 $99.99(정가 표시 $269.99), PING Hoofer Lite가 $119.99였습니다.</p>" + \
-"<h2>3. 한 가지만 확인하면 되는 선물</h2>" + \
+"<h2>3. 골프 매체들이 추천하는 인기 선물, 가격까지 확인했습니다</h2>" + \
+"<p>2026년 골프 선물 가이드(MyGolfSpy, Golf Monthly, GOLF.com, PlayBetter 등)에 자주 나오는 선물을 모아, 미국 골프 매장에서 실제로 파는지와 11월 14일 가격을 대조했습니다. 모두 사이즈가 필요 없는 선물입니다.</p>" + \
+B.table(["선물", "이런 분께", "확인한 모델 · 가격"], [
+ ["GPS 골프 시계", "거리측정기 조준이 어려운 분, 손목으로 보고 싶은 분", "Garmin Approach S44 새 제품 $249.99 (코스 4만3천 곳 내장, 그린 앞·중앙·뒤 거리)"],
+ ["GPS 골프 스피커", "카트 타는 분, 음악 좋아하는 분", "Bushnell Wingman 새 제품 $149.99 · 중고 $55.99부터, Wingman View $199.99"],
+ ["푸시카트", "걸어서 라운드하는 분", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99"],
+ ["퍼팅 연습기·매트", "겨울에 집에서 연습하고 싶은 분", "PuttOUT Pressure Putt Trainer $39.99, WELLPUTT 13ft 매트 $169.00"],
+ ["개인용 론치 모니터", "내 스피드와 거리가 궁금한 분", "Shot Scope LM1 $199.99, Garmin Approach R10 $499.99"]]) + \
+"<p>특히 <b>Shot Scope LM1</b>은 공 뒤 약 1.8m(6피트)에 두고 치면 클럽 스피드, 볼 스피드, 캐리·총 거리 같은 핵심 수치 5가지를 보여 주고, 휴대폰 없이도 쓸 수 있는 약 $200짜리 제품입니다(Golf Digest). 여기서 나온 스피드를 저희 <a href='/driver/'>드라이버 계산기</a>에 넣으면 맞는 샤프트와 모델까지 바로 이어집니다. 푸시카트는 일반 클럽과 반품 조건이 다를 수 있으니 주문 전에 확인하세요.</p>" + \
+B.picks([("카트 타는 분께", "Bushnell Wingman Speaker", "새 제품 $149.99, 중고 $55.99부터. 음악과 그린까지 거리를 함께."),
+         ("걸어서 치는 분께", "Bag Boy Compact 3 Wheel Push Cart", "새 제품 $219.95. 접으면 트렁크에 들어갑니다."),
+         ("스피드가 궁금한 분께", "Shot Scope LM1 Launch Monitor", "새 제품 $199.99. 휴대폰 없이 스피드와 거리를 보여 줍니다.")], ko=True) + \
+"<h2>4. 한 가지만 확인하면 되는 선물</h2>" + \
 "<h3>쉬운 웨지 — '어프로치·벙커가 어렵다'는 분께</h3>" + \
 "<p>바닥이 넓고 관용성이 높은 웨지는 뒤땅을 줄여 줍니다. 로프트를 모르면 56°(샌드웨지)가 가장 무난합니다. 중고 Cleveland CBX ZipCore가 $40.99부터, TaylorMade Qi 웨지가 $39.99부터, 새 PING S159가 $159.99였습니다.</p>" + \
 B.picks([("관용성 높은 웨지", "Cleveland CBX Zipcore Wedge (중고)", "중고 $40.99부터. 캐비티 뒷면으로 빗맞아도 거리 손실이 적은 편입니다.")], ko=True) + \
 "<h3>퍼터 — 길이만 확인하세요</h3>" + \
 "<p>지금 퍼터의 그립 끝부터 바닥까지 줄자로 재면 됩니다(보통 33~35인치). 헤드가 큰 말렛형이 빗맞아도 방향이 덜 흔들립니다. 중고 PING Redwood Piper S가 $49.99부터, L.A.B. Golf MEZZ.1 Max는 새 제품 $329.00·중고 $183.99부터였습니다. 스트로크 모양까지 맞추려면 <a href='/putter/'>퍼터 계산기</a>를 함께 보세요.</p>" + \
-"<h2>4. 정보가 필요한 선물 — 몰래 확인하는 법</h2>" + \
+"<h2>5. 정보가 필요한 선물 — 몰래 확인하는 법</h2>" + \
 "<p>'거리가 줄었다', '공이 안 뜬다'는 말씀을 자주 하신다면 가장 효과가 큰 선물은 <b>하이브리드</b>입니다. 롱아이언 대신 쓰면 공이 쉽게 뜹니다(자세한 비교는 <a href='/blog/senior-hybrids-2026'>시니어 하이브리드 글</a>). 다만 샤프트 강도가 맞아야 합니다. 30초면 확인할 수 있습니다.</p>" + B.check([
  "골프백에서 가장 긴 채(드라이버)를 꺼냅니다.",
  "샤프트(막대) 위쪽 스티커에서 글자를 찾습니다: L, A(또는 SR), R, S, X",
@@ -67,14 +79,14 @@ B.picks([("관용성 높은 웨지", "Cleveland CBX Zipcore Wedge (중고)", "�
  "로프트는 모르면 4·5번 아이언 자리를 대신하는 22~25° 정도가 무난합니다(제조사마다 번호가 다르니 각도로 보세요)."]) + \
 "<p>11월 14일 기준 중고 하이브리드는 Callaway Rogue $36.99부터, Mizuno ST-Z 230 $53.99부터, Cobra DS-Adapt $69.99부터였습니다. 드라이버는 Cobra DS-Adapt X 중고가 $114.99부터였지만, 강도와 로프트를 모두 맞춰야 하니 <a href='/driver/'>드라이버 계산기</a>로 먼저 확인하시길 권합니다.</p>" + \
 B.picks([("거리가 줄어든 분께", "Callaway Rogue Hybrid (중고)", "중고 $36.99부터. 강도 글자를 확인한 뒤 같은 강도로 고르세요.")], ko=True) + \
-"<h2>5. 부모님 말씀별로 고르기</h2>" + B.table(["이런 말씀을 하시면", "추천", "위험도"], [
- ["\"남은 거리를 모르겠어\"", "거리측정기", S("없음")],
+"<h2>6. 부모님 말씀별로 고르기</h2>" + B.table(["이런 말씀을 하시면", "추천", "위험도"], [
+ ["\"남은 거리를 모르겠어\"", "거리측정기 · GPS 시계 · (카트) GPS 스피커", S("없음")],
  ["\"거리가 줄었어\" / \"공이 안 떠\"", "하이브리드 (강도 확인 후)", Hh("확인 필요")],
  ["\"어프로치·벙커가 어려워\"", "56° 관용성 웨지", M("낮음")],
- ["\"퍼팅이 안 돼\"", "말렛 퍼터 (길이 확인)", M("낮음")],
- ["\"허리가 아파\" (걸어서 라운드)", "가벼운 스탠드백", S("없음")],
+ ["\"퍼팅이 안 돼\"", "퍼팅 매트 · 말렛 퍼터 (길이 확인)", M("낮음")],
+ ["\"허리가 아파\" (걸어서 라운드)", "푸시카트 · 가벼운 스탠드백", S("없음")],
  ["잘 모르겠음", "골프공 선물 세트 · 거리측정기 · 기프트카드", S("없음")]]) + \
-"<h2>6. 반품·배송, 그리고 한국어 설명 카드</h2>" + B.check([
+"<h2>7. 반품·배송, 그리고 한국어 설명 카드</h2>" + B.check([
  "중고 골프용품은 반품 규정을 꼭 확인하세요. 예를 들어 출처의 한 매장은 온라인 구매 중고 제품을 60일 안에 같은 상태로 반품받습니다(크레딧 또는 환불, 분야별 연 1회). 매장 구매는 30일입니다.",
  "배송 마감은 해마다 다르니 주문 전에 판매처의 연말 배송 공지를 꼭 확인하세요.",
  "늦을 것 같으면 기프트카드 + 설명 카드가 가장 확실합니다.",
@@ -93,7 +105,7 @@ EN = STY + B.tldr("Key takeaways", [
  [S("No sizes needed"), "Fits anyone", "Golf ball gift sets, personalized balls, rangefinder, gift card, stand bag"],
  [M("Check one thing"), "Just one spec to know", "Wedge (a 56° suits most), putter (length)"],
  [Hh("Needs their specs"), "Useless if flex or loft is wrong", "Hybrid, driver, iron set"]]) + \
-"<p>The less you know, the safer the top row. But if they keep saying they've lost distance, the gifts that truly help are in the bottom row — use the secret check in section 4 to take the risk out.</p>" + \
+"<p>The less you know, the safer the top row. But if they keep saying they've lost distance, the gifts that truly help are in the bottom row — use the secret check in section 5 to take the risk out.</p>" + \
 "<h2>2. Gifts that need no sizes</h2>" + \
 "<h3>Golf ball gift sets — the most common golf gift</h3>" + \
 "<p>Balls get used and lost every round, so almost no golfer minds getting more. One rule: <b>soft balls for slower swings (most seniors)</b>, tour balls for low-handicap players.</p>" + \
@@ -116,16 +128,28 @@ B.table(["Model", "Condition", "Price (11/14)"], [
 B.picks([("Under $75", "Callaway 300 Pro Rangefinder (used)", "Used from $62.99 — an easy first rangefinder."),
          ("$75–150", "Shot Scope Pro L2 Rangefinder", "New at $129.99 — the lowest budget for a brand-new unit here.")], ko=False) + \
 "<h3>Gift card — the sure thing when shipping is tight</h3>" + \
-"<p>A gift card from a store that sells both new and used clubs lets the recipient choose, so sizes don't matter. It's the safest option when holiday shipping cut-offs are close, and pairs well with the how-to card in section 6.</p>" + \
+"<p>A gift card from a store that sells both new and used clubs lets the recipient choose, so sizes don't matter. It's the safest option when holiday shipping cut-offs are close, and pairs well with the how-to card in section 7.</p>" + \
 "<h3>Lightweight stand bag — for walkers</h3>" + \
 "<p>Little use for cart riders, but it eases the shoulders and back for golfers who walk. On November 14, a new Titleist Players 4 Carbon (2022) was $99.99 (listed was $269.99) and the PING Hoofer Lite was $119.99.</p>" + \
-"<h2>3. Gifts that need one check</h2>" + \
+"<h2>3. Popular gifts from the 2026 guides — prices checked</h2>" + \
+"<p>We gathered the gifts that keep showing up in 2026 golf gift guides (MyGolfSpy, Golf Monthly, GOLF.com, PlayBetter and others) and checked whether US golf retailers actually stock them and what they cost on November 14. None of these need sizes.</p>" + \
+B.table(["Gift", "Best for", "Model checked · price"], [
+ ["GPS golf watch", "Anyone who finds aiming a laser hard", "Garmin Approach S44 new $249.99 (43,000+ courses, front/middle/back yardages)"],
+ ["GPS golf speaker", "Cart riders who like music", "Bushnell Wingman new $149.99 · used from $55.99; Wingman View $199.99"],
+ ["Push cart", "Golfers who walk", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99"],
+ ["Putting trainer / mat", "Winter practice at home", "PuttOUT Pressure Putt Trainer $39.99, WELLPUTT 13ft mat $169.00"],
+ ["Personal launch monitor", "Golfers curious about their speed", "Shot Scope LM1 $199.99, Garmin Approach R10 $499.99"]]) + \
+"<p>The <b>Shot Scope LM1</b> stands out: set it about six feet behind the ball and it shows five key numbers — club speed, ball speed, smash factor, carry and total distance — with no phone needed, for about $200 (Golf Digest). Put that speed into our <a href='/driver/'>driver calculator</a> to get shaft and model picks. Push carts can have different return terms from clubs, so check before ordering.</p>" + \
+B.picks([("For cart riders", "Bushnell Wingman Speaker", "New $149.99, used from $55.99. Music plus yardages to the green."),
+         ("For walkers", "Bag Boy Compact 3 Wheel Push Cart", "New $219.95. Folds to fit in the trunk."),
+         ("For the curious", "Shot Scope LM1 Launch Monitor", "New $199.99. Speed and distance with no phone needed.")], ko=False) + \
+"<h2>4. Gifts that need one check</h2>" + \
 "<h3>Forgiving wedge — for 'chipping and bunkers are hard'</h3>" + \
 "<p>A wide-sole, forgiving wedge reduces fat shots. If you don't know the loft, a 56° sand wedge suits most golfers. Used Cleveland CBX ZipCore wedges started at $40.99, TaylorMade Qi wedges at $39.99, and a new PING S159 was $159.99.</p>" + \
 B.picks([("Forgiving wedge", "Cleveland CBX Zipcore Wedge (used)", "Used from $40.99 — a cavity back that loses less on mishits.")], ko=False) + \
 "<h3>Putter — just check the length</h3>" + \
 "<p>Measure their current putter from the grip end to the floor (usually 33–35\"). Larger mallet heads stay straighter on mishits. A used PING Redwood Piper S started at $49.99; the L.A.B. Golf MEZZ.1 Max was $329.00 new or from $183.99 used. To match the stroke too, try our <a href='/putter/'>putter calculator</a>.</p>" + \
-"<h2>4. Gifts that need specs — the secret check</h2>" + \
+"<h2>5. Gifts that need specs — the secret check</h2>" + \
 "<p>If they often say 'I've lost distance' or 'I can't get the ball up', a <b>hybrid</b> is usually the most helpful club: it replaces hard long irons and launches easily (see our <a href='/blog/senior-hybrids-2026'>hybrids for seniors</a> guide). The shaft flex has to match, and checking takes 30 seconds:</p>" + B.check([
  "Take the longest club (the driver) out of their bag.",
  "Find the letter on the shaft sticker: L, A (or SR), R, S, X.",
@@ -133,14 +157,14 @@ B.picks([("Forgiving wedge", "Cleveland CBX Zipcore Wedge (used)", "Used from $4
  "If you don't know the loft, about 22–25° (the 4- or 5-iron slot) is a safe choice — brands number them differently, so go by degrees."]) + \
 "<p>On Nov 14, used hybrids started at $36.99 (Callaway Rogue), $53.99 (Mizuno ST-Z 230) and $69.99 (Cobra DS-Adapt). A used Cobra DS-Adapt X driver started at $114.99, but a driver needs both flex and loft, so check with our <a href='/driver/'>driver calculator</a> first.</p>" + \
 B.picks([("For lost distance", "Callaway Rogue Hybrid (used)", "Used from $36.99 — buy the same flex letter you found.")], ko=False) + \
-"<h2>5. Pick by what they say</h2>" + B.table(["If they say…", "Gift", "Risk"], [
- ["\"I never know the yardage\"", "Rangefinder", S("None")],
+"<h2>6. Pick by what they say</h2>" + B.table(["If they say…", "Gift", "Risk"], [
+ ["\"I never know the yardage\"", "Rangefinder · GPS watch · (cart) GPS speaker", S("None")],
  ["\"I've lost distance\" / \"Can't get it up\"", "Hybrid (after the flex check)", Hh("Check")],
  ["\"Chipping and bunkers are hard\"", "Forgiving 56° wedge", M("Low")],
- ["\"My putting is off\"", "Mallet putter (check length)", M("Low")],
- ["\"My back hurts\" (walks)", "Lightweight stand bag", S("None")],
+ ["\"My putting is off\"", "Putting mat · mallet putter (check length)", M("Low")],
+ ["\"My back hurts\" (walks)", "Push cart · lightweight stand bag", S("None")],
  ["Not sure", "Golf ball gift set · rangefinder · gift card", S("None")]]) + \
-"<h2>6. Returns, shipping and the how-to card</h2>" + B.check([
+"<h2>7. Returns, shipping and the how-to card</h2>" + B.check([
  "Always check the return policy for used gear. For example, one store in our sources takes back used items bought online within 60 days in the same condition (credit or money back, one return per category per year); in-store purchases get 30 days.",
  "Holiday shipping cut-offs change every year — check the seller's notice before you order.",
  "If it's tight, a gift card plus a how-to card is the sure thing.",
@@ -163,6 +187,21 @@ P = dict(file="blog-golf-gifts-parents-2026.html", bg="gift", calc="gift",
   ("2nd Swing — Return policy", "https://2ndSwing.com/return-policy"),
   ("2nd Swing — Golf balls (Supersoft, Pro V1 prices)", "https://www.2ndswing.com/shop-all-golf-balls?p=5"),
   ("2nd Swing — Titleist Pro V1 Holiday 2-Dozen", "https://www.2ndswing.com/accessories/golf-balls/titleist-2025-pro-v1-holiday-2-dozen-golf-balls"),
+  ("2nd Swing — Golf GPS tech", "https://www.2ndswing.com/shop-all-golf-gps-tech"),
+  ("2nd Swing — Garmin Approach S44", "https://www.2ndswing.com/approach-s44-gpsw"),
+  ("2nd Swing — Bushnell Wingman speakers", "https://2ndswing.com/accessories/speakers/bushnell-wingman-speaker-speaker"),
+  ("2nd Swing — Bushnell Wingman View", "https://2ndswing.com/wingman-view-new-gps"),
+  ("2nd Swing — Push carts", "https://www.2ndswing.com/shop-all-push-pull-carts"),
+  ("2nd Swing — Bag Boy Compact 3 Wheel", "https://2ndswing.com/accessories/push-and-pull-carts/bag-boy-compact-3-wheel-push-and-pull-cart"),
+  ("2nd Swing — Clicgear Model 4.0", "https://www.2ndswing.com/accessories/clic-gear-push-pull-carts"),
+  ("2nd Swing — PuttOUT Pressure Putt Trainer", "https://2ndswing.com/accessories/training-aids/puttout-premium-pressure-putt-trainer-training-aid/press-putt-new-acc"),
+  ("2nd Swing — WELLPUTT 13ft Putting Mat", "https://www.2ndswing.com/black-c2692517"),
+  ("2nd Swing — Launch monitors", "https://www.2ndswing.com/shop-all-launch-monitors"),
+  ("Golf Digest — Shot Scope LM1 launch monitor", "https://www.golfdigest.com/story/shot-scope-lm1-launch-monitor-release"),
+  ("MyGolfSpy — Best golf gifts for dad", "https://mygolfspy.com/news-opinion/best-golf-gifts-for-dad/"),
+  ("Golf Monthly — 13 gifts a dad wants", "https://www.golfmonthly.com/buying-advice/as-a-dad-these-are-the-13-gifts-i-want-to-receive-this-fathers-day"),
+  ("PlayBetter — Best golf gifts for dads", "https://www.playbetter.com/blogs/golf-tech-news/best-golf-gifts-for-dads"),
+  ("GOLF.com — Father's Day gift guide (GPS watch, Wingman)", "https://golf.com/gear/ultimate-fathers-day-gift-guide-2023/?amp=1"),
   ("Golf Galaxy — Personalized golf balls (prices)", "https://www.golfgalaxy.com/f/12-pack-golf-balls-3645-1489572"),
   ("GolfLink — Golf gift cards (why golfers prefer choosing specs)", "https://golflink.com/equipment/golf-gift-cards-2898431")])
 html = B.page(P).replace(' href="/gift/" target="_blank" rel="noopener"', ' href="/gift/"')
