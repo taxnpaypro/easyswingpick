@@ -33,6 +33,7 @@ KO = STY + B.tldr("핵심 요약", [
 "<p>골프공은 매 라운드 쓰고 잃어버리는 소모품이라, 받아서 싫어하는 골퍼가 거의 없습니다. 고르는 기준은 하나입니다. <b>스윙이 빠르지 않은 분(대부분의 시니어)은 부드러운 공</b>, 핸디캡이 낮고 잘 치는 분은 투어용 공이 맞습니다.</p>" + \
 B.table(["공", "이런 분께", "가격 (11/14, 12개)"], [
  ["Callaway Supersoft", "스윙이 느린 분, 시니어 · 부드러운 타구감", "$27.99"],
+ ["Bridgestone Tour B RX", "스윙 스피드 105mph 이하용 투어 공 (MyGolfSpy 추천)", "$49.99"],
  ["Titleist Pro V1", "잘 치는 분 · 가장 많이 쓰이는 투어용 공", "$57.99"],
  ["Titleist Pro V1 Holiday 2-Dozen", "연말 선물 상자 (24개)", "$99.99"]]) + \
 B.picks([("시니어·느린 스윙", "Callaway 2025 Supersoft Golf Balls", "12개 $27.99. 부드러운 저압축 공이라 힘을 덜 들여도 잘 날아갑니다."),
@@ -54,11 +55,11 @@ B.picks([("예산 $75 이하", "Callaway 300 Pro Rangefinder (중고)", "중고 
 "<h3>가벼운 스탠드백 — 걸어서 라운드하는 분께</h3>" + \
 "<p>카트를 타는 분에게는 큰 의미가 없지만, 걸어 다니는 분에게는 어깨·허리 부담을 줄여 줍니다. 11월 14일 기준 Titleist Players 4 Carbon(2022) 새 제품이 $99.99(정가 표시 $269.99), PING Hoofer Lite가 $119.99였습니다.</p>" + \
 "<h2>3. 골프 매체들이 추천하는 인기 선물, 가격까지 확인했습니다</h2>" + \
-"<p>2026년 골프 선물 가이드(MyGolfSpy, Golf Monthly, GOLF.com, PlayBetter 등)에 자주 나오는 선물을 모아, 미국 골프 매장에서 실제로 파는지와 11월 14일 가격을 대조했습니다. 모두 사이즈가 필요 없는 선물입니다.</p>" + \
+"<p>MyGolfSpy가 11월 2일 낸 '2026 최고의 골프 선물'(143가지)과 Golf Monthly, GOLF.com, PlayBetter 등의 선물 가이드에 나온 선물 중, 부모님 세대에 맞고 사이즈가 필요 없는 것을 골라 미국 골프 매장에서 실제로 파는지와 11월 14일 가격을 대조했습니다. 옷·신발·장갑처럼 사이즈가 필요한 선물은 뺐습니다.</p>" + \
 B.table(["선물", "이런 분께", "확인한 모델 · 가격"], [
- ["GPS 골프 시계", "거리측정기 조준이 어려운 분, 손목으로 보고 싶은 분", "Garmin Approach S44 새 제품 $249.99 (코스 4만3천 곳 내장, 그린 앞·중앙·뒤 거리)"],
+ ["GPS 골프 시계·기기", "거리측정기 조준이 어려운 분", "Garmin Approach S12 $149.99, Shot Scope H50 휴대형 $199.99, Garmin Approach S44 $249.99, S70 $649.99 (MyGolfSpy 추천)"],
  ["GPS 골프 스피커", "카트 타는 분, 음악 좋아하는 분", "Bushnell Wingman 새 제품 $149.99 · 중고 $55.99부터, Wingman View $199.99"],
- ["푸시카트", "걸어서 라운드하는 분", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99"],
+ ["푸시카트", "걸어서 라운드하는 분", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99, Bag Boy Nitron $319.95"],
  ["퍼팅 연습기·매트", "겨울에 집에서 연습하고 싶은 분", "PuttOUT Pressure Putt Trainer $39.99, WELLPUTT 13ft 매트 $169.00"],
  ["개인용 론치 모니터", "내 스피드와 거리가 궁금한 분", "Shot Scope LM1 $199.99, Garmin Approach R10 $499.99"]]) + \
 "<p>특히 <b>Shot Scope LM1</b>은 공 뒤 약 1.8m(6피트)에 두고 치면 클럽 스피드, 볼 스피드, 캐리·총 거리 같은 핵심 수치 5가지를 보여 주고, 휴대폰 없이도 쓸 수 있는 약 $200짜리 제품입니다(Golf Digest). 여기서 나온 스피드를 저희 <a href='/driver/'>드라이버 계산기</a>에 넣으면 맞는 샤프트와 모델까지 바로 이어집니다. 푸시카트는 일반 클럽과 반품 조건이 다를 수 있으니 주문 전에 확인하세요.</p>" + \
@@ -70,7 +71,7 @@ B.picks([("카트 타는 분께", "Bushnell Wingman Speaker", "새 제품 $149.9
 "<p>바닥이 넓고 관용성이 높은 웨지는 뒤땅을 줄여 줍니다. 로프트를 모르면 56°(샌드웨지)가 가장 무난합니다. 중고 Cleveland CBX ZipCore가 $40.99부터, TaylorMade Qi 웨지가 $39.99부터, 새 PING S159가 $159.99였습니다.</p>" + \
 B.picks([("관용성 높은 웨지", "Cleveland CBX Zipcore Wedge (중고)", "중고 $40.99부터. 캐비티 뒷면으로 빗맞아도 거리 손실이 적은 편입니다.")], ko=True) + \
 "<h3>퍼터 — 길이만 확인하세요</h3>" + \
-"<p>지금 퍼터의 그립 끝부터 바닥까지 줄자로 재면 됩니다(보통 33~35인치). 헤드가 큰 말렛형이 빗맞아도 방향이 덜 흔들립니다. 중고 PING Redwood Piper S가 $49.99부터, L.A.B. Golf MEZZ.1 Max는 새 제품 $329.00·중고 $183.99부터였습니다. 스트로크 모양까지 맞추려면 <a href='/putter/'>퍼터 계산기</a>를 함께 보세요.</p>" + \
+"<p>지금 퍼터의 그립 끝부터 바닥까지 줄자로 재면 됩니다(보통 33~35인치). 헤드가 큰 말렛형이 빗맞아도 방향이 덜 흔들립니다. 시니어에게는 <b>Cleveland HB Soft 2 Retreve</b>(새 제품 $149.99)가 특히 좋습니다. 퍼터 헤드로 홀에서 공을 꺼낼 수 있어 허리를 숙이지 않아도 됩니다. 그 밖에 중고 PING Redwood Piper S가 $49.99부터, L.A.B. Golf MEZZ.1 Max는 새 제품 $329.00·중고 $183.99부터였습니다. 스트로크 모양까지 맞추려면 <a href='/putter/'>퍼터 계산기</a>를 함께 보세요.</p>" + \
 "<h2>5. 정보가 필요한 선물 — 몰래 확인하는 법</h2>" + \
 "<p>'거리가 줄었다', '공이 안 뜬다'는 말씀을 자주 하신다면 가장 효과가 큰 선물은 <b>하이브리드</b>입니다. 롱아이언 대신 쓰면 공이 쉽게 뜹니다(자세한 비교는 <a href='/blog/senior-hybrids-2026'>시니어 하이브리드 글</a>). 다만 샤프트 강도가 맞아야 합니다. 30초면 확인할 수 있습니다.</p>" + B.check([
  "골프백에서 가장 긴 채(드라이버)를 꺼냅니다.",
@@ -111,6 +112,7 @@ EN = STY + B.tldr("Key takeaways", [
 "<p>Balls get used and lost every round, so almost no golfer minds getting more. One rule: <b>soft balls for slower swings (most seniors)</b>, tour balls for low-handicap players.</p>" + \
 B.table(["Ball", "Best for", "Price (11/14, dozen)"], [
  ["Callaway Supersoft", "Slower swings, seniors · soft feel", "$27.99"],
+ ["Bridgestone Tour B RX", "Tour ball made for swing speeds under 105 mph (a MyGolfSpy top pick)", "$49.99"],
  ["Titleist Pro V1", "Better players · the most-played tour ball", "$57.99"],
  ["Titleist Pro V1 Holiday 2-Dozen", "Holiday gift box (24 balls)", "$99.99"]]) + \
 B.picks([("Seniors · slower swings", "Callaway 2025 Supersoft Golf Balls", "$27.99 a dozen. Soft, low-compression balls that fly well without a fast swing."),
@@ -132,11 +134,11 @@ B.picks([("Under $75", "Callaway 300 Pro Rangefinder (used)", "Used from $62.99 
 "<h3>Lightweight stand bag — for walkers</h3>" + \
 "<p>Little use for cart riders, but it eases the shoulders and back for golfers who walk. On November 14, a new Titleist Players 4 Carbon (2022) was $99.99 (listed was $269.99) and the PING Hoofer Lite was $119.99.</p>" + \
 "<h2>3. Popular gifts from the 2026 guides — prices checked</h2>" + \
-"<p>We gathered the gifts that keep showing up in 2026 golf gift guides (MyGolfSpy, Golf Monthly, GOLF.com, PlayBetter and others) and checked whether US golf retailers actually stock them and what they cost on November 14. None of these need sizes.</p>" + \
+"<p>From MyGolfSpy's 'Best Golf Gifts of 2026' (143 gifts, published Nov 2) and guides from Golf Monthly, GOLF.com, PlayBetter and others, we picked the gifts that suit parents and need no sizes, then checked whether US golf retailers stock them and what they cost on November 14. Clothing, shoes and gloves were left out because they need sizes.</p>" + \
 B.table(["Gift", "Best for", "Model checked · price"], [
- ["GPS golf watch", "Anyone who finds aiming a laser hard", "Garmin Approach S44 new $249.99 (43,000+ courses, front/middle/back yardages)"],
+ ["GPS golf watch / device", "Anyone who finds aiming a laser hard", "Garmin Approach S12 $149.99, Shot Scope H50 handheld $199.99, Garmin Approach S44 $249.99, S70 $649.99 (a MyGolfSpy top pick)"],
  ["GPS golf speaker", "Cart riders who like music", "Bushnell Wingman new $149.99 · used from $55.99; Wingman View $199.99"],
- ["Push cart", "Golfers who walk", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99"],
+ ["Push cart", "Golfers who walk", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99, Bag Boy Nitron $319.95"],
  ["Putting trainer / mat", "Winter practice at home", "PuttOUT Pressure Putt Trainer $39.99, WELLPUTT 13ft mat $169.00"],
  ["Personal launch monitor", "Golfers curious about their speed", "Shot Scope LM1 $199.99, Garmin Approach R10 $499.99"]]) + \
 "<p>The <b>Shot Scope LM1</b> stands out: set it about six feet behind the ball and it shows five key numbers — club speed, ball speed, smash factor, carry and total distance — with no phone needed, for about $200 (Golf Digest). Put that speed into our <a href='/driver/'>driver calculator</a> to get shaft and model picks. Push carts can have different return terms from clubs, so check before ordering.</p>" + \
@@ -148,7 +150,7 @@ B.picks([("For cart riders", "Bushnell Wingman Speaker", "New $149.99, used from
 "<p>A wide-sole, forgiving wedge reduces fat shots. If you don't know the loft, a 56° sand wedge suits most golfers. Used Cleveland CBX ZipCore wedges started at $40.99, TaylorMade Qi wedges at $39.99, and a new PING S159 was $159.99.</p>" + \
 B.picks([("Forgiving wedge", "Cleveland CBX Zipcore Wedge (used)", "Used from $40.99 — a cavity back that loses less on mishits.")], ko=False) + \
 "<h3>Putter — just check the length</h3>" + \
-"<p>Measure their current putter from the grip end to the floor (usually 33–35\"). Larger mallet heads stay straighter on mishits. A used PING Redwood Piper S started at $49.99; the L.A.B. Golf MEZZ.1 Max was $329.00 new or from $183.99 used. To match the stroke too, try our <a href='/putter/'>putter calculator</a>.</p>" + \
+"<p>Measure their current putter from the grip end to the floor (usually 33–35\"). Larger mallet heads stay straighter on mishits. For seniors, the <b>Cleveland HB Soft 2 Retreve</b> ($149.99 new) is a standout: its head can pick the ball out of the cup, so no bending over. A used PING Redwood Piper S started at $49.99; the L.A.B. Golf MEZZ.1 Max was $329.00 new or from $183.99 used. To match the stroke too, try our <a href='/putter/'>putter calculator</a>.</p>" + \
 "<h2>5. Gifts that need specs — the secret check</h2>" + \
 "<p>If they often say 'I've lost distance' or 'I can't get the ball up', a <b>hybrid</b> is usually the most helpful club: it replaces hard long irons and launches easily (see our <a href='/blog/senior-hybrids-2026'>hybrids for seniors</a> guide). The shaft flex has to match, and checking takes 30 seconds:</p>" + B.check([
  "Take the longest club (the driver) out of their bag.",
@@ -197,6 +199,13 @@ P = dict(file="blog-golf-gifts-parents-2026.html", bg="gift", calc="gift",
   ("2nd Swing — PuttOUT Pressure Putt Trainer", "https://2ndswing.com/accessories/training-aids/puttout-premium-pressure-putt-trainer-training-aid/press-putt-new-acc"),
   ("2nd Swing — WELLPUTT 13ft Putting Mat", "https://www.2ndswing.com/black-c2692517"),
   ("2nd Swing — Launch monitors", "https://www.2ndswing.com/shop-all-launch-monitors"),
+  ("MyGolfSpy — The best golf gifts of 2026 (Nov 2, 2026)", "https://mygolfspy.com/news-opinion/the-best-golf-gifts-of-2026/"),
+  ("2nd Swing — GPS watches", "https://www.2ndswing.com/shop-all-gps-watches"),
+  ("2nd Swing — Garmin Approach S12", "https://2ndswing.com/accessories/gps-watches/garmin-approach-s12-gps-watch/approach-s12-new-gps"),
+  ("2nd Swing — Bridgestone Tour B RX", "https://2ndswing.com/accessories/golf-balls/bridgestone-2024-tour-b-rx-golf-balls"),
+  ("2nd Swing — TaylorMade Tour Response", "https://2ndswing.com/accessories/golf-balls/taylormade-2025-tour-response-golf-balls"),
+  ("2nd Swing — Cleveland HB Soft 2 Retreve", "https://2ndswing.com/golf-clubs/putters/cleveland-hb-soft-2-retreve-putter/hb-s-2-retr-new-put"),
+  ("Sport Chek — Retreve picks the ball out of the hole", "https://www.sportchek.ca/en/pdp/cleveland-hb-soft-2-retreve-os-men-s-35-inch-putter-80965651f.html"),
   ("Golf Digest — Shot Scope LM1 launch monitor", "https://www.golfdigest.com/story/shot-scope-lm1-launch-monitor-release"),
   ("MyGolfSpy — Best golf gifts for dad", "https://mygolfspy.com/news-opinion/best-golf-gifts-for-dad/"),
   ("Golf Monthly — 13 gifts a dad wants", "https://www.golfmonthly.com/buying-advice/as-a-dad-these-are-the-13-gifts-i-want-to-receive-this-fathers-day"),
