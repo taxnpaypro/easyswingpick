@@ -60,7 +60,7 @@ B.table(["선물", "이런 분께", "확인한 모델 · 가격"], [
  ["GPS 골프 시계·기기", "거리측정기 조준이 어려운 분", "Garmin Approach S12 $149.99, Shot Scope H50 휴대형 $199.99, Garmin Approach S44 $249.99, S70 $649.99 (MyGolfSpy 추천)"],
  ["GPS 골프 스피커", "카트 타는 분, 음악 좋아하는 분", "Bushnell Wingman 새 제품 $149.99 · 중고 $55.99부터, Wingman View $199.99"],
  ["푸시카트", "걸어서 라운드하는 분", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99, Bag Boy Nitron $319.95"],
- ["퍼팅 연습기·매트", "겨울에 집에서 연습하고 싶은 분", "PuttOUT Pressure Putt Trainer $39.99, WELLPUTT 13ft 매트 $169.00"],
+ ["퍼팅 연습기·매트", "겨울에 집에서 연습하고 싶은 분", "PuttOUT Pressure Putt Trainer $39.99, PuttOUT 미디엄 매트 $89.99, WELLPUTT 13ft 매트 $169.00"],
  ["개인용 론치 모니터", "내 스피드와 거리가 궁금한 분", "Shot Scope LM1 $199.99, Garmin Approach R10 $499.99"]]) + \
 "<p>특히 <b>Shot Scope LM1</b>은 공 뒤 약 1.8m(6피트)에 두고 치면 클럽 스피드, 볼 스피드, 캐리·총 거리 같은 핵심 수치 5가지를 보여 주고, 휴대폰 없이도 쓸 수 있는 약 $200짜리 제품입니다(Golf Digest). 여기서 나온 스피드를 저희 <a href='/driver/'>드라이버 계산기</a>에 넣으면 맞는 샤프트와 모델까지 바로 이어집니다. 푸시카트는 일반 클럽과 반품 조건이 다를 수 있으니 주문 전에 확인하세요.</p>" + \
 B.picks([("카트 타는 분께", "Bushnell Wingman Speaker", "새 제품 $149.99, 중고 $55.99부터. 음악과 그린까지 거리를 함께."),
@@ -73,6 +73,7 @@ B.picks([("관용성 높은 웨지", "Cleveland CBX Zipcore Wedge (중고)", "�
 "<h3>퍼터 — 길이만 확인하세요</h3>" + \
 "<p>지금 퍼터의 그립 끝부터 바닥까지 줄자로 재면 됩니다(보통 33~35인치). 헤드가 큰 말렛형이 빗맞아도 방향이 덜 흔들립니다. 시니어에게는 <b>Cleveland HB Soft 2 Retreve</b>(새 제품 $149.99)가 특히 좋습니다. 퍼터 헤드로 홀에서 공을 꺼낼 수 있어 허리를 숙이지 않아도 됩니다. 그 밖에 중고 PING Redwood Piper S가 $49.99부터, L.A.B. Golf MEZZ.1 Max는 새 제품 $329.00·중고 $183.99부터였습니다. 스트로크 모양까지 맞추려면 <a href='/putter/'>퍼터 계산기</a>를 함께 보세요.</p>" + \
 "<h2>5. 정보가 필요한 선물 — 몰래 확인하는 법</h2>" + \
+"<p>골프 매장에서 일했던 Today's Golfer 기자의 조언: 골프 이야기를 물어보면 대부분 반가워할 뿐 선물 때문이라고 눈치채지 못합니다. 그래도 걱정되면 함께 라운드하는 친구분께 물어보세요. 골프백 옆에 클럽 청소 브러시가 달려 있는지도 한눈에 보이니, 없다면 작은 추가 선물로 좋습니다.</p>" + \
 "<p>'거리가 줄었다', '공이 안 뜬다'는 말씀을 자주 하신다면 가장 효과가 큰 선물은 <b>하이브리드</b>입니다. 롱아이언 대신 쓰면 공이 쉽게 뜹니다(자세한 비교는 <a href='/blog/senior-hybrids-2026'>시니어 하이브리드 글</a>). 다만 샤프트 강도가 맞아야 합니다. 30초면 확인할 수 있습니다.</p>" + B.check([
  "골프백에서 가장 긴 채(드라이버)를 꺼냅니다.",
  "샤프트(막대) 위쪽 스티커에서 글자를 찾습니다: L, A(또는 SR), R, S, X",
@@ -139,7 +140,7 @@ B.table(["Gift", "Best for", "Model checked · price"], [
  ["GPS golf watch / device", "Anyone who finds aiming a laser hard", "Garmin Approach S12 $149.99, Shot Scope H50 handheld $199.99, Garmin Approach S44 $249.99, S70 $649.99 (a MyGolfSpy top pick)"],
  ["GPS golf speaker", "Cart riders who like music", "Bushnell Wingman new $149.99 · used from $55.99; Wingman View $199.99"],
  ["Push cart", "Golfers who walk", "Bag Boy Compact 3 Wheel $219.95, Bag Boy Quad Pro $249.99, Clicgear Model 4.0 $299.99, Bag Boy Nitron $319.95"],
- ["Putting trainer / mat", "Winter practice at home", "PuttOUT Pressure Putt Trainer $39.99, WELLPUTT 13ft mat $169.00"],
+ ["Putting trainer / mat", "Winter practice at home", "PuttOUT Pressure Putt Trainer $39.99, PuttOUT Medium mat $89.99, WELLPUTT 13ft mat $169.00"],
  ["Personal launch monitor", "Golfers curious about their speed", "Shot Scope LM1 $199.99, Garmin Approach R10 $499.99"]]) + \
 "<p>The <b>Shot Scope LM1</b> stands out: set it about six feet behind the ball and it shows five key numbers — club speed, ball speed, smash factor, carry and total distance — with no phone needed, for about $200 (Golf Digest). Put that speed into our <a href='/driver/'>driver calculator</a> to get shaft and model picks. Push carts can have different return terms from clubs, so check before ordering.</p>" + \
 B.picks([("For cart riders", "Bushnell Wingman Speaker", "New $149.99, used from $55.99. Music plus yardages to the green."),
@@ -152,6 +153,7 @@ B.picks([("Forgiving wedge", "Cleveland CBX Zipcore Wedge (used)", "Used from $4
 "<h3>Putter — just check the length</h3>" + \
 "<p>Measure their current putter from the grip end to the floor (usually 33–35\"). Larger mallet heads stay straighter on mishits. For seniors, the <b>Cleveland HB Soft 2 Retreve</b> ($149.99 new) is a standout: its head can pick the ball out of the cup, so no bending over. A used PING Redwood Piper S started at $49.99; the L.A.B. Golf MEZZ.1 Max was $329.00 new or from $183.99 used. To match the stroke too, try our <a href='/putter/'>putter calculator</a>.</p>" + \
 "<h2>5. Gifts that need specs — the secret check</h2>" + \
+"<p>A tip from Today's Golfer, whose writer worked in golf retail: most golfers are just happy to talk golf and won't guess it's about a gift. If you're worried, ask a regular playing partner instead. You can also glance at their bag: a club-cleaning brush clips to the side, so if there isn't one, it makes a cheap, handy add-on.</p>" + \
 "<p>If they often say 'I've lost distance' or 'I can't get the ball up', a <b>hybrid</b> is usually the most helpful club: it replaces hard long irons and launches easily (see our <a href='/blog/senior-hybrids-2026'>hybrids for seniors</a> guide). The shaft flex has to match, and checking takes 30 seconds:</p>" + B.check([
  "Take the longest club (the driver) out of their bag.",
  "Find the letter on the shaft sticker: L, A (or SR), R, S, X.",
@@ -199,6 +201,8 @@ P = dict(file="blog-golf-gifts-parents-2026.html", bg="gift", calc="gift",
   ("2nd Swing — PuttOUT Pressure Putt Trainer", "https://2ndswing.com/accessories/training-aids/puttout-premium-pressure-putt-trainer-training-aid/press-putt-new-acc"),
   ("2nd Swing — WELLPUTT 13ft Putting Mat", "https://www.2ndswing.com/black-c2692517"),
   ("2nd Swing — Launch monitors", "https://www.2ndswing.com/shop-all-launch-monitors"),
+  ("Today's Golfer — Best golf gifts 2026", "https://www.todays-golfer.com/equipment/best/golf-gifts/"),
+  ("2nd Swing — PuttOUT Medium Putting Mat", "https://www.2ndswing.com/med-mat-new-acc"),
   ("MyGolfSpy — The best golf gifts of 2026 (Nov 2, 2026)", "https://mygolfspy.com/news-opinion/the-best-golf-gifts-of-2026/"),
   ("2nd Swing — GPS watches", "https://www.2ndswing.com/shop-all-gps-watches"),
   ("2nd Swing — Garmin Approach S12", "https://2ndswing.com/accessories/gps-watches/garmin-approach-s12-gps-watch/approach-s12-new-gps"),
