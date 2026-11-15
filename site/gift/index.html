@@ -7,7 +7,7 @@
 <meta name="description" content="Not a golfer? Answer 5 quick taps and get 3 golf gifts that won't miss — ranked by how safe they are without knowing sizes, plus how to secretly check specs and a Korean how-to card for parents. 골프를 몰라도 실패 없는 부모님 골프 선물 고르기.">
 <link rel="canonical" href="https://easyswingpick.com/gift/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>
 <style>
 :root{--navy:#0f2a3d;--navy-2:#173b55;--ink:#15212b;--muted:#64727d;--line:#e3e8ec;--bg:#f3f5f7;--card:#fff;--green:#178a5b;--green-l:#e6f4ee;--gold:#c89b3c;--gold-l:#fbf4e4;--red:#b3412e;--red-l:#fdecea;--r:16px;--shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06)}
@@ -257,10 +257,20 @@ function wrap(x,text,max){var out=[],cur="";String(text).split(/(\s+)/).forEach(
   var res=[];out.forEach(function(line){while(x.measureText(line).width>max){var n=line.length;while(n>1&&x.measureText(line.slice(0,n)).width>max)n--;res.push(line.slice(0,n));line=line.slice(n);}res.push(line);});return res;}
 function rr(x,l,t,w,h,r){x.beginPath();x.moveTo(l+r,t);x.arcTo(l+w,t,l+w,t+h,r);x.arcTo(l+w,t+h,l,t+h,r);x.arcTo(l,t+h,l,t,r);x.arcTo(l,t,l+w,t,r);x.closePath();}
 function makeCard(sel){
-  var SERIF="'Noto Serif KR', 'Noto Serif CJK KR', 'Nanum Myeongjo', 'AppleMyungjo', Georgia, serif";
-  var go=function(){drawCard(sel,SERIF);};
-  /* the serif font must be loaded before drawing on canvas (fall back after 1.5s) */
-  try{Promise.race([Promise.all([document.fonts.load("700 80px 'Noto Serif KR'","아버지께 Dad"),document.fonts.load("500 40px 'Noto Serif KR'","가")]),new Promise(function(r){setTimeout(r,1500);})]).then(go,go);}catch(e){go();}
+  /* handwriting font (Nanum Pen Script, OFL) for the greeting, wish and signature.
+     Google Fonts first; if it isn't ready in time, our own copy (/assets/fonts) is loaded. */
+  var PEN="'Nanum Pen Script', 'EspPen', cursive", txt=(document.getElementById("toN").value||"")+(document.getElementById("fromN").value||"")+T[L()].wish+"께드림 To Love,";
+  var go=function(){drawCard(sel,PEN);};
+  function timeout(ms){return new Promise(function(r){setTimeout(r,ms);});}
+  /* fonts.check() is also true when the font isn't defined at all, so look for a really loaded face */
+  function ok(){try{var r=false;document.fonts.forEach(function(f){if(/Nanum Pen Script|EspPen/.test(f.family)&&f.status==="loaded")r=true;});return r;}catch(e){return false;}}
+  try{
+    Promise.race([document.fonts.load("60px 'Nanum Pen Script'",txt),timeout(1500)]).then(function(){
+      if(ok())return go();
+      var f=new FontFace("EspPen","url(/assets/fonts/NanumPenScript.woff) format('woff')");
+      Promise.race([f.load().then(function(ff){document.fonts.add(ff);}),timeout(4000)]).then(go,go);
+    },go);
+  }catch(e){go();}
 }
 function drawCard(sel,SERIF){
   var l=L(),t=T[l],g=G[sel.id][l],to=(document.getElementById("toN").value||"").trim(),fr=(document.getElementById("fromN").value||"").trim();
@@ -278,16 +288,16 @@ function drawCard(sel,SERIF){
   x.fillStyle=GOLD;x.beginPath();x.moveTo(W-188,122);x.lineTo(W-120,146);x.lineTo(W-188,170);x.closePath();x.fill();
   x.fillStyle="#fff";x.beginPath();x.arc(W-236,256,9,0,2*Math.PI);x.fill();
   /* measure the content first so it sits centred in the frame */
-  x.font="700 96px "+SERIF;var nG=Math.min(2,wrap(x,t.cardHi(to),W-380).length);x.font="500 40px "+SERIF;var nW=Math.min(2,wrap(x,t.wish,W-220).length);
+  x.font="400 168px "+SERIF;var nG=Math.min(2,wrap(x,t.cardHi(to),W-380).length);x.font="400 72px "+SERIF;var nW=Math.min(2,wrap(x,t.wish,W-220).length);
   var steps0=g.how.split(/(?<=[.!?。])\s+/).filter(Boolean).slice(0,3);x.font="500 37px "+F;
   var nL=steps0.map(function(q){return Math.min(3,wrap(x,q,W-2*130-90).length);});x.font="600 32px "+F;var nT=Math.min(2,wrap(x,g.tip,W-2*130-120).length);
   var phM=150+nL.reduce(function(a,n){return a+n*52+22;},0)+nT*44+44;
-  var total=(270+nG*110-18+nW*56-30)+6+44+phM+(fr?150:0);
+  var total=(280+nG*118-18+nW*66-30)+6+44+phM+(fr?150:0);
   var dy=Math.max(0,Math.min(120,(H-130-total)/2));
   /* greeting */
   x.textBaseline="alphabetic";x.save();x.translate(0,dy);x.fillStyle=GOLD;x.font="700 26px "+F;var lab=l==="ko"?"G I F T   ·   선 물":"A   G I F T   F O R   Y O U";x.fillText(lab,110,150);
-  x.fillStyle="#fff";x.font="700 96px "+SERIF;var y=270;wrap(x,t.cardHi(to),W-380).slice(0,2).forEach(function(s){x.fillText(s,110,y);y+=110;});
-  x.fillStyle="rgba(255,255,255,.82)";x.font="500 40px "+SERIF;wrap(x,t.wish,W-220).slice(0,2).forEach(function(s){x.fillText(s,110,y-18);y+=56;});
+  x.fillStyle="#fff";x.font="400 168px "+SERIF;var y=280;wrap(x,t.cardHi(to),W-380).slice(0,2).forEach(function(s){x.fillText(s,110,y);y+=118;});
+  x.fillStyle="rgba(255,255,255,.88)";x.font="400 72px "+SERIF;wrap(x,t.wish,W-220).slice(0,2).forEach(function(s){x.fillText(s,110,y-14);y+=66;});
   /* divider with a golf ball */
   y+=6;x.strokeStyle="rgba(212,175,106,.7)";x.lineWidth=2;x.beginPath();x.moveTo(110,y);x.lineTo(W/2-22,y);x.moveTo(W/2+22,y);x.lineTo(W-110,y);x.stroke();
   x.fillStyle="#fff";x.beginPath();x.arc(W/2,y,11,0,2*Math.PI);x.fill();x.strokeStyle=GOLD;x.lineWidth=2;x.stroke();
@@ -305,7 +315,7 @@ function drawCard(sel,SERIF){
   x.fillStyle="#e3eee6";rr(x,130,yy-40,W-260,tipL.length*44+18,14);x.fill();
   x.fillStyle="#178a5b";x.font="800 22px "+F;x.fillText("TIP",150,yy-2);x.font="600 32px "+F;x.fillStyle="#1f5a43";tipL.forEach(function(s){x.fillText(s,215,yy);yy+=44;});
   /* signature right under the panel, footer pinned to the frame */
-  if(fr){x.fillStyle=GOLD;x.font="700 50px "+SERIF;var ft=t.cardFrom(fr);x.fillText(ft,W-110-x.measureText(ft).width,Math.min(py+ph+110,H-140-dy));}
+  if(fr){x.fillStyle=GOLD;x.font="400 92px "+SERIF;var ft=t.cardFrom(fr);x.fillText(ft,W-110-x.measureText(ft).width,Math.min(py+ph+110,H-140-dy));}
   x.restore();
   x.fillStyle="rgba(255,255,255,.4)";x.font="500 24px "+F;x.fillText("easyswingpick.com/gift",110,H-92);
   c.toBlob(function(blob){

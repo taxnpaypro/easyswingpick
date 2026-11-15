@@ -18,6 +18,7 @@ SLUGS = list(POSTF.values()) + sorted(os.path.basename(p)[5:-5] for p in __impor
 
 # ---------- assets ----------
 shutil.copytree(f"{H}/site/img", f"{OUT}/assets/img")
+shutil.copytree(f"{H}/site/fonts", f"{OUT}/assets/fonts")   # self-hosted OFL fonts (gift card handwriting)
 shutil.copy(f"{H}/logo/c.svg", f"{OUT}/assets/logo.svg")
 shutil.copy(f"{H}/logo/c.svg", f"{OUT}/assets/favicon.svg")
 shutil.copy(f"{H}/logo/wordmark.svg", f"{OUT}/assets/wordmark.svg")
