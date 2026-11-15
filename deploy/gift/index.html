@@ -7,7 +7,7 @@
 <meta name="description" content="Not a golfer? Answer 5 quick taps and get 3 golf gifts that won't miss — ranked by how safe they are without knowing sizes, plus how to secretly check specs and a Korean how-to card for parents. 골프를 몰라도 실패 없는 부모님 골프 선물 고르기.">
 <link rel="canonical" href="https://easyswingpick.com/gift/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
 <script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>
 <style>
 :root{--navy:#0f2a3d;--navy-2:#173b55;--ink:#15212b;--muted:#64727d;--line:#e3e8ec;--bg:#f3f5f7;--card:#fff;--green:#178a5b;--green-l:#e6f4ee;--gold:#c89b3c;--gold-l:#fbf4e4;--red:#b3412e;--red-l:#fdecea;--r:16px;--shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06)}
@@ -256,19 +256,59 @@ function alertBox(msg){var o=document.getElementById("out");o.innerHTML='<div cl
 function wrap(x,text,max){var out=[],cur="";String(text).split(/(\s+)/).forEach(function(w){var t=cur+w;if(x.measureText(t).width>max&&cur.trim()){out.push(cur.trim());cur=w.trim();}else cur=t;});if(cur.trim())out.push(cur.trim());
   /* Korean lines without spaces: hard-wrap by characters */
   var res=[];out.forEach(function(line){while(x.measureText(line).width>max){var n=line.length;while(n>1&&x.measureText(line.slice(0,n)).width>max)n--;res.push(line.slice(0,n));line=line.slice(n);}res.push(line);});return res;}
+function rr(x,l,t,w,h,r){x.beginPath();x.moveTo(l+r,t);x.arcTo(l+w,t,l+w,t+h,r);x.arcTo(l+w,t+h,l,t+h,r);x.arcTo(l,t+h,l,t,r);x.arcTo(l,t,l+w,t,r);x.closePath();}
 function makeCard(sel){
+  var SERIF="'Noto Serif KR', 'Noto Serif CJK KR', 'Nanum Myeongjo', 'AppleMyungjo', Georgia, serif";
+  var go=function(){drawCard(sel,SERIF);};
+  /* the serif font must be loaded before drawing on canvas (fall back after 1.5s) */
+  try{Promise.race([Promise.all([document.fonts.load("700 80px 'Noto Serif KR'","아버지께 Dad"),document.fonts.load("500 40px 'Noto Serif KR'","가")]),new Promise(function(r){setTimeout(r,1500);})]).then(go,go);}catch(e){go();}
+}
+function drawCard(sel,SERIF){
   var l=L(),t=T[l],g=G[sel.id][l],to=(document.getElementById("toN").value||"").trim(),fr=(document.getElementById("fromN").value||"").trim();
   var W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d"),F="Inter, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
-  x.fillStyle="#fbf7ee";x.fillRect(0,0,W,H);x.fillStyle="#0f2a3d";x.fillRect(0,0,W,28);x.fillRect(0,H-28,W,28);
-  x.fillStyle="#c89b3c";x.fillRect(90,110,110,10);
-  x.fillStyle="#0f2a3d";x.font="800 92px "+F;var y=230;wrap(x,t.cardHi(to),W-180).slice(0,2).forEach(function(s){x.fillText(s,90,y);y+=104;});
-  y+=10;x.fillStyle="#173b55";x.font="600 44px "+F;wrap(x,t.wish,W-180).slice(0,2).forEach(function(s){x.fillText(s,90,y);y+=60;});
-  y+=40;x.fillStyle="#c89b3c";x.font="800 50px "+F;x.fillText("🎁 "+g.n,90,y);y+=70;
-  x.fillStyle="#64727d";x.font="700 34px "+F;x.fillText(t.cardUse,90,y);y+=62;
-  x.fillStyle="#15212b";x.font="500 46px "+F;wrap(x,g.how,W-180).slice(0,6).forEach(function(s){x.fillText(s,90,y);y+=66;});
-  y+=24;x.fillStyle="#178a5b";x.font="700 40px "+F;wrap(x,"💡 "+g.tip,W-180).slice(0,2).forEach(function(s){x.fillText(s,90,y);y+=56;});
-  if(fr){x.fillStyle="#0f2a3d";x.font="800 50px "+F;var ft=t.cardFrom(fr);x.fillText(ft,W-90-x.measureText(ft).width,H-150);}
-  x.fillStyle="#9aa8b3";x.font="500 28px "+F;x.fillText(t.cardFoot,90,H-70);
+  var GOLD="#d4af6a",NAVY="#0f2a3d";
+  /* background: deep navy-green with a soft light, faint fairway curves */
+  var bg=x.createLinearGradient(0,0,W,H);bg.addColorStop(0,"#143a52");bg.addColorStop(1,"#0a1d2b");x.fillStyle=bg;x.fillRect(0,0,W,H);
+  var gl=x.createRadialGradient(W*0.82,H*0.12,10,W*0.82,H*0.12,520);gl.addColorStop(0,"rgba(212,175,106,.18)");gl.addColorStop(1,"rgba(212,175,106,0)");x.fillStyle=gl;x.fillRect(0,0,W,H);
+  x.strokeStyle="rgba(255,255,255,.045)";x.lineWidth=2;for(var k=0;k<6;k++){x.beginPath();x.ellipse(W*0.5,H+260,700+k*70,330+k*45,0,Math.PI,2*Math.PI);x.stroke();}
+  /* gold double frame */
+  x.strokeStyle=GOLD;x.lineWidth=3;rr(x,40,40,W-80,H-80,30);x.stroke();x.strokeStyle="rgba(212,175,106,.45)";x.lineWidth=1.5;rr(x,56,56,W-112,H-112,22);x.stroke();
+  /* flag on a green, top right */
+  x.fillStyle="rgba(120,190,140,.22)";x.beginPath();x.ellipse(W-190,262,92,22,0,0,2*Math.PI);x.fill();
+  x.strokeStyle="rgba(255,255,255,.85)";x.lineWidth=4;x.beginPath();x.moveTo(W-190,262);x.lineTo(W-190,120);x.stroke();
+  x.fillStyle=GOLD;x.beginPath();x.moveTo(W-188,122);x.lineTo(W-120,146);x.lineTo(W-188,170);x.closePath();x.fill();
+  x.fillStyle="#fff";x.beginPath();x.arc(W-236,256,9,0,2*Math.PI);x.fill();
+  /* measure the content first so it sits centred in the frame */
+  x.font="700 96px "+SERIF;var nG=Math.min(2,wrap(x,t.cardHi(to),W-380).length);x.font="500 40px "+SERIF;var nW=Math.min(2,wrap(x,t.wish,W-220).length);
+  var steps0=g.how.split(/(?<=[.!?。])\s+/).filter(Boolean).slice(0,3);x.font="500 37px "+F;
+  var nL=steps0.map(function(q){return Math.min(3,wrap(x,q,W-2*130-90).length);});x.font="600 32px "+F;var nT=Math.min(2,wrap(x,g.tip,W-2*130-120).length);
+  var phM=150+nL.reduce(function(a,n){return a+n*52+22;},0)+nT*44+44;
+  var total=(270+nG*110-18+nW*56-30)+6+44+phM+(fr?150:0);
+  var dy=Math.max(0,Math.min(120,(H-130-total)/2));
+  /* greeting */
+  x.textBaseline="alphabetic";x.save();x.translate(0,dy);x.fillStyle=GOLD;x.font="700 26px "+F;var lab=l==="ko"?"G I F T   ·   선 물":"A   G I F T   F O R   Y O U";x.fillText(lab,110,150);
+  x.fillStyle="#fff";x.font="700 96px "+SERIF;var y=270;wrap(x,t.cardHi(to),W-380).slice(0,2).forEach(function(s){x.fillText(s,110,y);y+=110;});
+  x.fillStyle="rgba(255,255,255,.82)";x.font="500 40px "+SERIF;wrap(x,t.wish,W-220).slice(0,2).forEach(function(s){x.fillText(s,110,y-18);y+=56;});
+  /* divider with a golf ball */
+  y+=6;x.strokeStyle="rgba(212,175,106,.7)";x.lineWidth=2;x.beginPath();x.moveTo(110,y);x.lineTo(W/2-22,y);x.moveTo(W/2+22,y);x.lineTo(W-110,y);x.stroke();
+  x.fillStyle="#fff";x.beginPath();x.arc(W/2,y,11,0,2*Math.PI);x.fill();x.strokeStyle=GOLD;x.lineWidth=2;x.stroke();
+  /* cream panel: what it is + numbered steps + tip */
+  var steps=g.how.split(/(?<=[.!?。])\s+/).filter(Boolean).slice(0,3);
+  x.font="500 37px "+F;var lines=steps.map(function(s){return wrap(x,s,W-2*130-90).slice(0,3);});
+  var tipL=(x.font="600 32px "+F,wrap(x,g.tip,W-2*130-120).slice(0,2));
+  var ph=150+lines.reduce(function(a,ls){return a+ls.length*52+22;},0)+tipL.length*44+44;
+  var py=y+44;x.fillStyle="#f7f1e3";rr(x,90,py,W-180,ph,28);x.fill();
+  x.fillStyle=NAVY;x.font="800 46px "+F;x.fillText(g.n,130,py+78);
+  x.fillStyle="#a8823e";x.font="800 24px "+F;x.fillText(l==="ko"?"이렇게 쓰세요":"HOW TO USE IT",130,py+122);
+  var yy=py+180;lines.forEach(function(ls,i){
+    x.fillStyle=NAVY;x.beginPath();x.arc(150,yy-12,20,0,2*Math.PI);x.fill();x.fillStyle="#fff";x.font="800 24px "+F;var n=String(i+1);x.fillText(n,150-x.measureText(n).width/2,yy-3);
+    x.fillStyle="#1d2a33";x.font="500 37px "+F;ls.forEach(function(s){x.fillText(s,190,yy);yy+=52;});yy+=22;});
+  x.fillStyle="#e3eee6";rr(x,130,yy-40,W-260,tipL.length*44+18,14);x.fill();
+  x.fillStyle="#178a5b";x.font="800 22px "+F;x.fillText("TIP",150,yy-2);x.font="600 32px "+F;x.fillStyle="#1f5a43";tipL.forEach(function(s){x.fillText(s,215,yy);yy+=44;});
+  /* signature right under the panel, footer pinned to the frame */
+  if(fr){x.fillStyle=GOLD;x.font="700 50px "+SERIF;var ft=t.cardFrom(fr);x.fillText(ft,W-110-x.measureText(ft).width,Math.min(py+ph+110,H-140-dy));}
+  x.restore();
+  x.fillStyle="rgba(255,255,255,.4)";x.font="500 24px "+F;x.fillText("easyswingpick.com/gift",110,H-92);
   c.toBlob(function(blob){
     var file=null;try{file=new File([blob],"gift-card.png",{type:"image/png"});}catch(e){}
     if(file&&navigator.canShare&&navigator.canShare({files:[file]}))navigator.share({files:[file],title:g.n}).catch(function(){});
