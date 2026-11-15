@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Golf Gift Helper for Parents & Senior Golfers | 골프 선물 도우미</title>
+<meta name="description" content="Not a golfer? Answer 5 quick taps and get 3 golf gifts that won't miss — ranked by how safe they are without knowing sizes, plus how to secretly check specs and a Korean how-to card for parents. 골프를 몰라도 실패 없는 부모님 골프 선물 고르기.">
+<link rel="canonical" href="https://easyswingpick.com/gift/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script>try{document.documentElement.lang=localStorage.getItem("esp_lang")||(/^ko/i.test(navigator.language||"")?"ko":"en")}catch(e){document.documentElement.lang="en"}</script>
+<style>
+:root{--navy:#0f2a3d;--navy-2:#173b55;--ink:#15212b;--muted:#64727d;--line:#e3e8ec;--bg:#f3f5f7;--card:#fff;--green:#178a5b;--green-l:#e6f4ee;--gold:#c89b3c;--gold-l:#fbf4e4;--red:#b3412e;--red-l:#fdecea;--r:16px;--shadow:0 1px 2px rgba(15,42,61,.06),0 6px 20px rgba(15,42,61,.06)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:Inter,"Noto Sans KR",system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.55;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=ko]{display:none!important}
+header{background:var(--navy);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 18px 12px;display:flex;align-items:center;justify-content:space-between}
+header img{height:32px;width:auto;display:block}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;color:rgba(255,255,255,.75);font:600 .85rem Inter,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer;min-height:34px}
+.lang button.on{background:#fff;color:var(--navy)}
+.hero{background:linear-gradient(160deg,var(--navy),var(--navy-2));color:#fff;padding:18px 18px 26px}
+.hero .in{max-width:640px;margin:0 auto}
+.hero h1{margin:4px 0 8px;font-size:1.55rem;line-height:1.25}.hero p{margin:0;color:rgba(255,255,255,.78)}
+.hero .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.hero .chips span{background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px;font-size:.8rem}
+main{max-width:640px;margin:-14px auto 0;padding:0 14px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
+.q{margin:0 0 4px;font-weight:700;color:var(--navy);font-size:1.02rem}.q small{color:var(--muted);font-weight:500;font-size:.82rem;margin-left:6px}
+.hint{color:var(--muted);font-size:.85rem;margin:0 0 10px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{border:1.5px solid #d5dce2;background:#fff;border-radius:12px;padding:10px 13px;font:600 .93rem Inter,"Noto Sans KR",sans-serif;color:var(--ink);cursor:pointer;min-height:46px}
+.opts button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.num{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--gold-l);color:var(--gold);font-weight:800;font-size:.8rem;align-items:center;justify-content:center;margin-right:6px}
+details.peek{margin-top:10px;background:var(--gold-l);border:1px solid #ecd9a8;border-radius:12px;padding:10px 12px;font-size:.9rem}
+details.peek summary{cursor:pointer;font-weight:700;color:#5a4410}
+details.peek ol{margin:8px 0 0;padding-left:20px}details.peek li{margin-bottom:4px}
+.go{display:block;width:100%;border:0;border-radius:14px;background:var(--gold);color:#fff;font:800 1.05rem Inter,"Noto Sans KR",sans-serif;padding:16px;cursor:pointer;margin-top:4px}
+#out{scroll-margin-top:10px}
+.sec{font-size:1.15rem;color:var(--navy);margin:22px 4px 10px}
+.pick{border-left:5px solid var(--navy)}
+.pick .tag{display:inline-block;font-size:.75rem;font-weight:800;letter-spacing:.5px;border-radius:6px;padding:3px 8px;margin-bottom:6px}
+.t-safe{background:var(--green-l);color:var(--green)}.t-rec{background:#eaf1f8;color:var(--navy-2)}.t-spec{background:var(--gold-l);color:#8a6d1f}
+.pick h3{margin:2px 0 4px;font-size:1.2rem;color:var(--navy)}
+.risk{display:inline-block;font-size:.8rem;font-weight:700;border-radius:999px;padding:2px 9px;margin:2px 0 8px}
+.r0{background:var(--green-l);color:var(--green)}.r1{background:var(--gold-l);color:#8a6d1f}.r2{background:var(--red-l);color:var(--red)}
+.why{margin:0 0 10px;padding-left:20px;font-size:.93rem}.why li{margin-bottom:3px}
+.models{border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
+.model{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed #e8ecef;font-size:.92rem}
+.model:last-child{border-bottom:0}.model b{color:var(--navy)}.model small{display:block;color:var(--muted);font-size:.78rem}
+.model a{flex:none;background:var(--navy);color:#fff;text-decoration:none;border-radius:10px;padding:8px 11px;font-weight:700;font-size:.82rem}
+.model .px{flex:none;font-weight:800;color:var(--navy)}
+.note{color:var(--muted);font-size:.83rem;margin:8px 0 0}
+.check{background:var(--red-l);border:1px solid #f3c2bb;border-radius:12px;padding:10px 12px;font-size:.88rem;margin-top:8px}
+.check b{color:var(--red)}
+.calc{display:inline-block;margin-top:8px;font-weight:700;font-size:.9rem;color:var(--navy-2)}
+.tools .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font:700 1rem Inter,"Noto Sans KR",sans-serif;text-decoration:none;cursor:pointer;padding:10px 14px;margin-top:10px}
+.tools .btn.pri{background:var(--navy);color:#fff}
+.field{display:flex;gap:8px;margin-top:8px}.field input{flex:1;min-width:0;border:1.5px solid #d5dce2;border-radius:12px;padding:11px 12px;font:500 1rem Inter,"Noto Sans KR",sans-serif}
+.disc{font-size:.8rem;color:var(--muted);margin:14px 4px 0}
+.deadline{background:#eaf1f8;border:1px solid #c9d9ea;border-radius:12px;padding:10px 12px;font-size:.88rem;color:var(--navy-2);margin-bottom:12px}
+.src{font-size:.78rem;color:var(--muted);margin:10px 4px}.src a{color:var(--muted)}
+.shared{background:var(--green-l);border:1px solid #b9e0cd;border-radius:12px;padding:10px 12px;font-size:.9rem;margin-bottom:12px}
+</style>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="/assets/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Golf Gift Helper", "url": "https://easyswingpick.com/gift/", "applicationCategory": "LifestyleApplication", "operatingSystem": "Any", "inLanguage": ["en", "ko"], "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@id": "https://easyswingpick.com/#org"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://easyswingpick.com/"}, {"@type": "ListItem", "position": 2, "name": "Golf Gift Helper", "item": "https://easyswingpick.com/gift/"}]}, {"@type": "Organization", "@id": "https://easyswingpick.com/#org", "name": "EasySwingPick", "url": "https://easyswingpick.com/", "logo": {"@type": "ImageObject", "url": "https://easyswingpick.com/assets/logo-512.png", "width": 512, "height": 512}}]}</script>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0f2a3d"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SwingPick"><meta name="apple-mobile-web-app-status-bar-style" content="default"></head>
+<body>
+<header>
+  <a href="/" title="EasySwingPick"><img src="/assets/wordmark.svg" alt="EasySwingPick"></a>
+  <div class="lang" id="langT"><button data-lang="ko">한국어</button><button data-lang="en">EN</button></div>
+</header>
+<div class="hero"><div class="in">
+  <h1><span data-l="ko">골프를 몰라도 실패 없는 골프 선물</span><span data-l="en">Golf gifts that won't miss — even if you don't golf</span></h1>
+  <p><span data-l="ko">버튼 5번이면 3가지를 골라 드립니다. 사이즈를 몰라도 되는 선물부터 보여 드리고, 몰래 확인하는 법과 부모님용 한국어 설명 카드까지 만들어 드립니다.</span>
+     <span data-l="en">Five quick taps, three picks. Gifts that need no sizes come first; we also show how to secretly check specs and make a Korean how-to card for parents.</span></p>
+  <div class="chips"><span data-l="ko">약 1분</span><span data-l="ko">회원가입 없음</span><span data-l="ko">가격 확인일 2026-11-14</span><span data-l="en">~1 minute</span><span data-l="en">No sign-up</span><span data-l="en">Prices checked 2026-11-14</span></div>
+</div></div>
+
+<main>
+<div class="shared" id="sharedNote" style="display:none"><span data-l="ko">👨‍👩‍👧 가족이 공유한 선물 후보입니다. 그대로 보거나 답을 바꿔 다시 고를 수 있습니다.</span><span data-l="en">👨‍👩‍👧 A family member shared these picks. Review them or change the answers below.</span></div>
+
+<div class="card"><p class="q"><span class="num">1</span><span data-l="ko">누구에게 선물하나요?</span><span data-l="en">Who is it for?</span></p>
+  <div class="opts" data-k="who"><button data-v="parent"><span data-l="ko">부모님</span><span data-l="en">A parent</span></button><button data-v="spouse"><span data-l="ko">배우자</span><span data-l="en">Spouse / partner</span></button><button data-v="friend"><span data-l="ko">친구·지인</span><span data-l="en">Friend</span></button><button data-v="me"><span data-l="ko">나에게</span><span data-l="en">Myself</span></button></div></div>
+
+<div class="card"><p class="q"><span class="num">2</span><span data-l="ko">받는 분 나이대</span><span data-l="en">Their age</span></p>
+  <div class="opts" data-k="age"><button data-v="u50"><span data-l="ko">50세 미만</span><span data-l="en">Under 50</span></button><button data-v="m50">50~64</button><button data-v="s65"><span data-l="ko">65세 이상</span><span data-l="en">65+</span></button></div></div>
+
+<div class="card"><p class="q"><span class="num">3</span><span data-l="ko">라운드할 때</span><span data-l="en">On the course they…</span></p>
+  <div class="opts" data-k="walk"><button data-v="cart"><span data-l="ko">카트를 탄다</span><span data-l="en">Ride a cart</span></button><button data-v="walk"><span data-l="ko">걸어 다닌다</span><span data-l="en">Walk</span></button><button data-v="unk"><span data-l="ko">모름</span><span data-l="en">Not sure</span></button></div></div>
+
+<div class="card"><p class="q"><span class="num">4</span><span data-l="ko">요즘 하시는 말씀</span><span data-l="en">What do they complain about?</span><small data-l="ko">여러 개 선택</small><small data-l="en">pick any</small></p>
+  <p class="hint"><span data-l="ko">골프를 몰라도 들은 말을 고르면 됩니다.</span><span data-l="en">Just pick what you've heard them say.</span></p>
+  <div class="opts multi" data-k="pain">
+    <button data-v="dist"><span data-l="ko">"거리가 줄었어"</span><span data-l="en">"I've lost distance"</span></button>
+    <button data-v="high"><span data-l="ko">"공이 안 떠"</span><span data-l="en">"Can't get the ball up"</span></button>
+    <button data-v="yard"><span data-l="ko">"남은 거리를 모르겠어"</span><span data-l="en">"Never know the yardage"</span></button>
+    <button data-v="short"><span data-l="ko">"어프로치·벙커가 어려워"</span><span data-l="en">"Chipping & bunkers are hard"</span></button>
+    <button data-v="putt"><span data-l="ko">"퍼팅이 안 돼"</span><span data-l="en">"My putting is off"</span></button>
+    <button data-v="body"><span data-l="ko">"허리·손목이 아파"</span><span data-l="en">"My back / wrists hurt"</span></button>
+    <button data-v="unk"><span data-l="ko">잘 모름</span><span data-l="en">Not sure</span></button>
+  </div></div>
+
+<div class="card"><p class="q"><span class="num">5</span><span data-l="ko">예산</span><span data-l="en">Budget</span></p>
+  <div class="opts" data-k="bud"><button data-v="75">~$75</button><button data-v="150">$75–150</button><button data-v="300">$150–300</button><button data-v="999">$300+</button></div>
+  <details class="peek"><summary><span data-l="ko">+ 골프채 정보를 몰래 확인했다면 (선택)</span><span data-l="en">+ Secretly checked their clubs? (optional)</span></summary>
+    <ol data-l="ko"><li>골프백에서 <b>드라이버</b>(가장 긴 채)를 꺼냅니다.</li><li>샤프트(막대) 위쪽 스티커에 있는 <b>글자</b>를 보세요: L · A(또는 SR) · R · S · X</li><li>사진을 찍어 두고 아래에서 고르세요. 골프채 선물의 실패 위험이 크게 줄어듭니다.</li></ol>
+    <ol data-l="en"><li>Take the <b>driver</b> (longest club) out of their bag.</li><li>Find the <b>letter</b> on the shaft sticker: L · A (or SR) · R · S · X</li><li>Snap a photo and pick it below — it makes a club gift far safer.</li></ol>
+    <div class="opts" data-k="flex" style="margin-top:8px"><button data-v="L">L</button><button data-v="A">A / SR</button><button data-v="R">R</button><button data-v="S">S</button><button data-v="X">X</button></div>
+  </details>
+</div>
+
+<button class="go" id="goBtn"><span data-l="ko">선물 3가지 추천받기 →</span><span data-l="en">Show my 3 gift picks →</span></button>
+
+<div id="out"></div>
+</main>
+
+<script>window.AFF=function(q){return "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&clickref=gift&ued="+encodeURIComponent("https://www.2ndswing.com/catalogsearch/result/?q="+encodeURIComponent(q).replace(/%20/g,"+"))};</script><script>window.AFFU=function(u){return "https://www.awin1.com/cread.php?awinmid=95935&awinaffid=3153241&clickref=gift&ued="+encodeURIComponent(u)};</script><script>
+/* ---------- gift catalog ----------
+   Prices are what 2ndswing.com showed on 2026-11-14 (gift guide / rangefinder pages); "from" = cheapest used condition.
+   q = search words for the 2nd Swing affiliate link (clickref gift). Balls: not sold in 2nd Swing's checked pages, so no link. */
+var G = {
+ rf:{risk:0,cat:"rf",ko:{n:"거리측정기",w:["사이즈·강도를 몰라도 되는 대표 선물","깃발까지 남은 거리를 바로 알려 줘 클럽 고르기가 쉬워짐"],how:"깃발을 보고 버튼을 누르면 남은 거리(야드)가 화면에 나옵니다. 그 숫자에 맞는 클럽을 고르시면 됩니다.",tip:"처음에는 연습장 거리 표지판에 대고 몇 번 눌러 보세요."},
+     en:{n:"Laser rangefinder",w:["No sizes or specs needed","Shows the exact yardage to the flag, so club choice gets easy"],how:"Look at the flag and press the button: the screen shows the yardage. Pick the club for that number.",tip:"Try it on the range signs a few times first."},
+     m:[{n:"Callaway 300 Pro",c:"used",p:62.99,from:1,q:"Callaway 300 Pro Rangefinder"},{n:"Shot Scope Pro L2",c:"new",p:129.99,q:"Shot Scope Pro L2 Rangefinder"},{n:"Nikon Coolshot 20i GII",c:"new",p:189.95,q:"Nikon Coolshot 20i GII"},{n:"Bushnell A1-Slope",c:"new",p:299.99,q:"Bushnell A1-Slope Rangefinder"}]},
+ card:{risk:0,cat:"card",ko:{n:"2nd Swing 기프트카드",w:["받는 분이 직접 고르니 실패가 없음","새 제품·중고 클럽 중에서 원하는 것을 고를 수 있음","배송이 늦어질 때 가장 확실한 대안"],how:"2nd Swing에서 골프채나 용품을 고를 수 있는 상품권입니다. 마음에 드는 클럽을 직접 골라 보세요.",tip:"천천히 둘러보시고 마음에 드는 클럽을 고르세요."},
+     en:{n:"2nd Swing gift card",w:["They choose, so it can't miss","Use it on new or used clubs","The safest last-minute option"],how:"A gift card for clubs and gear at 2nd Swing. Pick exactly the club you want.",tip:"Take your time and pick a club you love."},
+     m:[{n:"2nd Swing Gift Card",c:"any",p:0,q:"gift card",card:1,url:"https://www.2ndswing.com/gift-card"}]},
+ bag:{risk:0,cat:"bag",walk:1,ko:{n:"가벼운 스탠드백",w:["걸어 다니는 분에게 어깨·허리 부담을 줄여 줌","사이즈 걱정 없음"],how:"다리가 펼쳐져 세울 수 있는 가방입니다. 양쪽 어깨에 메면 무게가 나뉘어 덜 피곤합니다.",tip:"어깨끈 두 개를 모두 메면 훨씬 가볍습니다."},
+     en:{n:"Lightweight stand bag",w:["Easier on the back for walkers","No sizes to worry about"],how:"A stand bag with legs; wear both straps to spread the weight.",tip:"Wear both straps — it feels much lighter."},
+     m:[{n:"Titleist Players 4 Carbon (2022)",c:"new",p:99.99,q:"Titleist Players 4 Carbon Stand Bag"},{n:"PING Hoofer Lite",c:"new",p:119.99,q:"Ping Hoofer Lite Stand Bag"}]},
+ ball:{risk:0,cat:"ball",nolink:1,ko:{n:"부드러운 골프공 (저압축)",w:["스윙이 빠르지 않은 분도 거리와 타구감이 좋음","작은 예산에 좋은 추가 선물"],how:"부드러운 공이라 힘을 덜 들여도 잘 날아갑니다. 평소처럼 치시면 됩니다.",tip:"처음 몇 홀은 평소 공과 번갈아 쳐 보세요."},
+     en:{n:"Soft (low-compression) golf balls",w:["Good feel and distance for slower swings","Great add-on for a small budget"],how:"A soft ball that flies well without a fast swing. Just play as usual.",tip:"Try it against your usual ball for a few holes."},
+     m:[{n:"Callaway Supersoft (12 balls)",c:"new",p:26.99,src:"Golf Galaxy",q:""}]},
+ wedge:{risk:1,cat:"wedge",ko:{n:"쉬운 웨지 (넓은 바닥)",w:["그린 주변·벙커에서 뒤땅이 적은 관용성 높은 웨지","56°(샌드웨지)를 고르면 대부분 무난"],how:"그린 주변과 벙커에서 쓰는 채입니다. 바닥이 넓어 뒤땅이 덜 납니다. 공을 띄운다는 느낌으로 부드럽게 치세요.",tip:"연습장에서 열 번쯤 쳐 보고 라운드에 쓰세요."},
+     en:{n:"Forgiving wedge (wide sole)",w:["Forgiving around the green and in bunkers","A 56° sand wedge suits most golfers"],how:"For chips and bunkers. The wide sole helps prevent fat shots — swing smoothly.",tip:"Hit it ten times at the range before your round."},
+     m:[{n:"TaylorMade Qi Wedge",c:"used",p:39.99,from:1,q:"TaylorMade Qi Wedge 56"},{n:"Cleveland CBX ZipCore",c:"used",p:40.99,from:1,q:"Cleveland CBX Zipcore Wedge 56"},{n:"PING S159",c:"new",p:159.99,q:"Ping S159 Wedge 56"}],calc:"/wedge/"},
+ putter:{risk:1,cat:"putter",ko:{n:"관용성 높은 퍼터",w:["빗맞아도 방향이 덜 흔들리는 말렛형","길이만 확인하면 실패 위험이 낮음"],how:"평소처럼 퍼팅하시면 됩니다. 헤드가 커서 빗맞아도 방향이 덜 틀어집니다.",tip:"거실에서 1~2m 짧은 퍼팅부터 연습해 보세요."},
+     en:{n:"Forgiving putter",w:["Mallet heads stay straighter on mishits","Low risk once you know the length"],how:"Putt as usual — the bigger head stays straighter on mishits.",tip:"Start with short putts at home."},
+     chk:{ko:"<b>길이 확인:</b> 지금 퍼터의 그립 끝부터 바닥까지 줄자로 재세요 (보통 33~35인치). 같은 길이로 고르면 됩니다.",en:"<b>Check the length:</b> measure their current putter from grip end to the floor (usually 33–35\"). Buy the same length."},
+     m:[{n:"PING Redwood Piper S",c:"used",p:49.99,from:1,q:"Ping Redwood Piper S Putter"},{n:"L.A.B. Golf MEZZ.1 Max",c:"used",p:183.99,from:1,q:"LAB Golf MEZZ.1 Max Putter"}],calc:"/putter/"},
+ hybrid:{risk:2,cat:"hybrid",ko:{n:"하이브리드",w:["롱아이언 대신 쓰면 공이 쉽게 뜨고 거리가 살아남","시니어에게 가장 효과가 큰 골프채 선물"],how:"4·5번 아이언 대신 쓰는 채입니다. 아이언처럼 내려치지 말고 쓸어 치듯 치면 공이 잘 뜹니다.",tip:"연습장에서 몇 번 쳐 보고 라운드에 쓰세요."},
+     en:{n:"Hybrid",w:["Replaces hard long irons: easier launch, more distance","Often the most helpful club gift for seniors"],how:"Use it instead of your 4/5-iron. Sweep it like a fairway wood — the ball gets up easily.",tip:"Hit a few at the range before your round."},
+     chk:{ko:"<b>강도 확인 필요:</b> 위 5번의 '몰래 확인'처럼 드라이버 샤프트 글자(L·A·R·S)를 보고 같은 글자로 고르세요.",en:"<b>Flex needed:</b> check the driver shaft letter (L·A·R·S) as shown in step 5 and buy the same."},
+     m:[{n:"Callaway Rogue",c:"used",p:36.99,from:1,q:"Callaway Rogue Hybrid"},{n:"Mizuno ST-Z 230",c:"used",p:53.99,from:1,q:"Mizuno ST-Z 230 Hybrid"},{n:"Cobra DS-Adapt",c:"used",p:69.99,from:1,q:"Cobra DS-Adapt Hybrid"}],guide:"/blog/senior-hybrids-2026"},
+ driver:{risk:2,cat:"driver",ko:{n:"드라이버",w:["거리가 줄어든 분에게 가장 직접적인 변화","강도·로프트를 맞춰야 효과가 남"],how:"티샷용 채입니다. 새 드라이버는 처음 몇 번 연습장에서 쳐 보고 라운드에 쓰세요.",tip:"연습장에서 충분히 쳐 보고 라운드에 쓰세요."},
+     en:{n:"Driver",w:["The most direct fix for lost distance","Only works if flex and loft fit"],how:"For tee shots. Hit it a few times at the range before taking it on the course.",tip:"Get used to it at the range first."},
+     chk:{ko:"<b>강도·로프트 확인 필요:</b> 샤프트 글자를 확인하고, 드라이버 계산기로 맞는 모델과 로프트를 먼저 고르세요.",en:"<b>Flex & loft needed:</b> check the shaft letter, then use the driver calculator to pick a model and loft."},
+     m:[{n:"Cobra DS-Adapt X",c:"used",p:114.99,from:1,q:"Cobra DS-Adapt X Driver"},{n:"Callaway Mavrik",c:"used",p:107.99,from:1,q:"Callaway Mavrik Driver"}],calc:"/driver/"}
+};
+var PAIN = {dist:{hybrid:3,driver:3,ball:1},high:{hybrid:3,wedge:1,ball:1},yard:{rf:4},short:{wedge:4},putt:{putter:4},body:{bag:2,ball:1,hybrid:1,card:1},unk:{rf:2,card:2}};
+var T = {
+ ko:{tag:["실패 없는 선택","가장 추천","특별한 선물"],risk:["사이즈 몰라도 OK","한 가지만 확인하면 OK","정보 확인 필요"],from:"부터",used:"중고",nw:"새 제품",any:"원하는 금액",buy:"가격 보기",calc:"계산기로 맞는 모델 고르기 →",guide:"관련 가이드: 시니어용 하이브리드 비교 →",nolink:"가까운 골프 매장·온라인에서 쉽게 구입 (예: Golf Galaxy 약 $27)",
+     ret:"2nd Swing 중고 제품은 온라인 구매 시 60일 안에 같은 상태로 반품할 수 있습니다(분야별 연 1회, 2026-11-14 확인).",
+     need:"1~5번을 모두 골라 주세요.",title:"추천 선물 3가지",cardT:"부모님께 드릴 설명 카드 만들기",cardH:"선물과 함께 넣거나 카톡으로 보내세요. 사용법이 한국어로 들어갑니다.",
+     to:"호칭 (아버지)",from2:"보내는 사람",make:"설명 카드 만들기",share:"형제·가족과 같이 고르기 (링크 공유)",copied:"링크를 복사했습니다",
+     dl:"배송이 걱정되면: 판매처의 연말 배송 마감 공지를 꼭 확인하세요. 늦을 것 같으면 기프트카드 + 설명 카드가 가장 확실합니다.",
+     disc:"'가격 보기'는 제휴 링크입니다. 구매하시면 EasySwingPick이 수수료를 받을 수 있으며 가격은 같습니다. 가격은 2026-11-14 2nd Swing 표시 기준이며 바뀔 수 있습니다.",
+     flexNote:function(f){return "확인한 샤프트 강도: "+f+" — 같은 강도로 고르세요.";},
+     w2:{flex:"샤프트 글자를 확인해 주셔서 골프채 선물도 안전해졌습니다",walk:"걸어 다니시는 분이라 가벼운 가방이 실제로 도움이 됩니다",s65:"65세 이상은 쉽게 뜨는 채와 가벼운 장비가 특히 효과적입니다"},
+     cardHi:function(to){return (to||"사랑하는 분")+"께";},cardFoot:"easyswingpick.com/gift · 골프 선물 도우미",cardUse:"이렇게 쓰세요",wish:"늘 건강하시고 즐거운 라운드 되세요!",cardFrom:function(f){return f?"— "+f+" 드림":"";},
+     shareT:"골프 선물 후보",shareX:"이 중에서 같이 골라요:"},
+ en:{tag:["Can't-miss pick","Top pick","Special gift"],risk:["No sizes needed","Check one thing","Needs their specs"],from:" from",used:"used",nw:"new",any:"any amount",buy:"See price",calc:"Pick the right model with the calculator →",guide:"Related guide: hybrids for seniors compared →",nolink:"Easy to find at any golf shop or online (e.g. ~$27 at Golf Galaxy)",
+     ret:"2nd Swing lets you return used items bought online within 60 days in the same condition (one per category per year; checked 2026-11-14).",
+     need:"Please answer questions 1–5.",title:"Your 3 gift picks",cardT:"Make a how-to card (in Korean or English)",cardH:"Tuck it in the box or send it by text. It explains how to use the gift.",
+     to:"To (Dad)",from2:"From",make:"Make the card",share:"Choose together with siblings (share link)",copied:"Link copied",
+     dl:"Worried about delivery? Check the seller's holiday shipping cut-off. If it's tight, a gift card + how-to card is the sure thing.",
+     disc:"'See price' links are affiliate links; we may earn a commission at no extra cost to you. Prices as shown on 2nd Swing on 2026-11-14 and may change.",
+     flexNote:function(f){return "Shaft flex you checked: "+f+" — buy the same flex.";},
+     w2:{flex:"You checked the shaft letter, so a club gift is now safe",walk:"They walk, so a light bag really helps",s65:"At 65+, easy-launch clubs and lighter gear help most"},
+     cardHi:function(to){return "To "+(to||"you");},cardFoot:"easyswingpick.com/gift · Golf Gift Helper",cardUse:"How to use it",wish:"Wishing you many happy rounds!",cardFrom:function(f){return f?"— Love, "+f:"";},
+     shareT:"Golf gift ideas",shareX:"Let's pick one of these together:"}
+};
+var A = {pain:[]};
+function L(){return document.documentElement.lang==="ko"?"ko":"en";}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function money(p){return "$"+(p%1?p.toFixed(2):p);}
+
+/* ---------- answers ---------- */
+document.querySelectorAll(".opts").forEach(function(g){
+  g.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var k=g.dataset.k,v=b.dataset.v;
+    if(g.classList.contains("multi")){var i=A.pain.indexOf(v);
+      if(v==="unk"){A.pain=i<0?["unk"]:[];}else{A.pain=A.pain.filter(function(x){return x!=="unk";});if(i<0)A.pain.push(v);else A.pain.splice(A.pain.indexOf(v),1);}
+    }else A[k]=A[k]===v&&k==="flex"?undefined:v;
+    paint();});
+});
+function paint(){document.querySelectorAll(".opts").forEach(function(g){var k=g.dataset.k;g.querySelectorAll("button").forEach(function(b){
+  b.classList.toggle("on",k==="pain"?A.pain.indexOf(b.dataset.v)>=0:A[k]===b.dataset.v);});});}
+
+/* ---------- scoring ---------- */
+function score(id){
+  var g=G[id],s=0,bud=+A.bud,pains=A.pain.length?A.pain:["unk"];
+  pains.forEach(function(p){s+=(PAIN[p]&&PAIN[p][id])||0;});
+  if(g.walk){if(A.walk==="walk")s+=2;else if(A.walk==="cart")s-=5;}
+  if(A.age==="s65"&&(id==="hybrid"||id==="ball"))s+=1;
+  if(A.age==="u50"&&id==="ball")s-=1;
+  var risk=g.risk;if(A.flex&&(id==="hybrid"||id==="driver"))risk=1;
+  var fit=models(id);if(!fit.length)return null;
+  return {id:id,s:s,risk:risk,m:fit};   /* s = how well it answers what they said; risk shown separately */
+}
+function models(id){var bud=+A.bud,lo={75:0,150:60,300:120,999:250}[A.bud];
+  var m=G[id].m.filter(function(x){return x.card||x.p<=bud;});
+  if(!m.length)return m;
+  /* show what fits the budget, most relevant price band first */
+  m.sort(function(a,b){return Math.abs(a.p-lo)-Math.abs(b.p-lo);});
+  return m.slice(0,3);}
+function pick(){
+  /* 1 safest gift that still fits what they said, 2 the gift that best solves their complaint (even if it needs a quick secret check),
+     3 the next best idea (a gift card when nothing else clearly fits) */
+  var all=Object.keys(G).map(score).filter(Boolean),used={};
+  function best(f,key){var c=all.filter(function(x){return !used[x.id]&&f(x);}).sort(function(a,b){return key(b)-key(a);})[0];if(c)used[c.id]=1;return c;}
+  var safe=best(function(x){return x.risk===0;},function(x){return x.s;});
+  var rec=best(function(x){return x.s>0;},function(x){return x.s-0.5*x.risk;})||best(function(){return true;},function(x){return x.s-x.risk;});
+  var spec=best(function(x){return x.s>0;},function(x){return x.s-x.risk;})||best(function(x){return x.id==="card";},function(){return 0;})||best(function(){return true;},function(x){return x.s-x.risk;});
+  return [safe,rec,spec].filter(Boolean);
+}
+/* ---------- result ---------- */
+function aff(q,url){if(url)return window.AFFU?window.AFFU(url):url;return window.AFF?window.AFF(q):"https://www.2ndswing.com/catalogsearch/result/?q="+encodeURIComponent(q);}
+function render(fromShare){
+  var l=L(),t=T[l];
+  if(!A.who||!A.age||!A.walk||!A.bud||!A.pain.length){if(!fromShare){alertBox(t.need);}return;}
+  var P=pick(),out=document.getElementById("out"),cls=["t-safe","t-rec","t-spec"];
+  var html='<h2 class="sec">🎁 '+t.title+'</h2><div class="deadline">'+t.dl+'</div>';
+  P.forEach(function(x,i){var g=G[x.id],c=g[l],why=c.w.slice();
+    if(A.flex&&(x.id==="hybrid"||x.id==="driver"))why.unshift(t.w2.flex);
+    if(x.id==="bag"&&A.walk==="walk")why.unshift(t.w2.walk);
+    if(A.age==="s65"&&x.id==="hybrid")why.push(t.w2.s65);
+    html+='<div class="card pick"><span class="tag '+cls[i]+'">'+t.tag[i]+'</span><h3>'+esc(c.n)+'</h3><span class="risk r'+x.risk+'">'+t.risk[x.risk]+'</span>'+
+      '<ul class="why">'+why.map(function(w){return"<li>"+esc(w)+"</li>";}).join("")+'</ul>'+
+      (g.chk&&!(A.flex&&x.id!=="putter")?'<div class="check">'+g.chk[l]+'</div>':"")+
+      (A.flex&&(x.id==="hybrid"||x.id==="driver")?'<div class="check" style="background:var(--green-l);border-color:#b9e0cd"><b style="color:var(--green)">✓</b> '+esc(t.flexNote(A.flex))+'</div>':"")+
+      '<div class="models">'+x.m.map(function(m){
+        var cond=m.card?t.any:(m.c==="used"?t.used:t.nw),px=m.card?"":money(m.p)+(m.from?t.from:"");
+        var right=g.nolink?'<span class="px">'+px+'</span>':'<a href="'+aff(m.q,m.url)+'" target="_blank" rel="sponsored noopener">'+t.buy+(px?" · "+px:"")+'</a>';
+        return '<div class="model"><div><b>'+esc(m.n)+'</b><small>'+cond+(m.src?" · "+m.src:"")+'</small></div>'+right+'</div>';}).join("")+'</div>'+
+      (g.nolink?'<p class="note">'+t.nolink+'</p>':"")+
+      (g.calc?'<a class="calc" href="'+g.calc+'">'+t.calc+'</a>':"")+(g.guide?'<a class="calc" href="'+g.guide+'">'+t.guide+'</a>':"")+'</div>';
+  });
+  html+='<p class="note" style="margin:0 4px 12px">'+t.ret+'</p>';
+  html+='<div class="card tools"><p class="q">✉️ '+t.cardT+'</p><p class="hint">'+t.cardH+'</p>'+
+    '<div class="field"><input id="toN" placeholder="'+t.to+'" maxlength="16"><input id="fromN" placeholder="'+t.from2+'" maxlength="16"></div>'+
+    '<div class="opts" id="cardPick" style="margin-top:10px">'+P.map(function(x,i){return'<button data-i="'+i+'" class="'+(i===1?"on":"")+'">'+esc(G[x.id][l].n)+'</button>';}).join("")+'</div>'+
+    '<button class="btn pri" id="mkCard">'+t.make+'</button>'+
+    '<button class="btn" id="shareFam">👨‍👩‍👧 '+t.share+'</button></div>';
+  html+='<p class="disc">'+t.disc+'</p>';
+  html+='<p class="src">'+(l==="ko"?"출처":"Sources")+': <a href="https://www.2ndswing.com/shop-best-golf-gifts-under-50" target="_blank" rel="noopener">2nd Swing Holiday 2026 gift guide</a> · <a href="https://www.2ndswing.com/accessories/rangefinders" target="_blank" rel="noopener">2nd Swing rangefinders</a> · <a href="https://2ndSwing.com/return-policy" target="_blank" rel="noopener">2nd Swing return policy</a> · <a href="https://www.golfgalaxy.com/f/course-essentials" target="_blank" rel="noopener">Golf Galaxy (balls)</a></p>';
+  out.innerHTML=html;
+  var cp=1;out.querySelectorAll("#cardPick button").forEach(function(b){b.onclick=function(){cp=+b.dataset.i;out.querySelectorAll("#cardPick button").forEach(function(x){x.classList.toggle("on",x===b);});};});
+  document.getElementById("mkCard").onclick=function(){makeCard(P[cp]||P[0]);};
+  document.getElementById("shareFam").onclick=shareFam;
+  try{localStorage.setItem("esp_gift",JSON.stringify(A));}catch(e){}
+  if(!fromShare)out.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function alertBox(msg){var o=document.getElementById("out");o.innerHTML='<div class="card" style="border-color:#f3c2bb;background:var(--red-l);color:var(--red);font-weight:600">'+esc(msg)+'</div>';o.scrollIntoView({behavior:"smooth",block:"start"});}
+
+/* ---------- how-to card (Korean for parents, or English) ---------- */
+function wrap(x,text,max){var out=[],cur="";String(text).split(/(\s+)/).forEach(function(w){var t=cur+w;if(x.measureText(t).width>max&&cur.trim()){out.push(cur.trim());cur=w.trim();}else cur=t;});if(cur.trim())out.push(cur.trim());
+  /* Korean lines without spaces: hard-wrap by characters */
+  var res=[];out.forEach(function(line){while(x.measureText(line).width>max){var n=line.length;while(n>1&&x.measureText(line.slice(0,n)).width>max)n--;res.push(line.slice(0,n));line=line.slice(n);}res.push(line);});return res;}
+function makeCard(sel){
+  var l=L(),t=T[l],g=G[sel.id][l],to=(document.getElementById("toN").value||"").trim(),fr=(document.getElementById("fromN").value||"").trim();
+  var W=1080,H=1350,c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d"),F="Inter, 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif";
+  x.fillStyle="#fbf7ee";x.fillRect(0,0,W,H);x.fillStyle="#0f2a3d";x.fillRect(0,0,W,28);x.fillRect(0,H-28,W,28);
+  x.fillStyle="#c89b3c";x.fillRect(90,110,110,10);
+  x.fillStyle="#0f2a3d";x.font="800 92px "+F;var y=230;wrap(x,t.cardHi(to),W-180).slice(0,2).forEach(function(s){x.fillText(s,90,y);y+=104;});
+  y+=10;x.fillStyle="#173b55";x.font="600 44px "+F;wrap(x,t.wish,W-180).slice(0,2).forEach(function(s){x.fillText(s,90,y);y+=60;});
+  y+=40;x.fillStyle="#c89b3c";x.font="800 50px "+F;x.fillText("🎁 "+g.n,90,y);y+=70;
+  x.fillStyle="#64727d";x.font="700 34px "+F;x.fillText(t.cardUse,90,y);y+=62;
+  x.fillStyle="#15212b";x.font="500 46px "+F;wrap(x,g.how,W-180).slice(0,6).forEach(function(s){x.fillText(s,90,y);y+=66;});
+  y+=24;x.fillStyle="#178a5b";x.font="700 40px "+F;wrap(x,"💡 "+g.tip,W-180).slice(0,2).forEach(function(s){x.fillText(s,90,y);y+=56;});
+  if(fr){x.fillStyle="#0f2a3d";x.font="800 50px "+F;var ft=t.cardFrom(fr);x.fillText(ft,W-90-x.measureText(ft).width,H-150);}
+  x.fillStyle="#9aa8b3";x.font="500 28px "+F;x.fillText(t.cardFoot,90,H-70);
+  c.toBlob(function(blob){
+    var file=null;try{file=new File([blob],"gift-card.png",{type:"image/png"});}catch(e){}
+    if(file&&navigator.canShare&&navigator.canShare({files:[file]}))navigator.share({files:[file],title:g.n}).catch(function(){});
+    else{var u=URL.createObjectURL(blob);if(window.ESP&&ESP.overlay)ESP.overlay('<p>'+esc(window.ESP.T[l].hold)+'</p><img src="'+u+'" alt=""><a class="esp-b" download="gift-card.png" href="'+u+'">PNG ↓</a><button class="esp-b" data-close>'+esc(window.ESP.T[l].close)+'</button>');else window.open(u);}
+  },"image/png");
+}
+
+/* ---------- share with family: the answers travel in the link ---------- */
+function enc(o){return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");}
+function dec(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return JSON.parse(decodeURIComponent(escape(atob(s))));}
+function shareFam(){
+  var l=L(),t=T[l],url=location.origin+"/gift/#s="+enc(A),names=pick().map(function(x){return G[x.id][l].n;}).join(", ");
+  if(navigator.share){navigator.share({title:t.shareT,text:t.shareX+" "+names,url:url}).catch(function(){});return;}
+  if(navigator.clipboard)navigator.clipboard.writeText(url).then(function(){if(window.ESP)ESP.toast(t.copied);});
+}
+
+/* ---------- language ---------- */
+function setLang(l){document.documentElement.lang=l;try{localStorage.setItem("esp_lang",l);}catch(e){}
+  document.querySelectorAll("#langT button").forEach(function(b){b.classList.toggle("on",b.dataset.lang===l);});
+  if(document.querySelector("#out .pick"))render(true);}
+document.getElementById("langT").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setLang(b.dataset.lang);});
+document.getElementById("goBtn").onclick=function(){render(false);};
+
+/* ---------- start: shared link or last answers ---------- */
+(function(){
+  var m=location.hash.match(/^#s=([A-Za-z0-9_-]+)/),prev=null;
+  if(m){try{A=dec(m[1]);A.pain=A.pain||[];document.getElementById("sharedNote").style.display="block";}catch(e){}}
+  else{try{prev=JSON.parse(localStorage.getItem("esp_gift")||"null");}catch(e){}if(prev){A=prev;A.pain=A.pain||[];}}
+  setLang(L());paint();
+  if(m)render(true);
+})();
+</script>
+<script src="/assets/app.js" defer></script></body>
+</html>

@@ -573,6 +573,20 @@ open(f"{OUT}/manifest.webmanifest", "w").write(_j2.dumps({
               {"src": "/assets/logo.svg", "sizes": "any", "type": "image/svg+xml"}],
     "shortcuts": [{"name": "Driver", "url": "/driver/"}, {"name": "Irons", "url": "/iron/"}, {"name": "Wedges", "url": "/wedge/"},
                   {"name": "Putter", "url": "/putter/"}, {"name": "My bag", "url": "/app/#bag"}]}, ensure_ascii=False, indent=1))
+# ---------- gift helper (/gift/): seasonal tool for non-golfers buying a golf gift ----------
+os.makedirs(f"{OUT}/gift", exist_ok=True)
+_g = open(f"{H}/site/gift/index.html").read()
+_gaff = AFF_JS("gift") + ('<script>window.AFFU=function(u){return "' + AWIN_BASE + '&clickref=gift&ued="+encodeURIComponent(u)};</script>')
+_g = _g.replace("</head>", HEAD + "</head>", 1).replace("<script>\n/* ---------- gift catalog", _gaff + "<script>\n/* ---------- gift catalog", 1)
+assert "window.AFFU" in _g, "gift: affiliate script not injected"
+_g = _g.replace("</head>", _ld([{"@type": "WebApplication", "name": "Golf Gift Helper", "url": DOMAIN + "/gift/", "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any", "inLanguage": ["en", "ko"], "isAccessibleForFree": True, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "publisher": {"@id": DOMAIN + "/#org"}}, _crumbs([("Home", DOMAIN + "/"), ("Golf Gift Helper", DOMAIN + "/gift/")]), ORG]) + "\n</head>", 1)
+open(f"{OUT}/gift/index.html", "w").write(_g)
+_sm = open(f"{OUT}/sitemap.xml").read()
+if f"{DOMAIN}/gift/" not in _sm:
+    open(f"{OUT}/sitemap.xml", "w").write(_sm.replace("</urlset>", f"<url><loc>{DOMAIN}/gift/</loc></url>\n</urlset>"))
+print("gift helper ok (/gift/)")
 APP_HEAD = ('<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0f2a3d">'
             '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">'
             '<meta name="apple-mobile-web-app-title" content="SwingPick"><meta name="apple-mobile-web-app-status-bar-style" content="default">')
