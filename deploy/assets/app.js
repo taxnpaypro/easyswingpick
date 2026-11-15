@@ -201,9 +201,9 @@
   /* ---------- app tab bar on calculator pages when opened from the home screen ---------- */
   function tabBar(active) {
     if (!STANDALONE || document.querySelector(".esp-tabbar")) return;
-    var l = L(), n = l === "ko" ? ["계산기", "내 골프백", "가이드", "설정"] : ["Fit", "My bag", "Guides", "Settings"];
+    var l = L(), n = l === "ko" ? ["내 골프백", "가이드", "설정"] : ["My bag", "Guides", "Settings"];
     var d = document.createElement("nav"); d.className = "esp-tabbar";
-    d.innerHTML = [["/app/#home", "◎"], ["/app/#bag", "▣"], ["/app/#guides", "▤"], ["/app/#settings", "⚙"]].map(function (x, i) {
+    d.innerHTML = [["/app/#bag", "▣"], ["/app/#guides", "▤"], ["/app/#settings", "⚙"]].map(function (x, i) {
       return '<a href="' + x[0] + '" class="' + (i === active ? "on" : "") + '"><b>' + x[1] + "</b>" + n[i] + "</a>"; }).join("");
     document.body.appendChild(d); document.documentElement.classList.add("esp-tabs");
   }
@@ -366,7 +366,7 @@
   }
 
   ready(function () {
-    prefill(); setBanner(); tabBar(0);
+    prefill(); setBanner(); tabBar(-1);
     var r = $("result"), busy = false;
     if (r) new MutationObserver(function () { if (busy) return; busy = true; setTimeout(function () { busy = false; bar(); }, 0); }).observe(r, { childList: true });
     var lt = $("langT"); if (lt) lt.addEventListener("click", function () { setTimeout(function () { refreshBanner(); bar(); }, 30); });

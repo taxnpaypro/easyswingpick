@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>EasySwingPick App — Club Fitting Calculators | 골프채 피팅 계산기 앱</title>
-<meta name="description" content="Free golf club fitting app: driver, iron, wedge and putter picks in one flow, save your bag, share a result card. Works offline. 드라이버·아이언·웨지·퍼터 추천을 한 번에, 내 골프백 저장, 결과 카드 공유.">
+<title>My Golf Bag — EasySwingPick | 내 골프백</title>
+<meta name="description" content="Keep your driver, iron, wedge and putter picks in one place: full-set fitting in one flow, price links, share card, backup link. 계산기 추천 결과를 한곳에 모아 보는 내 골프백.">
 <link rel="canonical" href="https://easyswingpick.com/app/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -60,6 +60,8 @@ html.esp-big body{zoom:1.12}
 @media(min-width:700px){nav.tabs{left:50%;right:auto;width:640px;transform:translateX(-50%);border:1px solid var(--line);border-radius:16px 16px 0 0}}
 .buy{display:inline-block;margin-top:8px;font-size:.88rem;font-weight:700;color:#fff;background:var(--navy);border-radius:10px;padding:7px 12px;text-decoration:none}
 .inp{color:var(--muted);font-size:.8rem;margin-top:4px}.resume{background:var(--gold-l);border:1px solid #ecd9a8}
+.hero h2{color:#fff;margin:0 0 6px;font-size:1.15rem}.one{margin:12px 0 0;font-size:.9rem;color:rgba(255,255,255,.75)}.one a{color:#fff;font-weight:600}
+#startCard.small .hero-p{display:none}
 .trust{display:flex;gap:6px;flex-wrap:wrap;margin:0 4px 14px}.trust span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.8rem;color:var(--navy-2);font-weight:600}
 .imp{background:var(--green-l);border:1px solid #b9e0cd}
 html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=ko]{display:none!important}
@@ -72,28 +74,28 @@ html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=
 </header>
 
 <main>
-<!-- HOME -->
-<section id="s-home">
-  <h1><span data-l="ko">내 스윙에 맞는 골프채, 한 번에</span><span data-l="en">Clubs that fit your swing, in one go</span></h1>
-  <p class="sub"><span data-l="ko">무료 · 회원가입 없음 · 인터넷이 없어도 작동</span><span data-l="en">Free · No sign-up · Works offline</span></p>
-  <div class="trust"><span data-l="ko">브랜드 중립</span><span data-l="ko">출처 공개</span><span data-l="ko" class="dd"></span><span data-l="en">Brand-neutral</span><span data-l="en">Sources cited</span><span data-l="en" class="dd"></span></div>
+<!-- BAG -->
+<section id="s-bag">
+  <h1><span data-l="ko">내 골프백</span><span data-l="en">My bag</span></h1>
+  <div class="trust"><span data-l="ko">무료 · 회원가입 없음</span><span data-l="ko">브랜드 중립</span><span data-l="ko" class="dd"></span><span data-l="en">Free · No sign-up</span><span data-l="en">Brand-neutral</span><span data-l="en" class="dd"></span></div>
   <div class="card resume" id="resumeCard" style="display:none"></div>
-  <div class="card hero">
-    <h2><span data-l="ko">전체 세트 추천</span><span data-l="en">Full-set fitting</span></h2>
-    <p><span data-l="ko">드라이버부터 퍼터까지 4단계로 이어서 추천받고, 결과를 내 골프백에 저장합니다. 나이·키·핸디캡은 한 번만 입력하면 됩니다.</span>
-       <span data-l="en">Get driver, iron, wedge and putter picks in 4 quick steps and save them to your bag. Enter age, height and handicap only once.</span></p>
-    <div class="steps"><span data-l="ko">① 드라이버</span><span data-l="ko">② 아이언</span><span data-l="ko">③ 웨지</span><span data-l="ko">④ 퍼터</span>
-      <span data-l="en">① Driver</span><span data-l="en">② Irons</span><span data-l="en">③ Wedges</span><span data-l="en">④ Putter</span></div>
+  <div class="card hero" id="startCard">
+    <h2 id="startT"></h2>
+    <p><span data-l="ko">드라이버 → 아이언 → 웨지 → 퍼터를 이어서 추천받고 여기에 모아 둡니다. 나이·키·핸디캡은 한 번만 입력하면 됩니다.</span>
+       <span data-l="en">Get driver, iron, wedge and putter picks in one flow and keep them here. Enter age, height and handicap only once.</span></p>
     <a class="btn gold" href="/driver/?set=1" id="startSet"><span data-l="ko">전체 세트 추천 시작 (약 5분)</span><span data-l="en">Start full-set fitting (~5 min)</span></a>
+    <p class="one"><span data-l="ko">하나만:</span><span data-l="en">Just one:</span> <a href="/driver/" data-l="ko">드라이버</a><a href="/driver/" data-l="en">Driver</a> · <a href="/iron/" data-l="ko">아이언</a><a href="/iron/" data-l="en">Irons</a> · <a href="/wedge/" data-l="ko">웨지</a><a href="/wedge/" data-l="en">Wedges</a> · <a href="/putter/" data-l="ko">퍼터</a><a href="/putter/" data-l="en">Putter</a></p>
   </div>
-  <h2><span data-l="ko">하나만 계산하기</span><span data-l="en">Just one club</span></h2>
-  <div class="grid">
-    <a class="tile" href="/driver/"><i>1</i><b data-l="ko">드라이버</b><b data-l="en">Driver</b><span data-l="ko">샤프트 강도·무게·로프트</span><span data-l="en">Shaft flex, weight, loft</span></a>
-    <a class="tile" href="/iron/"><i>2</i><b data-l="ko">아이언</b><b data-l="en">Irons</b><span data-l="ko">헤드 종류·샤프트·라이각</span><span data-l="en">Head type, shaft, lie</span></a>
-    <a class="tile" href="/wedge/"><i>3</i><b data-l="ko">웨지</b><b data-l="en">Wedges</b><span data-l="ko">로프트 구성·바운스</span><span data-l="en">Loft gaps, bounce</span></a>
-    <a class="tile" href="/putter/"><i>4</i><b data-l="ko">퍼터</b><b data-l="en">Putter</b><span data-l="ko">토 행·헤드 모양·길이</span><span data-l="en">Toe hang, head, length</span></a>
-  </div>
-  <div class="card" id="installCard" style="margin-top:14px">
+  <p class="sub"><span data-l="ko">계산기에서 저장한 추천 결과입니다. 이 휴대폰(브라우저)에만 저장됩니다.</span><span data-l="en">Picks you saved from the calculators. Stored only on this phone (browser).</span></p>
+  <div class="card imp" id="importCard" style="display:none"></div>
+  <div class="card" id="iosKeep" style="display:none;background:var(--gold-l);border-color:#ecd9a8;font-size:.9rem"><span data-l="ko">iPhone에서는 7일 이상 사이트를 열지 않으면 저장 내용이 지워질 수 있습니다. <b>홈 화면에 추가</b>하거나 아래 <b>백업 링크</b>를 저장해 두세요.</span><span data-l="en">On iPhone, saved data can be erased if you don't open the site for 7 days. <b>Add to Home Screen</b> or keep the <b>backup link</b> below.</span></div>
+  <div id="bagList"></div>
+  <p class="note" id="affNote" style="display:none"><span data-l="ko">"가격 보기"는 제휴 링크입니다. 구매하시면 EasySwingPick이 수수료를 받을 수 있으며, 가격은 같습니다.</span><span data-l="en">"See prices" links are affiliate links. We may earn a commission at no extra cost to you.</span></p>
+  <button class="btn pri" id="shareBag" style="margin-top:6px"><span data-l="ko">골프백 카드 공유</span><span data-l="en">Share my bag card</span></button>
+  <button class="btn" id="backupBag" style="margin-top:10px"><span data-l="ko">다른 기기로 옮기기 · 백업 링크</span><span data-l="en">Move to another device · Backup link</span></button>
+  <button class="btn ghost" id="clearBag" style="margin-top:10px"><span data-l="ko">골프백 비우기</span><span data-l="en">Clear my bag</span></button>
+  <p class="note"><span data-l="ko">추천은 입력값을 바탕으로 한 추정치입니다. 적합도(%)는 추천 후보끼리 비교한 점수이며, 실제 구매 전에는 시타나 피팅을 권합니다. 모델 자료 기준: 2026년 11월.</span><span data-l="en">Picks are estimates based on your inputs. The fit score (%) compares the candidates with each other; we recommend a demo or fitting before you buy. Model data as of November 2026.</span></p>
+  <div class="card" id="installCard" style="margin-top:16px">
     <div class="row"><div><b data-l="ko">휴대폰 홈 화면에 추가</b><b data-l="en">Add to your home screen</b>
       <span data-l="ko">앱처럼 바로 열리고, 인터넷이 없어도 계산기가 작동합니다.</span><span data-l="en">Opens like an app, and the calculators work offline.</span></div></div>
     <button class="btn pri" id="installBtn" style="margin-top:12px;display:none"><span data-l="ko">설치하기</span><span data-l="en">Install</span></button>
@@ -102,21 +104,6 @@ html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=
     <div class="ios" id="andHow" style="display:none"><span data-l="ko">Android: Chrome 오른쪽 위 <b>⋮</b> → <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 누르세요.</span>
       <span data-l="en">Android: tap Chrome's <b>⋮</b> menu → <b>Add to Home screen</b> or <b>Install app</b>.</span></div>
   </div>
-</section>
-
-<!-- BAG -->
-<section id="s-bag">
-  <h1><span data-l="ko">내 골프백</span><span data-l="en">My bag</span></h1>
-  <p class="sub"><span data-l="ko">계산기에서 저장한 추천 결과입니다. 이 휴대폰(브라우저)에만 저장됩니다.</span><span data-l="en">Picks you saved from the calculators. Stored only on this phone (browser).</span></p>
-  <div class="card imp" id="importCard" style="display:none"></div>
-  <div class="card" id="iosKeep" style="display:none;background:var(--gold-l);border-color:#ecd9a8;font-size:.9rem"><span data-l="ko">iPhone에서는 7일 이상 사이트를 열지 않으면 저장 내용이 지워질 수 있습니다. <b>홈 화면에 추가</b>하거나 아래 <b>백업 링크</b>를 저장해 두세요.</span><span data-l="en">On iPhone, saved data can be erased if you don't open the site for 7 days. <b>Add to Home Screen</b> or keep the <b>backup link</b> below.</span></div>
-  <div id="bagList"></div>
-  <p class="note" id="affNote" style="display:none"><span data-l="ko">"가격 보기"는 제휴 링크입니다. 구매하시면 EasySwingPick이 수수료를 받을 수 있으며, 가격은 같습니다.</span><span data-l="en">"See prices" links are affiliate links. We may earn a commission at no extra cost to you.</span></p>
-  <button class="btn pri" id="shareBag" style="margin-top:6px"><span data-l="ko">골프백 카드 공유</span><span data-l="en">Share my bag card</span></button>
-  <button class="btn" id="backupBag" style="margin-top:10px"><span data-l="ko">다른 기기로 옮기기 · 백업 링크</span><span data-l="en">Move to another device · Backup link</span></button>
-  <a class="btn" href="/driver/?set=1" style="margin-top:10px"><span data-l="ko">전체 세트 다시 추천받기</span><span data-l="en">Redo full-set fitting</span></a>
-  <button class="btn ghost" id="clearBag" style="margin-top:10px"><span data-l="ko">골프백 비우기</span><span data-l="en">Clear my bag</span></button>
-  <p class="note"><span data-l="ko">추천은 입력값을 바탕으로 한 추정치입니다. 적합도(%)는 추천 후보끼리 비교한 점수이며, 실제 구매 전에는 시타나 피팅을 권합니다. 모델 자료 기준: 2026년 11월.</span><span data-l="en">Picks are estimates based on your inputs. The fit score (%) compares the candidates with each other; we recommend a demo or fitting before you buy. Model data as of November 2026.</span></p>
 </section>
 
 <!-- GUIDES -->
@@ -150,7 +137,6 @@ html[lang=ko] [data-l=en],html[lang=en] [data-l=ko],html:not([lang=ko]) [data-l=
 </main>
 
 <nav class="tabs">
-  <a href="#home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-l="ko">계산기</span><span data-l="en">Fit</span></a>
   <a href="#bag" data-tab="bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M9 7V4h6v3M6 12h12"/></svg><span data-l="ko">내 골프백</span><span data-l="en">My bag</span></a>
   <a href="#guides" data-tab="guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h7a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-7a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h7z"/></svg><span data-l="ko">가이드</span><span data-l="en">Guides</span></a>
   <a href="#settings" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span data-l="ko">설정</span><span data-l="en">Settings</span></a>
@@ -170,7 +156,7 @@ function setLang(l){setTimeout(drawResume,0);document.documentElement.lang=l;try
 document.getElementById("langT").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setLang(b.dataset.lang);});
 
 /* tabs (hash) */
-function show(){var h=(location.hash||"#home").slice(1);if(h.indexOf("import=")===0){checkImport();h="bag";}if(!document.getElementById("s-"+h))h="home";
+function show(){var h=(location.hash||"#bag").slice(1);if(h==="home")h="bag";if(h.indexOf("import=")===0){checkImport();h="bag";}if(!document.getElementById("s-"+h))h="bag";
   document.querySelectorAll("main section").forEach(function(s){s.classList.toggle("on",s.id==="s-"+h);});
   document.querySelectorAll("nav.tabs a").forEach(function(a){a.classList.toggle("on",a.dataset.tab===h);});
   if(h==="bag")drawBag();window.scrollTo(0,0);}
@@ -191,6 +177,8 @@ function drawBag(){
       (window.AFF&&q?'<a class="buy" href="'+window.AFF(q)+'" target="_blank" rel="sponsored noopener">'+(ko?"2nd Swing에서 가격 보기 →":"See prices at 2nd Swing →")+'</a>':"")+
       '<div class="act"><a href="'+LINK[c]+'">'+(ko?"다시 계산":"Recalculate")+'</a><a href="#" data-del="'+c+'">'+(ko?"삭제":"Remove")+'</a></div></div></div>';
   }).join("");
+  document.getElementById("startT").textContent=have?(ko?"세트 다시 추천받기":"Redo the full set"):(ko?"아직 비어 있습니다 · 전체 세트 추천부터":"Your bag is empty · start with a full-set fitting");
+  var sc=document.getElementById("startCard");if(have)document.getElementById("clearBag").after(sc);else document.getElementById("bagList").before(sc);sc.style.marginTop=have?"16px":"";
   ["shareBag","clearBag","backupBag"].forEach(function(id){document.getElementById(id).style.display=have?"flex":"none";});
   document.getElementById("affNote").style.display=have&&window.AFF?"block":"none";
   document.getElementById("iosKeep").style.display=have&&E.IOS&&!E.STANDALONE?"block":"none";

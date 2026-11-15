@@ -37,6 +37,7 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - app.js only *reads* a finished calculator result and adds its box **below** `#result` — never inside it (QA reads `#result`). Keep it that way. Bag/profile live in the visitor's localStorage only.
 - Bag items are saved in both languages (`ko`/`en`), plus inputs (`inp`) and date. Backup/move = `/app/#import=<base64 bag>` (no server). Bag "See prices" links use clickref `app-bag`; in the installed app calculator links use `app-<calc>`.
 - QA also checks that the app can read every result (top pick brand/model + specs); `[app]` lines in QA = the save feature would break.
+- Owner decision 2026-11-14 (option A): the app is presented as **"내 골프백 / My Bag"** (menu name, /app/ opens on the bag; no calculator tiles there) because an "app" with the same 4 calculators duplicated the site. Future tools that do something different (used-club checker, set gap checker) go inside My Bag.
 - Owner decision 2026-11-14: no more big app features for now — watch /app/ usage for ~6 weeks (to late Dec), then decide to grow, hide or remove it.
 - Plan: PWA first; wrap for Google Play / App Store later only with app-only features (Apple rejects plain website wrappers).
 
