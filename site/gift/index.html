@@ -57,6 +57,12 @@ details.peek ol{margin:8px 0 0;padding-left:20px}details.peek li{margin-bottom:4
 .tools .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font:700 1rem Inter,"Noto Sans KR",sans-serif;text-decoration:none;cursor:pointer;padding:10px 14px;margin-top:10px}
 .tools .btn.pri{background:var(--navy);color:#fff}
 .field{display:flex;gap:8px;margin-top:8px}.field input{flex:1;min-width:0;border:1.5px solid #d5dce2;border-radius:12px;padding:11px 12px;font:500 1rem Inter,"Noto Sans KR",sans-serif}
+.mini{border:0;border-radius:12px;background:var(--navy);color:#fff;font:700 .95rem Inter,"Noto Sans KR",sans-serif;padding:11px 16px;cursor:pointer;flex:none}
+.budget{border:2px solid var(--gold)}
+.lcard{display:flex;flex-direction:column;gap:2px}.lcard h3{margin:0;font-size:1.08rem;color:var(--navy)}.lcard .one{margin:2px 0 6px;font-size:.9rem;color:var(--ink)}
+.lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.cnt{color:var(--muted);font-size:.88rem;margin:4px 4px 10px}
+.toQuiz{display:block;width:100%;border:1.5px dashed var(--gold);background:var(--gold-l);color:#5a4410;border-radius:14px;padding:13px;font:700 .98rem Inter,"Noto Sans KR",sans-serif;cursor:pointer;margin:6px 0 14px}
 .disc{font-size:.8rem;color:var(--muted);margin:14px 4px 0}
 .deadline{background:#eaf1f8;border:1px solid #c9d9ea;border-radius:12px;padding:10px 12px;font-size:.88rem;color:var(--navy-2);margin-bottom:12px}
 .src{font-size:.78rem;color:var(--muted);margin:10px 4px}.src a{color:var(--muted)}
@@ -70,24 +76,33 @@ details.peek ol{margin:8px 0 0;padding-left:20px}details.peek li{margin-bottom:4
 </header>
 <div class="hero"><div class="in">
   <h1><span data-l="ko">골프를 몰라도 실패 없는 골프 선물</span><span data-l="en">Golf gifts that won't miss — even if you don't golf</span></h1>
-  <p><span data-l="ko">버튼 5번이면 3가지를 골라 드립니다. 사이즈를 몰라도 되는 선물부터 보여 드리고, 몰래 확인하는 법과 부모님용 한국어 설명 카드까지 만들어 드립니다.</span>
-     <span data-l="en">Five quick taps, three picks. Gifts that need no sizes come first; we also show how to secretly check specs and make a Korean how-to card for parents.</span></p>
+  <p><span data-l="ko">예산만 고르면 그 금액에 맞는 선물이 바로 나옵니다. 사이즈를 몰라도 되는 선물부터 보여 드리고, 원하시면 질문 4개로 딱 맞는 3가지를 골라 드립니다.</span>
+     <span data-l="en">Pick a budget and matching gifts appear right away — the ones that need no sizes first. Want it narrowed down? Four quick questions give you the best three.</span></p>
   <div class="chips"><span data-l="ko">약 1분</span><span data-l="ko">회원가입 없음</span><span data-l="ko">가격 확인일 2026-11-14</span><span data-l="en">~1 minute</span><span data-l="en">No sign-up</span><span data-l="en">Prices checked 2026-11-14</span></div>
 </div></div>
 
 <main>
 <div class="shared" id="sharedNote" style="display:none"><span data-l="ko">👨‍👩‍👧 가족이 공유한 선물 후보입니다. 그대로 보거나 답을 바꿔 다시 고를 수 있습니다.</span><span data-l="en">👨‍👩‍👧 A family member shared these picks. Review them or change the answers below.</span></div>
 
-<div class="card"><p class="q"><span class="num">1</span><span data-l="ko">누구에게 선물하나요?</span><span data-l="en">Who is it for?</span></p>
+<div class="card budget"><p class="q"><span class="num">1</span><span data-l="ko">예산은 얼마인가요?</span><span data-l="en">What's your budget?</span></p>
+  <p class="hint"><span data-l="ko">고르면 그 금액 안의 선물이 바로 나옵니다.</span><span data-l="en">Pick one and the gifts in that range appear right away.</span></p>
+  <div class="opts" data-k="bud"><button data-v="50">~$50</button><button data-v="100">~$100</button><button data-v="200">~$200</button><button data-v="300">~$300</button><button data-v="999"><span data-l="ko">상관없음</span><span data-l="en">Any</span></button></div>
+  <div class="field" style="align-items:center"><span style="font-weight:700;color:var(--muted)">$</span><input id="budIn" type="number" inputmode="numeric" min="10" max="5000" step="10" placeholder="직접 입력 (예: 120)" data-ph-en="Or type an amount (e.g. 120)"><button class="mini" id="budGo"><span data-l="ko">보기</span><span data-l="en">Show</span></button></div>
+</div>
+<div id="list"></div>
+<div id="quizWrap" style="display:none">
+<h2 class="sec" id="quizT">✨ <span data-l="ko">부모님께 딱 맞게 3개만 골라 드릴까요?</span><span data-l="en">Want us to pick just 3 that fit?</span></h2>
+<p class="hint" style="margin:0 4px 10px"><span data-l="ko">질문 4개에 답하면 위 목록에서 가장 잘 맞는 3가지를 골라 드립니다.</span><span data-l="en">Answer 4 quick questions and we'll pick the best 3 from the list above.</span></p>
+<div class="card"><p class="q"><span class="num">2</span><span data-l="ko">누구에게 선물하나요?</span><span data-l="en">Who is it for?</span></p>
   <div class="opts" data-k="who"><button data-v="parent"><span data-l="ko">부모님</span><span data-l="en">A parent</span></button><button data-v="spouse"><span data-l="ko">배우자</span><span data-l="en">Spouse / partner</span></button><button data-v="friend"><span data-l="ko">친구·지인</span><span data-l="en">Friend</span></button><button data-v="me"><span data-l="ko">나에게</span><span data-l="en">Myself</span></button></div></div>
 
-<div class="card"><p class="q"><span class="num">2</span><span data-l="ko">받는 분 나이대</span><span data-l="en">Their age</span></p>
+<div class="card"><p class="q"><span class="num">3</span><span data-l="ko">받는 분 나이대</span><span data-l="en">Their age</span></p>
   <div class="opts" data-k="age"><button data-v="u50"><span data-l="ko">50세 미만</span><span data-l="en">Under 50</span></button><button data-v="m50">50~64</button><button data-v="s65"><span data-l="ko">65세 이상</span><span data-l="en">65+</span></button></div></div>
 
-<div class="card"><p class="q"><span class="num">3</span><span data-l="ko">라운드할 때</span><span data-l="en">On the course they…</span></p>
+<div class="card"><p class="q"><span class="num">4</span><span data-l="ko">라운드할 때</span><span data-l="en">On the course they…</span></p>
   <div class="opts" data-k="walk"><button data-v="cart"><span data-l="ko">카트를 탄다</span><span data-l="en">Ride a cart</span></button><button data-v="walk"><span data-l="ko">걸어 다닌다</span><span data-l="en">Walk</span></button><button data-v="unk"><span data-l="ko">모름</span><span data-l="en">Not sure</span></button></div></div>
 
-<div class="card"><p class="q"><span class="num">4</span><span data-l="ko">요즘 하시는 말씀</span><span data-l="en">What do they complain about?</span><small data-l="ko">여러 개 선택</small><small data-l="en">pick any</small></p>
+<div class="card"><p class="q"><span class="num">5</span><span data-l="ko">요즘 하시는 말씀</span><span data-l="en">What do they complain about?</span><small data-l="ko">여러 개 선택</small><small data-l="en">pick any</small></p>
   <p class="hint"><span data-l="ko">골프를 몰라도 들은 말을 고르면 됩니다.</span><span data-l="en">Just pick what you've heard them say.</span></p>
   <div class="opts multi" data-k="pain">
     <button data-v="dist"><span data-l="ko">"거리가 줄었어"</span><span data-l="en">"I've lost distance"</span></button>
@@ -99,16 +114,13 @@ details.peek ol{margin:8px 0 0;padding-left:20px}details.peek li{margin-bottom:4
     <button data-v="unk"><span data-l="ko">잘 모름</span><span data-l="en">Not sure</span></button>
   </div></div>
 
-<div class="card"><p class="q"><span class="num">5</span><span data-l="ko">예산</span><span data-l="en">Budget</span></p>
-  <div class="opts" data-k="bud"><button data-v="75">~$75</button><button data-v="150">$75–150</button><button data-v="300">$150–300</button><button data-v="999">$300+</button></div>
-  <details class="peek"><summary><span data-l="ko">+ 골프채 정보를 몰래 확인했다면 (선택)</span><span data-l="en">+ Secretly checked their clubs? (optional)</span></summary>
+<div class="card" style="padding:10px 16px">  <details class="peek"><summary><span data-l="ko">+ 골프채 정보를 몰래 확인했다면 (선택)</span><span data-l="en">+ Secretly checked their clubs? (optional)</span></summary>
     <ol data-l="ko"><li>골프백에서 <b>드라이버</b>(가장 긴 채)를 꺼냅니다.</li><li>샤프트(막대) 위쪽 스티커에 있는 <b>글자</b>를 보세요: L · A(또는 SR) · R · S · X</li><li>사진을 찍어 두고 아래에서 고르세요. 골프채 선물의 실패 위험이 크게 줄어듭니다.</li></ol>
     <ol data-l="en"><li>Take the <b>driver</b> (longest club) out of their bag.</li><li>Find the <b>letter</b> on the shaft sticker: L · A (or SR) · R · S · X</li><li>Snap a photo and pick it below — it makes a club gift far safer.</li></ol>
     <div class="opts" data-k="flex" style="margin-top:8px"><button data-v="L">L</button><button data-v="A">A / SR</button><button data-v="R">R</button><button data-v="S">S</button><button data-v="X">X</button></div>
-  </details>
-</div>
-
+  </details></div>
 <button class="go" id="goBtn"><span data-l="ko">선물 3가지 추천받기 →</span><span data-l="en">Show my 3 gift picks →</span></button>
+</div>
 
 <div id="out"></div>
 </main>
@@ -170,7 +182,7 @@ var PAIN = {dist:{hybrid:3,driver:3,lm:1.5,ball:0.5},high:{hybrid:3,wedge:1,ball
 var T = {
  ko:{tag:["실패 없는 선택","가장 추천","특별한 선물"],risk:["사이즈 몰라도 OK","한 가지만 확인하면 OK","정보 확인 필요"],from:"부터",used:"중고",nw:"새 제품",any:"원하는 금액",buy:"가격 보기",calc:"계산기로 맞는 모델 고르기 →",guide:"관련 가이드: 시니어용 하이브리드 비교 →",nolink:"골프 매장 온라인에서 이름·문구를 넣어 주문합니다. 제작 기간이 있으니 일찍 주문하세요.",
      ret:"중고 골프용품은 반품 규정을 꼭 확인하세요. 온라인 중고 제품을 60일 안에 같은 상태로 반품받아 주는 매장도 있습니다(2026-11-14 확인).",
-     need:"1~5번을 모두 골라 주세요.",title:"추천 선물 3가지",cardT:"부모님께 드릴 설명 카드 만들기",cardH:"선물과 함께 넣거나 카톡으로 보내세요. 사용법이 한국어로 들어갑니다.",
+     need:"예산(1번)과 2~5번 질문을 모두 골라 주세요.",title:"추천 선물 3가지",cardT:"부모님께 드릴 설명 카드 만들기",cardH:"선물과 함께 넣거나 카톡으로 보내세요. 사용법이 한국어로 들어갑니다.",
      to:"호칭 (아버지)",from2:"보내는 사람",make:"설명 카드 만들기",share:"형제·가족과 같이 고르기 (링크 공유)",copied:"링크를 복사했습니다",
      dl:"배송이 걱정되면: 판매처의 연말 배송 마감 공지를 꼭 확인하세요. 늦을 것 같으면 기프트카드 + 설명 카드가 가장 확실합니다.",
      disc:"'가격 보기'는 제휴 링크입니다. 구매하시면 EasySwingPick이 수수료를 받을 수 있으며 가격은 같습니다. 가격은 2026-11-14 판매처 표시 기준이며 바뀔 수 있습니다.",
@@ -180,7 +192,7 @@ var T = {
      shareT:"골프 선물 후보",shareX:"이 중에서 같이 골라요:"},
  en:{tag:["Can't-miss pick","Top pick","Special gift"],risk:["No sizes needed","Check one thing","Needs their specs"],from:" from",used:"used",nw:"new",any:"any amount",buy:"See price",calc:"Pick the right model with the calculator →",guide:"Related guide: hybrids for seniors compared →",nolink:"Order online from a golf store with a name or message. It takes time to make, so order early.",
      ret:"Always check the return policy for used gear — some stores take back used items bought online within 60 days in the same condition (checked 2026-11-14).",
-     need:"Please answer questions 1–5.",title:"Your 3 gift picks",cardT:"Make a how-to card (in Korean or English)",cardH:"Tuck it in the box or send it by text. It explains how to use the gift.",
+     need:"Please pick a budget (1) and answer questions 2–5.",title:"Your 3 gift picks",cardT:"Make a how-to card (in Korean or English)",cardH:"Tuck it in the box or send it by text. It explains how to use the gift.",
      to:"To (Dad)",from2:"From",make:"Make the card",share:"Choose together with siblings (share link)",copied:"Link copied",
      dl:"Worried about delivery? Check the seller's holiday shipping cut-off. If it's tight, a gift card + how-to card is the sure thing.",
      disc:"'See price' links are affiliate links; we may earn a commission at no extra cost to you. Prices as shown by the sellers on 2026-11-14 and may change.",
@@ -200,8 +212,33 @@ document.querySelectorAll(".opts").forEach(function(g){
     if(g.classList.contains("multi")){var i=A.pain.indexOf(v);
       if(v==="unk"){A.pain=i<0?["unk"]:[];}else{A.pain=A.pain.filter(function(x){return x!=="unk";});if(i<0)A.pain.push(v);else A.pain.splice(A.pain.indexOf(v),1);}
     }else A[k]=A[k]===v&&k==="flex"?undefined:v;
+    if(k==="bud"){document.getElementById("budIn").value="";renderList(true);}
     paint();});
 });
+/* ---------- budget-first list: every gift that fits the budget, safest first ---------- */
+var ORDER=["ball","rf","card","watch","puttmat","bag","cart","speaker","lm","pball","wedge","putter","hybrid","driver"];
+var LT={ko:{cnt:function(n,b){return (b>=999?"예산 상관없이":"$"+b+" 이하")+" 선물 "+n+"가지 · 사이즈 몰라도 되는 것부터";},toQuiz:"✨ 이 중에서 딱 맞는 3개만 골라 주세요 (질문 4개) ↓",none:"이 예산에 맞는 선물이 없습니다. 조금 올려 보세요."},
+        en:{cnt:function(n,b){return n+" gifts "+(b>=999?"at any price":"up to $"+b)+" · no-size gifts first";},toQuiz:"✨ Pick the best 3 of these for me (4 questions) ↓",none:"Nothing fits that budget — try a little higher."}};
+function modelLine(g,m,l){var t=T[l],cond=m.card?t.any:(m.c==="used"?t.used:t.nw),px=m.card?"":money(m.p)+(m.from?t.from:"");
+  var right=g.nolink?'<span class="px">'+px+'</span>':'<a href="'+aff(m.q,m.url)+'" target="_blank" rel="sponsored noopener">'+t.buy+(px?" · "+px:"")+'</a>';
+  return '<div class="model"><div><b>'+esc(m.card?(l==="ko"?"기프트카드 (새·중고 클럽)":"Gift card (new & used clubs)"):m.n)+'</b><small>'+cond+'</small></div>'+right+'</div>';}
+function renderList(scroll){
+  var box=document.getElementById("list"),l=L(),t=T[l],lt=LT[l],bud=+A.bud;document.getElementById("quizWrap").style.display=bud?"block":"none";if(!bud){box.innerHTML="";return;}
+  var ids=ORDER.filter(function(id){return G[id].m.some(function(m){return m.card||m.p<=bud;});});
+  ids.sort(function(a,b){return G[a].risk-G[b].risk;});
+  if(!ids.length){box.innerHTML='<div class="card">'+lt.none+'</div>';return;}
+  box.innerHTML='<p class="cnt">'+esc(lt.cnt(ids.length,bud))+'</p><button class="toQuiz" id="toQuiz">'+lt.toQuiz+'</button>'+ids.map(function(id){var g=G[id],c=g[l];
+    var ms=g.m.filter(function(m){return m.card||m.p<=bud;}).sort(function(a,b){return a.p-b.p;}).slice(0,3);
+    return '<div class="card lcard"><div class="lhead"><h3>'+esc(c.n)+'</h3><span class="risk r'+g.risk+'">'+t.risk[g.risk]+'</span></div><p class="one">'+esc(c.w[0])+'</p>'+
+      (g.chk?'<div class="check">'+g.chk[l]+'</div>':"")+'<div class="models">'+ms.map(function(m){return modelLine(g,m,l);}).join("")+'</div>'+
+      (g.nolink?'<p class="note">'+t.nolink+'</p>':"")+(g.calc?'<a class="calc" href="'+g.calc+'">'+t.calc+'</a>':"")+(g.guide?'<a class="calc" href="'+g.guide+'">'+t.guide+'</a>':"")+'</div>';}).join("")+
+    '<p class="disc">'+t.disc+'</p>';
+  document.getElementById("toQuiz").onclick=function(){document.getElementById("quizT").scrollIntoView({behavior:"smooth",block:"start"});};
+  try{localStorage.setItem("esp_gift",JSON.stringify(A));}catch(e){}
+  if(scroll)box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+document.getElementById("budGo").onclick=function(){var v=Math.round(+document.getElementById("budIn").value);if(!v||v<10)return;A.bud=String(Math.min(v,5000));paint();renderList(true);};
+document.getElementById("budIn").addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("budGo").click();});
 function paint(){document.querySelectorAll(".opts").forEach(function(g){var k=g.dataset.k;g.querySelectorAll("button").forEach(function(b){
   b.classList.toggle("on",k==="pain"?A.pain.indexOf(b.dataset.v)>=0:A[k]===b.dataset.v);});});}
 
@@ -219,7 +256,8 @@ function score(id){
   var fit=models(id);if(!fit.length)return null;
   return {id:id,s:s,risk:risk,m:fit};   /* s = how well it answers what they said; risk shown separately */
 }
-function models(id){var bud=+A.bud,lo={75:0,150:60,300:120,999:250}[A.bud];
+function band(b){return b<=60?0:b<=120?40:b<=220?100:b<=320?180:250;}
+function models(id){var bud=+A.bud,lo=band(bud);
   var m=G[id].m.filter(function(x){return x.card||x.p<=bud;});
   if(!m.length)return m;
   /* show what fits the budget, most relevant price band first */
@@ -363,7 +401,8 @@ function shareFam(){
 /* ---------- language ---------- */
 function setLang(l){document.documentElement.lang=l;try{localStorage.setItem("esp_lang",l);}catch(e){}
   document.querySelectorAll("#langT button").forEach(function(b){b.classList.toggle("on",b.dataset.lang===l);});
-  if(document.querySelector("#out .pick"))render(true);}
+  var bi=document.getElementById("budIn");bi.placeholder=l==="ko"?"직접 입력 (예: 120)":bi.dataset.phEn;
+  renderList(false);if(document.querySelector("#out .pick"))render(true);}
 document.getElementById("langT").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setLang(b.dataset.lang);});
 document.getElementById("goBtn").onclick=function(){render(false);};
 
@@ -373,6 +412,7 @@ document.getElementById("goBtn").onclick=function(){render(false);};
   if(m){try{A=dec(m[1]);A.pain=A.pain||[];document.getElementById("sharedNote").style.display="block";}catch(e){}}
   else{try{prev=JSON.parse(localStorage.getItem("esp_gift")||"null");}catch(e){}if(prev){A=prev;A.pain=A.pain||[];}}
   setLang(L());paint();
+  if(A.bud&&["50","100","200","300","999"].indexOf(String(A.bud))<0)document.getElementById("budIn").value=A.bud;
   if(m)render(true);
 })();
 </script>

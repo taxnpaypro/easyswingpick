@@ -22,7 +22,7 @@ KO = STY + B.tldr("핵심 요약", [
  b("사용법은 한국어로:")+"선물과 함께 한국어 설명 카드를 넣으면 서랍에 들어가지 않고 실제로 쓰입니다."]) + \
 "<p>미국에서 자란 자녀가 한국어가 더 편한 부모님께 골프 선물을 할 때 가장 흔한 실수는 <b>'좋은 골프채'를 사는 것</b>입니다. 골프채는 같은 모델이라도 샤프트 강도, 로프트, 길이가 맞아야 제 성능이 나옵니다. 아무리 비싼 드라이버라도 스윙에 맞지 않으면 오히려 거리가 줄어듭니다. 그래서 골퍼들은 원래 장비에 까다롭고, 그래서 기프트카드가 인기 있는 골프 선물이기도 합니다.</p>" + \
 "<p>이 글은 골프를 잘 모르는 분도 <b>실패하지 않는 순서</b>로 선물을 고를 수 있게 정리했습니다. 가격은 2026년 11월 14일 미국 골프 매장 웹사이트에 표시된 가격이며(중고는 가장 싼 상태 기준 '~부터'), 바뀔 수 있습니다. 판매처는 글 아래 출처에 적었습니다. 답을 몇 개 고르면 3가지를 골라 주는 <a href='/gift/'>골프 선물 도우미</a>도 만들었습니다.</p>" + \
-"<div class='toolbox'><h3>🎁 1분 만에 고르기</h3><p style='margin:0'>누구에게, 나이대, 카트·걷기, 요즘 하시는 말씀, 예산만 고르면 '실패 없는 선택 · 가장 추천 · 특별한 선물' 3가지와 부모님용 한국어 설명 카드를 만들어 드립니다.</p><a href='/gift/'>골프 선물 도우미 열기 →</a></div>" + \
+"<div class='toolbox'><h3>🎁 1분 만에 고르기</h3><p style='margin:0'>예산만 고르면 그 금액에 맞는 선물이 사이즈 걱정 없는 것부터 바로 나옵니다. 질문 4개에 답하면 '실패 없는 선택 · 가장 추천 · 특별한 선물' 3가지와 부모님용 한국어 설명 카드까지 만들어 드립니다.</p><a href='/gift/'>골프 선물 도우미 열기 →</a></div>" + \
 "<h2>1. 선물마다 '맞을 위험도'가 다릅니다</h2>" + B.table(["위험도", "뜻", "예"], [
  [S("사이즈 몰라도 OK"), "누구에게나 맞음", "골프공 선물 세트, 이름 새긴 골프공, 거리측정기, 기프트카드, 스탠드백"],
  [M("한 가지만 확인"), "길이나 로프트 하나만 알면 됨", "웨지(56°면 대부분 무난), 퍼터(길이)"],
@@ -100,7 +100,7 @@ EN = STY + B.tldr("Key takeaways", [
  b("Explain it in their language:")+"tuck a how-to card in the box (we make one in Korean or English) so the gift actually gets used."]) + \
 "<p>The most common golf-gift mistake is buying a 'good club'. The same model only performs when the shaft flex, loft and length fit the player — the wrong spec can even cost distance. Golfers are picky about gear for exactly this reason, which is also why gift cards are such a popular golf gift.</p>" + \
 "<p>This guide puts gifts in the order that <b>can't go wrong</b>, even if you don't play. Prices are what US golf retailers showed on November 14, 2026 (used items start at the cheapest condition) and may change; the stores are listed under Sources. We also built a free <a href='/gift/'>Golf Gift Helper</a> that picks three gifts from a few taps.</p>" + \
-"<div class='toolbox'><h3>🎁 Pick in one minute</h3><p style='margin:0'>Choose who it's for, their age, cart or walking, what they complain about and your budget. You get a can't-miss pick, a top pick and a special gift, plus a how-to card for the recipient.</p><a href='/gift/'>Open the Golf Gift Helper →</a></div>" + \
+"<div class='toolbox'><h3>🎁 Pick in one minute</h3><p style='margin:0'>Pick a budget and the gifts that fit appear right away, no-size gifts first. Answer four quick questions for a can't-miss pick, a top pick and a special gift, plus a how-to card for the recipient.</p><a href='/gift/'>Open the Golf Gift Helper →</a></div>" + \
 "<h2>1. Every gift has a 'fit risk'</h2>" + B.table(["Risk", "Meaning", "Examples"], [
  [S("No sizes needed"), "Fits anyone", "Golf ball gift sets, personalized balls, rangefinder, gift card, stand bag"],
  [M("Check one thing"), "Just one spec to know", "Wedge (a 56° suits most), putter (length)"],
