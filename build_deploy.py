@@ -128,12 +128,12 @@ info("about", "소개", "About",
 info("disclosure", "제휴 링크 고지", "Affiliate Disclosure",
  f"""<p class="meta" style="color:var(--muted)">{UPD_KO}</p>
 <p>EasySwingPick은 제휴(어필리에이트) 마케팅 프로그램에 참여하고 있습니다. 이 사이트의 일부 링크를 통해 제품을 구매하시면, <b>구매자에게 추가 비용 없이</b> 저희가 소정의 수수료를 받을 수 있습니다.</p>
-<h2>현재 참여 중인 프로그램</h2><ul class="check"><li><b>2nd Swing Golf</b> — Awin 제휴 네트워크를 통해 참여합니다. 계산기 결과와 글의 "가격 보기" 버튼이 이 링크입니다.</li></ul><p>새 프로그램에 참여하면 이 목록에 추가하고 최종 업데이트 날짜를 고칩니다.</p>
+<h2>현재 참여 중인 프로그램</h2><ul class="check"><li><b>2nd Swing Golf</b> — Awin 제휴 네트워크를 통해 참여합니다. 계산기 결과와 글의 "가격 보기" 버튼이 이 링크입니다.</li><li><b>GlobalGolf</b> — Impact 제휴 네트워크를 통해 참여합니다(2026년 11월 승인). 계산기 결과와 글의 "다른 매장 가격" 링크가 이 링크입니다.</li></ul><p>새 프로그램에 참여하면 이 목록에 추가하고 최종 업데이트 날짜를 고칩니다.</p>
 <h2>추천 원칙</h2><ul class="check"><li>수수료는 어떤 제품을 추천할지, 순위를 어떻게 매길지에 영향을 주지 않습니다.</li><li>제휴 프로그램이 없는 브랜드(예: L.A.B. Golf, Miura)도 똑같이 다룹니다.</li><li>제휴 링크가 있는 글에는 링크 근처에 고지를 표시합니다.</li></ul>
 <p>이 고지는 미국 연방거래위원회(FTC)의 추천·후기 가이드에 따라 작성했습니다. 질문은 {M}로 보내주세요.</p>""",
  f"""<p class="meta" style="color:var(--muted)">{UPD_EN}</p>
 <p>EasySwingPick participates in affiliate marketing programs. When you buy through some links on this site, we may earn a small commission <b>at no extra cost to you</b>.</p>
-<h2>Programs we currently participate in</h2><ul class="check"><li><b>2nd Swing Golf</b> — through the Awin affiliate network. The "Check price" buttons in calculator results and posts use these links.</li></ul><p>When we join a new program, we add it here and update the date above.</p>
+<h2>Programs we currently participate in</h2><ul class="check"><li><b>2nd Swing Golf</b> — through the Awin affiliate network. The "Check price" buttons in calculator results and posts use these links.</li><li><b>GlobalGolf</b> — through the Impact affiliate network (approved November 2026). The "Compare price" links in calculator results and posts use these links.</li></ul><p>When we join a new program, we add it here and update the date above.</p>
 <h2>How we recommend</h2><ul class="check"><li>Commissions never decide which products we recommend or how we rank them.</li><li>Brands without affiliate programs (e.g., L.A.B. Golf, Miura) get the same coverage.</li><li>Posts with affiliate links show a disclosure near those links.</li></ul>
 <p>This disclosure follows the US Federal Trade Commission's Endorsement Guides. Questions: {M}</p>""")
 
@@ -143,7 +143,7 @@ info("privacy", "개인정보처리방침", "Privacy Policy",
 <li><b>앱(내 골프백·자동 입력)</b>: 앱에서 저장한 골프백, 나이·키·핸디캡 자동 입력값, 언어·큰 글씨 설정은 <b>사용자의 휴대폰(브라우저 저장소)에만</b> 보관되며 서버로 보내지 않습니다. 오프라인 사용을 위해 사이트 파일 일부를 휴대폰에 저장합니다. 앱 설정 화면이나 브라우저의 사이트 데이터 삭제로 언제든 지울 수 있습니다.</li>
 <li><b>방문 통계</b>: 사이트 개선을 위해 쿠키를 쓰지 않는 방문 통계(예: Cloudflare Web Analytics)를 사용할 수 있습니다. 개인을 식별하지 않는 페이지 조회 수 등만 집계됩니다.</li>
 <li><b>이메일 문의</b>: 이메일을 보내시면 답변을 위해 이메일 주소와 내용을 보관합니다.</li></ul>
-<h2>2. 제3자 서비스</h2><ul class="check"><li><b>제휴 링크</b>: 제휴 링크를 클릭하면 해당 판매처나 제휴 네트워크(현재 Awin과 2nd Swing Golf)가 구매 추적을 위해 자체 쿠키를 사용할 수 있습니다. 해당 회사의 개인정보처리방침이 적용됩니다.</li>
+<h2>2. 제3자 서비스</h2><ul class="check"><li><b>제휴 링크</b>: 제휴 링크를 클릭하면 해당 판매처나 제휴 네트워크(현재 Awin·2nd Swing Golf, Impact·GlobalGolf)가 구매 추적을 위해 자체 쿠키를 사용할 수 있습니다. 해당 회사의 개인정보처리방침이 적용됩니다.</li>
 <li><b>글꼴</b>: Google Fonts를 사용하며, 글꼴을 불러올 때 IP 주소 등이 Google에 전달될 수 있습니다.</li>
 <li><b>호스팅</b>: 사이트는 Cloudflare에서 호스팅되며, 보안과 운영을 위해 기본 접속 기록이 처리될 수 있습니다.</li></ul>
 <h2>3. 판매하지 않습니다</h2><p>EasySwingPick은 개인정보를 판매하거나 공유하지 않습니다.</p>
@@ -156,7 +156,7 @@ info("privacy", "개인정보처리방침", "Privacy Policy",
 <li><b>App (My bag, auto-fill)</b>: Your saved bag, the age/height/handicap used for auto-fill, and language/large-text settings are kept <b>only on your phone (browser storage)</b> and never sent to our server. Some site files are stored on your phone so the app works offline. You can erase them anytime in the app settings or by clearing site data in your browser.</li>
 <li><b>Analytics</b>: We may use cookieless analytics (e.g., Cloudflare Web Analytics) that count page views without identifying you.</li>
 <li><b>Email</b>: If you email us, we keep your address and message to reply.</li></ul>
-<h2>2. Third-party services</h2><ul class="check"><li><b>Affiliate links</b>: Retailers and affiliate networks (currently Awin and 2nd Swing Golf) may set their own cookies to track purchases. Their privacy policies apply.</li>
+<h2>2. Third-party services</h2><ul class="check"><li><b>Affiliate links</b>: Retailers and affiliate networks (currently Awin with 2nd Swing Golf, and Impact with GlobalGolf) may set their own cookies to track purchases. Their privacy policies apply.</li>
 <li><b>Fonts</b>: We use Google Fonts; loading them may send your IP address to Google.</li>
 <li><b>Hosting</b>: The site is hosted on Cloudflare, which may process basic access logs for security and operations.</li></ul>
 <h2>3. We don't sell your data</h2><p>EasySwingPick does not sell or share personal information.</p>
@@ -374,16 +374,26 @@ import urllib.parse as _up
 def aff(q, ref=""): return AWIN_BASE + (f"&clickref={ref}" if ref else "") + "&ued=" + _up.quote(SEARCH + _up.quote_plus(q), safe="")
 # owner 2026-11-14: no store name on buttons (reads like an ad); the store is named in the disclosure and sources
 BUY_KO, BUY_EN = "가격 보기", "Check price"
-def AFF_JS(ref): return ('<script>window.AFF=function(q){return "' + AWIN_BASE + '&clickref=' + ref + '&ued="+encodeURIComponent("' + SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>')
+# GlobalGolf via Impact (owner's tracking link 2026-11-17): deep link to a GlobalGolf search, subId1 = page (like Awin clickref)
+GG_BASE = "https://globalgolf.pxf.io/c/8201824/1242437/15291"
+GG_SEARCH = "https://www.globalgolf.com/search/?q="
+GG_PROP = "partnerpropertyid=9158322"   # easyswingpick.com media property in Impact
+GG_KO, GG_EN = "다른 매장 가격", "Compare price"
+def gg(q, ref=""): return GG_BASE + "?" + GG_PROP + "&" + (f"subId1={ref}&" if ref else "") + "u=" + _up.quote(GG_SEARCH + _up.quote_plus(q), safe="")
+GG_CSS_BLOG = "<style>.buy2{display:inline-block;margin-left:16px;font-size:.9rem;color:inherit;opacity:.8;text-decoration:underline;vertical-align:middle}</style>"
+GG_CSS = "<style>.buy2{display:block;text-align:center;margin-top:6px;font-size:.85rem;color:inherit;opacity:.8;text-decoration:underline}</style>"
+def gg_a(q, ref, ko): return f'<a class="buy2" href="{_html.escape(gg(q, ref))}" target="_blank" rel="sponsored noopener">{GG_KO if ko else GG_EN} →</a>'
+def AFF_JS(ref): return (GG_CSS + '<script>window.GG=function(q){return "' + GG_BASE + '?' + GG_PROP + '&subId1=' + ref + '&u="+encodeURIComponent("' + GG_SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>' + '<script>window.AFF=function(q){return "' + AWIN_BASE + '&clickref=' + ref + '&ued="+encodeURIComponent("' + SEARCH + '"+encodeURIComponent(q).replace(/%20/g,"+"))};</script>')
 for calc in ("driver", "iron", "wedge", "putter"):
     p = f"{OUT}/{calc}/index.html"; s = open(p).read()
     s = s.replace('<a class="buy" href="#" onclick="return false">${t.buy}</a>',
-                  '<a class="buy" href="${AFF(m.b+\' \'+m.m)}" target="_blank" rel="sponsored noopener">${t.buy}</a>')
+                  '<a class="buy" href="${AFF(m.b+\' \'+m.m)}" target="_blank" rel="sponsored noopener">${t.buy}</a><a class="buy2" href="${GG(m.b+\' \'+m.m)}" target="_blank" rel="sponsored noopener">${t.buy2}</a>')
     s = re.sub(r'buy:"구매처 보기[^"]*"', f'buy:"{BUY_KO} →"', s)
-    s = re.sub(r'buy:"See where to buy[^"]*"', f'buy:"{BUY_EN} →"', s)
+    s = re.sub(r'buy:"See where to buy[^"]*"', f'buy:"{BUY_EN} →",buy2:"{GG_EN} →"', s)
+    s = s.replace(f'buy:"{BUY_KO} →"', f'buy:"{BUY_KO} →",buy2:"{GG_KO} →"')
     s = s.replace("buy links are not connected yet", "buy links go to 2nd Swing (affiliate)")
     s = s.replace("</head>", AFF_JS("calc-" + calc) + "</head>", 1)
-    assert "AFF(m.b" in s, calc
+    assert "AFF(m.b" in s and "GG(m.b" in s and "buy2:" in s, calc
     open(p, "w").write(s)
 def _pc(m):
     blk = m.group(0); h = re.search(r"<h4>(.*?)</h4>", blk)
@@ -391,7 +401,7 @@ def _pc(m):
     name = re.sub(r"<[^>]+>", "", h.group(1)).split("(")[0].strip()
     ko = "구매처 보기" in blk
     return re.sub(r'<a class="buy" href="#" onclick="return false">[^<]*</a>',
-                  f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>', blk)
+                  f'<a class="buy" href="{_html.escape(aff(name))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>' + gg_a(name, "", ko), blk)
 import html as _html
 PH = re.compile(r'<a class="buy" href="#" onclick="return false">([^<]*)</a>')
 def _link_all(s, ref=""):
@@ -406,7 +416,7 @@ def _link_all(s, ref=""):
         br = re.findall(r'class="br">([^<]+)<', before[-1500:])
         if br and br[-1].lower() not in name.lower(): name = br[-1] + " " + name
         ko = "구매처" in m.group(1)
-        out.append(s[last:m.start()] + f'<a class="buy" href="{_html.escape(aff(name, ref))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>')
+        out.append(s[last:m.start()] + f'<a class="buy" href="{_html.escape(aff(name, ref))}" target="_blank" rel="sponsored noopener">{BUY_KO if ko else BUY_EN} →</a>' + gg_a(name, ref, ko))
         last = m.end()
     return "".join(out) + s[last:]
 DISC1_RE = re.compile(r'<p class="disc1">.*?</p>', re.S)
@@ -415,6 +425,7 @@ NO_AFF = []
 for f in os.listdir(f"{OUT}/blog"):
     p = f"{OUT}/blog/{f}"; s = open(p).read()
     s2 = _link_all(s, "blog-" + f[:-5])
+    if 'class="buy2"' in s2 and GG_CSS_BLOG not in s2: s2 = s2.replace("</head>", GG_CSS_BLOG + "</head>", 1)
     # affiliate notice only where the post actually has an affiliate link
     if 'rel="sponsored' not in s2 and "awin1.com" not in s2:
         s3 = DISC_FULL_RE.sub("", DISC1_RE.sub("", s2))

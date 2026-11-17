@@ -21,7 +21,8 @@ Owner writes in Korean: **always reply to the owner in Korean.**
 - Affiliate disclosure (short line under the title + full box at the end) is added only to posts that actually contain an affiliate link after linking; posts with only source links get none (owner request 2026-11-12). If a post gains a `B.picks()` card, the notice appears automatically.
 - Every Awin link carries `clickref` = `calc-<driver|iron|wedge|putter>` or `blog-<slug>` so Awin reports show which page earned the click.
 - `/disclosure` lists only programs we actually participate in (now: 2nd Swing Golf via Awin). Add a program there only after it is approved. Never mention Amazon until the owner joins Amazon Associates.
-- FlexOffers declined (2026-11-12). Applied, waiting: GlobalGolf (Impact), Dunlop Sports US, Bombtech, SkyTrak, Sunday Golf (Awin). Dunlop requires links only on English pages. Do not add other merchants' links until the owner sends them.
+- GlobalGolf (Impact) approved 2026-11-17: every "가격 보기" button (calculators + blog `B.picks()`) gets a second link "다른 매장 가격 / Compare price" (`gg()` in build_deploy.py) = Impact deep link to a GlobalGolf search, `partnerpropertyid=9158322`, `subId1` = same page tag as the Awin clickref. Gift helper prices come from 2nd Swing, so it has no GlobalGolf link.
+- FlexOffers declined (2026-11-12). Applied, waiting: Dunlop Sports US, Bombtech, SkyTrak, Sunday Golf (Awin). Dunlop requires links only on English pages. Do not add other merchants' links until the owner sends them.
 - Every page gets JSON-LD from `build_deploy.py` (Article + BreadcrumbList on posts, WebApplication on calculators, Organization + WebSite on home).
 
 ## Calculator quality (trust rules)

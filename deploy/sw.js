@@ -1,7 +1,7 @@
 /* EasySwingPick service worker: calculators and the app work offline.
    Pages: network first (always fresh when online), cached copy when offline.
    Files (scripts, images, icons): cached copy first, refreshed in the background. */
-var VER = "4e90f1d3fc";
+var VER = "89aeca818a";
 var CACHE = "esp-" + VER;
 var CORE = ["/app/", "/driver/", "/iron/", "/wedge/", "/putter/", "/assets/app.js", "/assets/logo.svg", "/assets/favicon.svg",
             "/assets/wordmark.svg", "/assets/icon-192.png", "/assets/logo-512.png", "/manifest.webmanifest"];
