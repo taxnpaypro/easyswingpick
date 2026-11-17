@@ -376,7 +376,7 @@ def aff(q, ref=""): return AWIN_BASE + (f"&clickref={ref}" if ref else "") + "&u
 BUY_KO, BUY_EN = "가격 보기", "Check price"
 # GlobalGolf via Impact (owner's tracking link 2026-11-17): deep link to a GlobalGolf search, subId1 = page (like Awin clickref)
 GG_BASE = "https://globalgolf.pxf.io/c/8201824/1242437/15291"
-GG_SEARCH = "https://www.globalgolf.com/search/?q="
+GG_SEARCH = "https://www.globalgolf.com/search/?term="
 GG_PROP = "partnerpropertyid=9158322"   # easyswingpick.com media property in Impact
 GG_KO, GG_EN = "다른 매장 가격", "Compare price"
 def gg(q, ref=""): return GG_BASE + "?" + GG_PROP + "&" + (f"subId1={ref}&" if ref else "") + "u=" + _up.quote(GG_SEARCH + _up.quote_plus(q), safe="")
